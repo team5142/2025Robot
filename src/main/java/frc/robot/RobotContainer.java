@@ -59,12 +59,33 @@ public class RobotContainer {
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
-
+        
+        //for testing elevator
         joystick.y().onTrue((Commands.runOnce(elevator::primaryForward)))
                     .onFalse((Commands.runOnce(elevator::primaryStop)));
 
         joystick.x().onTrue((Commands.runOnce(elevator::primaryBackward)))
                     .onFalse((Commands.runOnce(elevator::primaryStop)));
+
+        //RIGHT SIDE BINDINGS
+
+        //Intake Coral - 7
+        //Intake Algae - 2
+        //Output Coral - 8
+        //Output Algae - 3
+
+        //Elevator to L1 - 6
+        //Elevator to L2 - 4
+        //Elevator to L3 - 1
+        //Elevator to L4 - 5
+        
+        //Climb - 9
+
+        //Left Side Bindings
+        //Climbing mode - Switch 9
+        //Arm to Home Position - 11
+        //Scoring in Processor Position - 2
+        //Arm to Barge Position - 3
 
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));

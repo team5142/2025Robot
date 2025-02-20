@@ -15,6 +15,8 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.CurrentLimits;
 import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 
@@ -85,9 +87,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     followingElevatorConfig.follow(15, true); 
       //Follows the lead motor, invert is set to true. We may want to also invert the other motor.
 
-    leadElevatorConfig.smartCurrentLimit(40);
-    followingElevatorConfig.smartCurrentLimit(40);
-    secondaryElevatorConfig.smartCurrentLimit(40);
+    leadElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500);
+    followingElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500);
+    secondaryElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500);
       //Applies a 40 amp limit
 
     leadElevatorConfig.idleMode(IdleMode.kCoast);
