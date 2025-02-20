@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class RobotContainer {
 
@@ -45,8 +46,9 @@ public class RobotContainer {
     private final CommandGenericHID leftSide = new CommandGenericHID(2);
     //left side of button box: port 2
 
-    public static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public static final ElevatorSubsystem elevator = new ElevatorSubsystem();
+    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final ElevatorSubsystem elevator = new ElevatorSubsystem();
+    // public final static IntakeSubsystem intake = new IntakeSubsystem();
 
     private final SendableChooser<Command> autoChooser;
 
@@ -77,6 +79,10 @@ public class RobotContainer {
 
         joystick.x().onTrue((Commands.runOnce(elevator::primaryBackward)))
                     .onFalse((Commands.runOnce(elevator::primaryStop)));
+
+      
+
+        
 
         //RIGHT SIDE BINDINGS
 
