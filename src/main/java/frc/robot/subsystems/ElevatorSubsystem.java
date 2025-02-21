@@ -19,6 +19,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.CurrentLimits;
 import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import frc.robot.Constants.PositionClass.Positions;
 
 public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new GPMSubsystem. */
@@ -127,15 +128,27 @@ public class ElevatorSubsystem extends SubsystemBase {
    
   }
   
-  public void setPrimaryPosition(double position) {
+  public void setPrimaryPID(double height) {
 
-    leadPID.setReference(position, ControlType.kPosition);
+    leadPID.setReference(height, ControlType.kPosition);
 
   }
 
-  public void setSecondaryPosition(double position) {
+  public void setSecondaryPID(double height) {
 
-    // secondaryPID.setReference(position, ControlType.kPosition);
+    // secondaryPID.setReference(height, ControlType.kPosition);
+    
+  }
+
+  public void setPrimaryPosition(Positions position) {
+
+    leadPID.setReference(position.primaryElevator, ControlType.kPosition);
+
+  }
+
+  public void setSecondaryPosition(Positions position) {
+
+    // secondaryPID.setReference(position.secondaryElevator, ControlType.kPosition);
     
   }
 

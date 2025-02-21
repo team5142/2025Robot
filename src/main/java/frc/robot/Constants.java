@@ -102,8 +102,8 @@ public final class Constants {
 
 
 	public static final class CurrentLimits {
-		public static int Neo550 = 20;
-		public static int Neo500 = 40;
+		public static final int Neo550 = 20;
+		public static final int Neo500 = 40;
 	}
 
 
