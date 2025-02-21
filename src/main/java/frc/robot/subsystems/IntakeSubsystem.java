@@ -151,6 +151,12 @@ public class IntakeSubsystem extends SubsystemBase {
     return rightCoralSensor.getProximity() < coralProximityThreshold;
   }
 
+  public boolean isCoralIntaked(){
+
+    return (this.isLeftCoralIntaked() || this.isRightCoralIntaked());
+    
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
