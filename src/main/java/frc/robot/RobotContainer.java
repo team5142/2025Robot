@@ -22,38 +22,43 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.*;
 
 public class RobotContainer {
-
-
+    /* ============== SHOULD MOVE ALL OF THIS TO A DRIVE SUBSYSTEM */
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
-
-    /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+    
 
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
+    
+    /* ============== SHOULD MOVE ALL OF THIS TO A DRIVE SUBSYSTEM */
 
+    
+
+    //DEFINE CONTROLLERS
+    //main drive controller
     private final CommandXboxController joystick = new CommandXboxController(0);
-
+    //right side of button box: port 1    
     private final CommandGenericHID rightSide = new CommandGenericHID(1);
-    //right side of button box: port 1
-    private final CommandGenericHID leftSide = new CommandGenericHID(2);
     //left side of button box: port 2
+    private final CommandGenericHID leftSide = new CommandGenericHID(2);
+    
+    
+    public static final ElevatorSubsystem elevator = new ElevatorSubsystem();
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public final static ElevatorSubsystem elevator = new ElevatorSubsystem();
     // public final static ArmSubsystem arm = new ArmSubsystem();
     // public final static IntakeSubsystem intake = new IntakeSubsystem();
 
     private final SendableChooser<Command> autoChooser;
+
 
     public RobotContainer() {
 
