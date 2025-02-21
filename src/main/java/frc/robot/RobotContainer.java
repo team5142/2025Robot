@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-<<<<<<< HEAD
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
@@ -35,7 +34,7 @@ public class RobotContainer {
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-<<<<<<< HEAD
+
     private final Telemetry logger = new Telemetry(MaxSpeed);
     
     /* ============== SHOULD MOVE ALL OF THIS TO A DRIVE SUBSYSTEM */
@@ -52,12 +51,12 @@ public class RobotContainer {
     
     
     public static final ElevatorSubsystem elevator = new ElevatorSubsystem();
-=======
-    public final ElevatorSubsystem elevator = new ElevatorSubsystem();
+
+    //public final ElevatorSubsystem elevator = new ElevatorSubsystem();
     // public final static IntakeSubsystem intake = new IntakeSubsystem();
 
     private final SendableChooser<Command> autoChooser;
->>>>>>> 7aab051004800bca5a183604a63e814ef06d2c33
+
 
     public RobotContainer() {
 
