@@ -102,14 +102,23 @@ public final class Constants {
 
 
 	public static final class CurrentLimits {
+
 		public static final int Neo550 = 20;
 		public static final int Neo500 = 40;
 	}
 
+	public static final class FeedForwards {
 
+		public static final double Neo500FF = (1/473);
+		public static final double Neo550FF = (1/917);
+
+	}
 	
-			
-		
+
+
+
+
+
 
 	public static final class VisionConstants {
 
