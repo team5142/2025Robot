@@ -17,6 +17,7 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -52,8 +53,9 @@ public class ArmSubsystem extends SubsystemBase {
     //and then applies it, and at the same time resets parameters.
     //NOTE: For PID Testing, we might need to change the persist mode.
 
- 
+  armConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
   armConfig.absoluteEncoder.positionConversionFactor(1);
+
 
   armConfig.smartCurrentLimit(CurrentLimits.Neo550);
   armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

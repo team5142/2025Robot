@@ -25,7 +25,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
-    /* ============== SHOULD MOVE ALL OF THIS TO A DRIVE SUBSYSTEM */
+    /* ============== Make a function to do this below */
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -39,7 +39,6 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
     
-    /* ============== SHOULD MOVE ALL OF THIS TO A DRIVE SUBSYSTEM */
 
     
 
@@ -82,11 +81,20 @@ public class RobotContainer {
         );
         
         //for testing elevator
-        joystick.y().onTrue((Commands.runOnce(elevator::primaryForward)))
-                    .onFalse((Commands.runOnce(elevator::primaryStop)));
+        joystick.y().onTrue(Commands.runOnce(elevator::primaryForward))
+                    .onFalse(Commands.runOnce(elevator::primaryStop));
 
-        joystick.x().onTrue((Commands.runOnce(elevator::primaryBackward)))
-                    .onFalse((Commands.runOnce(elevator::primaryStop)));
+        joystick.x().onTrue(Commands.runOnce(elevator::primaryBackward))
+                    .onFalse(Commands.runOnce(elevator::primaryStop));
+
+
+        // rightSide.button(7).onTrue(Commands.runOnce(intake::intakeCoral)) put these in once intake is hooked up
+        //                   .onFalse(Commands.runOnce(intake::stopCoral));
+
+        // rightSide.button(3).onTrue(Commands.runOnce(intake::intakeAlgae))
+        //                   .onFalse(Commands.runOnce(intake::stopAlgae));    
+
+
 
       
 
@@ -96,7 +104,6 @@ public class RobotContainer {
 
         //Intake Coral - 7
         //Intake Algae - 2
-        //Output Coral - 8
         //Output Algae - 3
 
         //Elevator to L1 - 6
