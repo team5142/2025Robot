@@ -19,6 +19,8 @@ import frc.robot.Constants;
 import frc.robot.Constants.CurrentLimits;
 import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
+
 import frc.robot.Constants.PositionClass.Positions;
 
 public class ElevatorSubsystem extends SubsystemBase {
@@ -32,16 +34,22 @@ public class ElevatorSubsystem extends SubsystemBase {
   private SparkMaxConfig followingElevatorConfig;
   private SparkMaxConfig secondaryElevatorConfig;
 
-  private final double primarykP = 0.01;
+  private final double primarykP = 0;
   private final double primarykI = 0;
-  private final double primarykD = 0.01;
+  private final double primarykD = 0;
+
+  private final double primaryMaxVelocity = 0.5;
+  private final double primaryMaxAcceleration = 0.5;
 
   private final double primaryForwardSpeedLimit = 0.5;
   private final double primaryReverseSpeedLimit = 0.5;
 
-  private final double secondarykP = 0.01;
-  private final double secondarykI = 0.01;
-  private final double secondarykD = 0.01;
+  private final double secondarykP = 0;
+  private final double secondarykI = 0;
+  private final double secondarykD = 0;
+
+  private final double secondaryMaxVelocity = 0.5;
+  private final double secondaryMaxAcceleration = 0.5;
 
   private final double secondaryForwardSpeedLimit = 0.5;
   private final double secondaryReverseSpeedLimit = 0.5;
@@ -73,18 +81,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     //Only one config is necessary as it will be used for all the canandmags.
    
 
-    configureClimberMotors();
+    configureElevatorMotors();
   }
 
-  private void configureClimberMotors(){
+  private void configureElevatorMotors(){
 
-   
-    
     //Encoders are reset, if we want to go by inches or something we can try multiplying but
     //I think it's easier to just go by rotations and find values with hardware client
 
-    
-  
     followingElevatorConfig.follow(15, true); 
       //Follows the lead motor, invert is set to true. We may want to also invert the other motor.
 
@@ -105,7 +109,10 @@ public class ElevatorSubsystem extends SubsystemBase {
       .p(primarykP)
       .i(primarykI)
       .d(primarykD)
-      .outputRange(primaryReverseSpeedLimit, primaryForwardSpeedLimit);
+      .outputRange(primaryReverseSpeedLimit, primaryForwardSpeedLimit)
+      .maxMotion
+      .maxAcceleration(1)
+      .maxVelocity(1);
 
     secondaryElevatorConfig.closedLoop
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -114,15 +121,16 @@ public class ElevatorSubsystem extends SubsystemBase {
       .p(secondarykP)
       .i(secondarykI)
       .d(secondarykD)
-      .outputRange(secondaryReverseSpeedLimit, secondaryForwardSpeedLimit);
+      .outputRange(secondaryReverseSpeedLimit, secondaryForwardSpeedLimit)
+      .maxMotion
+      .maxAcceleration(1)
+      .maxVelocity(1);
 
 
     leadElevatorMotor.configure(leadElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     followingElevatorMotor.configure(followingElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     // secondaryElevatorMotor.configure(secondaryElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       //Resets and configures sparkmaxes
-
-
 
 
    
@@ -142,13 +150,13 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void setPrimaryPosition(Positions position) {
 
-    leadPID.setReference(position.primaryElevator, ControlType.kPosition);
+    leadPID.setReference(position.primaryElevator, ControlType.kMAXMotionPositionControl);
 
   }
 
   public void setSecondaryPosition(Positions position) {
 
-    // secondaryPID.setReference(position.secondaryElevator, ControlType.kPosition);
+    // secondaryPID.setReference(position.secondaryElevator, ControlType.kMAXMotionPositionControl);
     
   }
 
