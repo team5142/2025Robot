@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.15,
-        "y": 0.525
+        "x": 1.6322540907934482,
+        "y": 0.6792592008103953
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6197885094358306,
-        "y": 3.0756979186226174
+        "x": 1.7189277263936888,
+        "y": 0.9915749507425278
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "South HPS Left"
     },
     {
       "anchor": {
-        "x": 3.825,
+        "x": 3.8237892229044497,
         "y": 2.8747146922803415
       },
       "prevControl": {
-        "x": 3.9781290806066303,
-        "y": 2.677100207303738
+        "x": 3.94983065121815,
+        "y": 3.0906164253642663
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -125.85729037320199
   },
   "useDefaultConstraints": true
 }

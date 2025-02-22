@@ -8,24 +8,40 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6197885094358306,
-        "y": 3.0756979186226174
+        "x": 4.030425438369493,
+        "y": 2.127331923537547
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.825,
-        "y": 2.8747146922803415
+        "x": 2.857648026316992,
+        "y": 3.264884868423435
       },
       "prevControl": {
-        "x": 3.9781290806066303,
-        "y": 2.677100207303738
+        "x": 2.9227409504096444,
+        "y": 2.9243059350001794
+      },
+      "nextControl": {
+        "x": 2.7767660944525017,
+        "y": 3.6880749842709095
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.1419345436224067,
+        "y": 4.01554219069926
+      },
+      "prevControl": {
+        "x": 3.082681196951826,
+        "y": 3.7726655946502867
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CD Reef Scoring Position"
+      "linkedName": "AB Reef Scoring Position"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +58,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.75
+    "rotation": 0.030948055970001137
   },
   "reversed": false,
   "folder": null,

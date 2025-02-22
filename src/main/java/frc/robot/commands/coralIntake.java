@@ -20,7 +20,7 @@ package frc.robot.commands;
 //     addCommands(
 
 //         new InstantCommand(RobotContainer.intake::intakeCoral),
-//         new WaitUntilCommand(RobotContainer.intake::isLeftCoralIntaked),
+//         new WaitUntilCommand(RobotContainer.intake::isCoralIntaked),
 //         new WaitCommand(delay),
 //         new InstantCommand(RobotContainer.intake::stopCoral)
 

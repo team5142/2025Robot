@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.15,
-        "y": 0.525
+        "x": 3.8237892229044497,
+        "y": 2.8747146922803415
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6197885094358306,
-        "y": 3.0756979186226174
+        "x": 4.0361758935211975,
+        "y": 3.0065930534482495
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CD Reef Scoring Position"
     },
     {
       "anchor": {
-        "x": 3.825,
-        "y": 2.8747146922803415
+        "x": 1.6322540907934482,
+        "y": 0.6792592008103953
       },
       "prevControl": {
-        "x": 3.9781290806066303,
-        "y": 2.677100207303738
+        "x": 1.700093554857713,
+        "y": 1.8990569041487753
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CD Reef Scoring Position"
+      "linkedName": "South HPS Left"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.75
+    "rotation": -125.85729037320199
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 59.75
   },
   "useDefaultConstraints": true
 }

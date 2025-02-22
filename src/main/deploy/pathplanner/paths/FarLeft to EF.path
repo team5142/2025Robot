@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4323265361333926,
-        "y": 0.5250000000000006
+        "x": 5.160861528710635,
+        "y": 2.777076677376393
       },
       "isLocked": false,
       "linkedName": "Far Left Starting Line"
     },
     {
       "anchor": {
-        "x": 3.819988358556849,
-        "y": 2.874767147706498
+        "x": 5.165,
+        "y": 2.87025614928392
       },
       "prevControl": {
-        "x": 3.1453986264409215,
-        "y": 1.8555732391745063
+        "x": 5.339593984490426,
+        "y": 2.6913233669891237
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CD Reef Scoring Position"
+      "linkedName": "EF Reef Scoring Position"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.873001758185104
+    "rotation": 120.4189558085382
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.71196765454854
   },
   "useDefaultConstraints": true
 }
