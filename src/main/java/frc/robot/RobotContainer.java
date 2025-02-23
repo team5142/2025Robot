@@ -14,6 +14,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -94,10 +96,12 @@ public class RobotContainer {
 
 
 
-        rightSide.button(4).onTrue(new coralIntake().withTimeout(8) //Intake goes until it detects a piece (and then 
-                                  .alongWith(new moveToPosition(Positions.Feed))); //goes a bit more to make sure its all the way in)
+        rightSide.button(4).onTrue(new moveToPosition(Positions.Feed)
+                                .alongWith(new coralIntake().withTimeout(8))//Intake goes until it detects a piece (and then 
+                                .andThen(new moveToPosition(Positions.Home)));     //goes a bit more to make sure its all the way in)
                                                                                    //but if it takes more than 8 seconds it stops going
-                                                                                   //it also moves the arm back all the way to intake
+                                                                                   //it first moves the arm back all the way to intake
+                                                                                   //and home after
         
         rightSide.button(5).onTrue(Commands.runOnce(intake::intakeCoral)) //shoots out the coral, or just manual intake 
                           .onFalse(Commands.runOnce(intake::stopCoral));    
