@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import frc.robot.Constants;
 import frc.robot.Constants.CurrentLimits;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -44,6 +45,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private final double algaekI = 0.01;
   private final double algaekD = 0.01;
 
+  private final double algaeFF = Constants.FeedForwards.Neo550FF;
+
   private final double algaeForwardSpeedLimit = 0.5;
   private final double algaeReverseSpeedLimit = 0.5;
 
@@ -56,7 +59,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private RelativeEncoder algaeEncoder;
 
-  private SparkClosedLoopController algaePID;
+  private SparkClosedLoopController algaePID; //velocity PID to keep algae in
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {

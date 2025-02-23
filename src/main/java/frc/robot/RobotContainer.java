@@ -49,7 +49,7 @@ public class RobotContainer {
 
     //DEFINE CONTROLLERS
     //main drive controller
-    private final CommandXboxController joystick = new CommandXboxController(0);
+    public final static CommandXboxController joystick = new CommandXboxController(0);
     //right side of button box: port 1    
     private final CommandGenericHID rightSide = new CommandGenericHID(1);
     //left side of button box: port 2
@@ -91,6 +91,7 @@ public class RobotContainer {
 
         joystick.x().onTrue(Commands.runOnce(elevator::primaryBackward))
                     .onFalse(Commands.runOnce(elevator::primaryStop));
+
 
 
         rightSide.button(4).onTrue(new coralIntake().withTimeout(8) //Intake goes until it detects a piece (and then 
