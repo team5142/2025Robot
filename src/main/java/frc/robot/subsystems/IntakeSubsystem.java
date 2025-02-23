@@ -13,6 +13,7 @@ import frc.robot.Constants.CurrentLimits;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.RelativeEncoder;
@@ -21,7 +22,10 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -29,8 +33,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private Canandcolor rightCoralSensor;
   private Canandcolor algaeSensor;
 
-  private final double algaeProximityThreshold = 0.5;
-  private final double coralProximityThreshold = 0.5;
+  private final double algaeProximityThreshold = 0.1;
+  private final double coralProximityThreshold = 0.1;
 
   private SparkMax coralMotor;
   private SparkMaxConfig coralConfig;
@@ -48,8 +52,9 @@ public class IntakeSubsystem extends SubsystemBase {
   private final double algaeIntakeSpeed = 1;
   private final double algaeEjectSpeed = 1;
 
-  private final double coralIntakeSpeed = 1;
-  private final double coralEjectSpeed = 1;
+  private final double coralIntakeSpeed = 0.75;
+  private final double coralEjectSpeed = 0.75;
+
 
   private RelativeEncoder algaeEncoder;
 
@@ -74,6 +79,13 @@ public class IntakeSubsystem extends SubsystemBase {
     leftCoralSensor = new Canandcolor(23);
     algaeSensor = new Canandcolor(24);
 
+
+    // new Trigger(() -> isCoralIntaked())
+    // .onTrue(new InstantCommand(() -> stopCoral()));
+
+    
+    
+
   }
 
   private void configureIntakeMotors(){
@@ -89,7 +101,9 @@ public class IntakeSubsystem extends SubsystemBase {
       .positionConversionFactor(1)
       .velocityConversionFactor(1);
 
-    coralConfig.smartCurrentLimit(CurrentLimits.Neo550);
+    coralConfig.smartCurrentLimit(CurrentLimits.Neo550)
+    .idleMode(IdleMode.kBrake);
+
     algaeConfig.smartCurrentLimit(CurrentLimits.Neo550);
   
     algaeConfig.closedLoop
@@ -107,12 +121,16 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   //methods to be called in commands and as instant commands
+
+  
   
   public void holdAlgae(){
 
     algaePID.setReference(algaeEncoder.getPosition(), ControlType.kPosition);
     //sets the reference to the current position, so that it keeps the motor in the same place once the algae is intaked and keeps it secured.
   }
+
+
 
   public void intakeAlgae(){
     algaeMotor.set(algaeIntakeSpeed);

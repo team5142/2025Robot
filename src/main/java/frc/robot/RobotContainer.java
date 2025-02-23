@@ -18,10 +18,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.PositionClass.Positions;
+import frc.robot.commands.coralIntake;
+import frc.robot.commands.moveToPosition;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.commands.coralIntake;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
@@ -29,7 +31,7 @@ public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     
 
@@ -53,17 +55,17 @@ public class RobotContainer {
     
     public static final ElevatorSubsystem elevator = new ElevatorSubsystem();
 
-    // public final static ArmSubsystem arm = new ArmSubsystem();
-    // public final static IntakeSubsystem intake = new IntakeSubsystem();
+    public final static ArmSubsystem arm = new ArmSubsystem();
+    public final static IntakeSubsystem intake = new IntakeSubsystem();
 
-    private final SendableChooser<Command> autoChooser;
+    // private final SendableChooser<Command> autoChooser;
 
 
     public RobotContainer() {
 
-        autoChooser = AutoBuilder.buildAutoChooser("New Auto");
+        // autoChooser = AutoBuilder.buildAutoChooser("New Auto");
 
-        SmartDashboard.putData("Auto Mode", autoChooser);
+        // SmartDashboard.putData("Auto Mode", autoChooser);
 
         configureBindings();
     }
@@ -74,8 +76,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX((-joystick.getLeftY() * MaxSpeed)/2) // Drive forward with negative Y (forward)
+                    .withVelocityY((-joystick.getLeftX() * MaxSpeed)/2) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -88,11 +90,17 @@ public class RobotContainer {
                     .onFalse(Commands.runOnce(elevator::primaryStop));
 
 
-        // rightSide.button(7).onTrue(Commands.runOnce(intake::intakeCoral)) put these in once intake is hooked up
-        //                   .onFalse(Commands.runOnce(intake::stopCoral));
+        rightSide.button(4).onTrue(new coralIntake());
+        
 
-        // rightSide.button(3).onTrue(Commands.runOnce(intake::intakeAlgae))
-        //                   .onFalse(Commands.runOnce(intake::stopAlgae));    
+        rightSide.button(5).onTrue(Commands.runOnce(intake::intakeCoral))
+                          .onFalse(Commands.runOnce(intake::stopCoral));    
+
+
+        rightSide.button(2).onTrue(new moveToPosition(Positions.L1));
+        rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
+        rightSide.button(3).onTrue(new moveToPosition(Positions.Home));
+        rightSide.button(6).onTrue(new moveToPosition(Positions.Feed));
 
 
 
@@ -144,6 +152,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+        return Commands.print("No autonomous command configured");
     }
 }

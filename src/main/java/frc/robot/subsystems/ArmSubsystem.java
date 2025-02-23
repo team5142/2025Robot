@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Kilo;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -32,6 +34,13 @@ public class ArmSubsystem extends SubsystemBase {
   private SparkClosedLoopController armPID;
   private AbsoluteEncoder armEncoder;
 
+  private final double kP = 0.1;
+  private final double kI = 0;
+  private final double kD = 0;
+
+  private final double kMax = 0.25;
+  private final double kMin = -0.25;
+
   /** Creates a new IntakeSubsystem. */
   public ArmSubsystem() {
 
@@ -45,6 +54,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     configureArmMotor();
 
+    armPID.setReference(Positions.Home.armPosition, ControlType.kPosition);
+
   }
 
   private void configureArmMotor(){
@@ -52,12 +63,23 @@ public class ArmSubsystem extends SubsystemBase {
     //It configures the motor by adding to the intakeConfig object, 
     //and then applies it, and at the same time resets parameters.
     //NOTE: For PID Testing, we might need to change the persist mode.
+  
+  armConfig.softLimit
+  .forwardSoftLimit(34)
+  .reverseSoftLimit(0);
 
-  armConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+  armConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+  .p(kP)
+  .i(kI)
+  .d(kD)
+  .outputRange(kMin, kMax);
+
   armConfig.absoluteEncoder.positionConversionFactor(1);
 
 
-  armConfig.smartCurrentLimit(CurrentLimits.Neo550);
+  armConfig.smartCurrentLimit(CurrentLimits.Neo550)
+  .inverted(true);
+  
   armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
   }
