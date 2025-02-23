@@ -36,7 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   private final double kMax = 0.25;
   private final double kMin = -0.25;
 
-  private final double armRatio = (4 * 3 * (65/15)); //gear ratio from the relative to absolute encoder
+  private final double armRatio = (5 * 5 * (65/15)); //gear ratio from the relative to absolute encoder
 
   /** Creates a new IntakeSubsystem. */
   public ArmSubsystem() {

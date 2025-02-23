@@ -76,7 +76,7 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX((-joystick.getLeftY() * MaxSpeed)/2) // Drive forward with negative Y (forward)
+                drive.withVelocityX((-joystick.getLeftY() * MaxSpeed)/2) // Drive forward with negative Y (forward)  /2 is to slow it down
                     .withVelocityY((-joystick.getLeftX() * MaxSpeed)/2) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
@@ -90,17 +90,18 @@ public class RobotContainer {
                     .onFalse(Commands.runOnce(elevator::primaryStop));
 
 
-        rightSide.button(4).onTrue(new coralIntake());
+        rightSide.button(4).onTrue(new coralIntake().withTimeout(8) //Intake goes until it detects a piece (and then 
+                                  .alongWith(new moveToPosition(Positions.Feed))); //goes a bit more to make sure its all the way in)
+                                                                                   //but if it takes more than 8 seconds it stops going
+                                                                                   //it also moves the arm back all the way to intake
         
-
-        rightSide.button(5).onTrue(Commands.runOnce(intake::intakeCoral))
+        rightSide.button(5).onTrue(Commands.runOnce(intake::intakeCoral)) //shoots out the coral, or just manual intake 
                           .onFalse(Commands.runOnce(intake::stopCoral));    
 
 
         rightSide.button(2).onTrue(new moveToPosition(Positions.L1));
         rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
         rightSide.button(3).onTrue(new moveToPosition(Positions.Home));
-        rightSide.button(6).onTrue(new moveToPosition(Positions.Feed));
 
 
 
