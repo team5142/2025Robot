@@ -14,12 +14,15 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.PositionClass.Positions;
+import frc.robot.commands.algaeIntake;
+import frc.robot.commands.algaeThrow;
 import frc.robot.commands.coralIntake;
 import frc.robot.commands.moveToPosition;
 import frc.robot.generated.TunerConstants;
@@ -103,6 +106,9 @@ public class RobotContainer {
         rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
         rightSide.button(3).onTrue(new moveToPosition(Positions.Home));
 
+        rightSide.button(7).onTrue(new algaeIntake().withTimeout(8)); //intakes algae until it detects a piece (cancels after 8 secs)
+        
+        rightSide.button(6).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
 
 
       
