@@ -4,11 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
+
 import frc.robot.Constants.CurrentLimits;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -80,8 +76,7 @@ public class IntakeSubsystem extends SubsystemBase {
     algaeSensor = new Canandcolor(24);
 
 
-    // new Trigger(() -> isCoralIntaked())
-    // .onTrue(new InstantCommand(() -> stopCoral()));
+
 
     
     
