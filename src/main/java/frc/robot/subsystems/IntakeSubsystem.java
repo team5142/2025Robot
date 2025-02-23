@@ -18,6 +18,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -165,6 +166,10 @@ public class IntakeSubsystem extends SubsystemBase {
     return rightCoralSensor.getProximity() < coralProximityThreshold;
   }
 
+
+
+
+
   public boolean isCoralIntaked(){
 
     return (this.isLeftCoralIntaked() || this.isRightCoralIntaked());
@@ -191,6 +196,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
+
+    SmartDashboard.putNumber("Algae Current", algaeMotor.getOutputCurrent());
   
   }
 }
