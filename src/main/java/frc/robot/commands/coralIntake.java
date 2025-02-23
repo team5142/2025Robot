@@ -14,6 +14,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class coralIntake extends SequentialCommandGroup{
 
     double delay = 0.5; //amount of time to continue intaking after coral is detected
+    double timeout = 8; //amount of time to wait for coral to be detected before ending this command
 
     public coralIntake(){
 
@@ -29,7 +30,7 @@ public class coralIntake extends SequentialCommandGroup{
         new WaitCommand(delay),
         new InstantCommand(RobotContainer.intake::stopCoral)),
 
-        new WaitCommand(5)
+        new WaitCommand(timeout)
 
          ),
 

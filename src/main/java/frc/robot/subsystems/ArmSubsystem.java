@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -87,12 +88,31 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setArmPID(double position){
+
     armPID.setReference(position, ControlType.kPosition);
+
   }
 
   public void setArmPosition(Positions Position){
+
     armPID.setReference(Position.armPosition, ControlType.kPosition);
+
   }
+
+    public void turnOffBrake(){
+
+    armConfig.idleMode(IdleMode.kCoast);
+    armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+  }
+  
+  public void turnOnBrake(){
+
+    armConfig.idleMode(IdleMode.kBrake);
+    armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+  }
+  
   
   @Override
   public void periodic() {

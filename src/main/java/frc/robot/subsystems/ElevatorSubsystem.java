@@ -15,7 +15,9 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Constants.CurrentLimits;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 
@@ -177,11 +179,38 @@ public class ElevatorSubsystem extends SubsystemBase {
     leadElevatorMotor.set(0);
   }
   
+  public void turnOffBrake(){
+
+    leadElevatorConfig.idleMode(IdleMode.kCoast);
+    followingElevatorConfig.idleMode(IdleMode.kCoast);
+    secondaryElevatorConfig.idleMode(IdleMode.kCoast);
+
+    leadElevatorMotor.configure(leadElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    followingElevatorMotor.configure(followingElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    secondaryElevatorMotor.configure(secondaryElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+
+  }
   
-  
+  public void turnOnBrake(){
+
+    leadElevatorConfig.idleMode(IdleMode.kBrake);
+    followingElevatorConfig.idleMode(IdleMode.kBrake);
+    secondaryElevatorConfig.idleMode(IdleMode.kBrake);  
+
+    leadElevatorMotor.configure(leadElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    followingElevatorMotor.configure(followingElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    secondaryElevatorMotor.configure(secondaryElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+  }
+
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // display isAlgaeIntaked() and left and right coral to the SmartDashboard
+
 
   }
 }

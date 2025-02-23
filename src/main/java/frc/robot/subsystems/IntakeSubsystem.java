@@ -18,6 +18,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -170,9 +171,26 @@ public class IntakeSubsystem extends SubsystemBase {
     
   }
 
+  public void turnOffBrake(){
+
+    coralConfig.idleMode(IdleMode.kCoast);
+    coralMotor.configure(coralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+  }
+  
+  public void turnOnBrake(){
+
+    coralConfig.idleMode(IdleMode.kBrake);
+    coralMotor.configure(coralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+  }
+
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
+  
   }
 }
