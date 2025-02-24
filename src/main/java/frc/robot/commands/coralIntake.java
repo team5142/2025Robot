@@ -22,15 +22,12 @@ public class coralIntake extends SequentialCommandGroup{
 
     addCommands(
 
-
         new moveToPosition(Positions.Feed),
         new InstantCommand(RobotContainer.intake::intakeCoral),
         new WaitUntilCommand(RobotContainer.intake::isCoralIntaked),
         new WaitCommand(delay),
         new InstantCommand(RobotContainer.intake::stopCoral),
         new xboxVibrate()
-
-
         
     );
     }

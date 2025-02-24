@@ -25,6 +25,18 @@ public class ClimberSubsystem extends SubsystemBase {
   
   private SparkClosedLoopController climberPID;
 
+  private final double climberUpPosition = 10; //encoder value when climber is up
+  private final double climberDownPosition = 0; //encoder value when climber is down
+
+  private final double kP = 0.1;
+  private final double kI = 0;
+  private final double kD = 0;
+
+  private final double kMax = 0.25;
+  private final double kMin = -0.25;
+
+  private final double climberRatio = 60;
+  
   /** Creates a new ClimberSubsystem. */
 
   public ClimberSubsystem() {
@@ -38,6 +50,7 @@ public class ClimberSubsystem extends SubsystemBase {
     climberEncoder = climberMotor.getAbsoluteEncoder();
 
     configureClimberMotor();
+
   }
 
   private void configureClimberMotor(){
@@ -52,9 +65,15 @@ public class ClimberSubsystem extends SubsystemBase {
 
   }
 
-  public void setClimberPosition(double position) {
+  public void setClimberUp() {
 
-    climberPID.setReference(position, ControlType.kPosition);
+    climberPID.setReference(climberUpPosition, ControlType.kPosition);
+
+  }
+
+  public void climb(){
+
+    climberPID.setReference(climberDownPosition, ControlType.kPosition);
 
   }
 
