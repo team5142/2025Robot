@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.15,
-        "y": 0.525
+        "x": 3.1419345436224067,
+        "y": 4.01554219069926
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.160861528710635,
-        "y": 2.777076677376393
+        "x": 1.2315789473684204,
+        "y": 4.025
       },
       "isLocked": false,
-      "linkedName": "Far Left Starting Line"
+      "linkedName": "AB Reef Scoring Position"
     },
     {
       "anchor": {
-        "x": 5.165,
-        "y": 2.87025614928392
+        "x": 4.502960526315789,
+        "y": 1.5522203947368416
       },
       "prevControl": {
-        "x": 5.339593984490426,
-        "y": 2.6913233669891237
+        "x": 2.453536184210526,
+        "y": 1.5522203947368418
+      },
+      "nextControl": {
+        "x": 6.720402246631216,
+        "y": 1.5522203947368416
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.821134868421052,
+        "y": 4.025
+      },
+      "prevControl": {
+        "x": 7.514555921052631,
+        "y": 4.044243421052631
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.4189558085382
+    "rotation": 179.57242749316657
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -179.71196765454854
+    "rotation": 0.030948055970001137
   },
   "useDefaultConstraints": true
 }

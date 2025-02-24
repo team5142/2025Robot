@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3412926507869765,
-        "y": 4.166394254350242
+        "x": 2.4824013157894735,
+        "y": 3.418832236842105
       },
       "isLocked": false,
       "linkedName": "AB Reef Scoring Position"
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -125.85729037320199
+    "rotation": 54.63014903380736
   },
   "reversed": false,
   "folder": null,

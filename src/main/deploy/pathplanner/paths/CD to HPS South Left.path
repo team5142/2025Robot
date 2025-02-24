@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.0361758935211975,
-        "y": 3.0065930534482495
+        "x": 3.9920137825774233,
+        "y": 3.059648457512205
       },
       "isLocked": false,
       "linkedName": "CD Reef Scoring Position"
@@ -20,8 +20,8 @@
         "y": 0.6792592008103953
       },
       "prevControl": {
-        "x": 1.700093554857713,
-        "y": 1.8990569041487753
+        "x": 2.3191352216170165,
+        "y": 1.3642924043883538
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -125.85729037320199
+    "rotation": 54.63014903380736
   },
   "reversed": false,
   "folder": null,
