@@ -14,27 +14,39 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.PositionClass.Positions;
+import frc.robot.commands.algaeIntake;
+import frc.robot.commands.algaeThrow;
+import frc.robot.commands.brakeModeOff;
+import frc.robot.commands.brakeModeOn;
+import frc.robot.commands.coralIntake;
+import frc.robot.commands.moveToPosition;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.commands.coralIntake;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
     /* ============== Make a function to do this below */
+
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.05).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    
+
 
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
@@ -44,7 +56,7 @@ public class RobotContainer {
 
     //DEFINE CONTROLLERS
     //main drive controller
-    private final CommandXboxController joystick = new CommandXboxController(0);
+    public final static CommandXboxController joystick = new CommandXboxController(0);
     //right side of button box: port 1    
     private final CommandGenericHID rightSide = new CommandGenericHID(1);
     //left side of button box: port 2
@@ -53,15 +65,15 @@ public class RobotContainer {
     
     public static final ElevatorSubsystem elevator = new ElevatorSubsystem();
 
-    // public final static ArmSubsystem arm = new ArmSubsystem();
-    // public final static IntakeSubsystem intake = new IntakeSubsystem();
+    public final static ArmSubsystem arm = new ArmSubsystem();
+    public final static IntakeSubsystem intake = new IntakeSubsystem();
 
     private final SendableChooser<Command> autoChooser;
 
 
     public RobotContainer() {
 
-        autoChooser = AutoBuilder.buildAutoChooser("New Auto");
+        autoChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -74,26 +86,42 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX((-joystick.getLeftY() * MaxSpeed)/2) // Drive forward with negative Y (forward)  /2 is to slow it down
+                    .withVelocityY((-joystick.getLeftX() * MaxSpeed)/2) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
         
         //for testing elevator
-        joystick.y().onTrue(Commands.runOnce(elevator::primaryForward))
-                    .onFalse(Commands.runOnce(elevator::primaryStop));
-
-        joystick.x().onTrue(Commands.runOnce(elevator::primaryBackward))
-                    .onFalse(Commands.runOnce(elevator::primaryStop));
+     
 
 
-        // rightSide.button(7).onTrue(Commands.runOnce(intake::intakeCoral)) put these in once intake is hooked up
-        //                   .onFalse(Commands.runOnce(intake::stopCoral));
 
-        // rightSide.button(3).onTrue(Commands.runOnce(intake::intakeAlgae))
-        //                   .onFalse(Commands.runOnce(intake::stopAlgae));    
+        rightSide.button(4).onTrue(
+                         new coralIntake().withTimeout(6).unless(() -> elevator.isElevatorActive())
+                         .andThen(new moveToPosition(Positions.Home))
+                         .andThen(Commands.runOnce(intake::stopCoral)));              //Intake goes until it detects a piece (and then 
+                                                                                   //goes a bit more to make sure its all the way in)
+                                                                                   //but if it takes more than 8 seconds it stops going
+                                                                                   //it first moves the arm back all the way to intake
+                                                                                   //and home after
+                                                                                   //all unless elevator is up to prevent breaking
+        
+        rightSide.button(5).onTrue(Commands.runOnce(intake::intakeCoral)) //shoots out the coral, or just manual intake 
+                          .onFalse(Commands.runOnce(intake::stopCoral));    
 
+
+        rightSide.button(2).onTrue(new moveToPosition(Positions.L1));
+        rightSide.button(8).onTrue(new moveToPosition(Positions.L2));
+        rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
+        rightSide.button(3).onTrue(new moveToPosition(Positions.Home));
+
+        rightSide.button(7).onTrue(new algaeIntake().withTimeout(8)); //intakes algae until it detects a piece (cancels after 8 secs)
+        
+        rightSide.button(6).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
+
+        rightSide.button(10).onTrue(new brakeModeOff()) //lever up = coast, lever down = brake (normal)
+                            .onFalse(new brakeModeOn());
 
 
       
@@ -144,6 +172,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
+        // return Commands.print("No autonomous command configured");
         return autoChooser.getSelected();
+
     }
 }

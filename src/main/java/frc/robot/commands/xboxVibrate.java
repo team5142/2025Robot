@@ -7,26 +7,24 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.PositionClass.Positions;
 import frc.robot.subsystems.IntakeSubsystem;
-public class algaeIntake extends SequentialCommandGroup{
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+public class xboxVibrate extends SequentialCommandGroup{
 
-    double delay = 1; //amount of time to continue intaking after algae is detected
+    double length = 0.25; //rumble length
 
-    public algaeIntake(){
+    public xboxVibrate(){
         
-        addRequirements(RobotContainer.intake);
 
     addCommands(
 
-    
-
-        new InstantCommand(RobotContainer.intake::intakeAlgae),
-        new WaitUntilCommand(RobotContainer.intake::isAlgaeIntaked),
-        new WaitCommand(delay),
-        new InstantCommand(RobotContainer.intake::holdAlgae),
-        new xboxVibrate()
+        new InstantCommand(() -> RobotContainer.joystick.setRumble(RumbleType.kBothRumble, 1)),
+        new WaitCommand(length),
+        new InstantCommand(() -> RobotContainer.joystick.setRumble(RumbleType.kBothRumble, 0))
 
          );
     }

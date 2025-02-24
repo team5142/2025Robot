@@ -11,18 +11,18 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants.PositionClass;
 import frc.robot.Constants.PositionClass.Positions;
-public class moveToPosition extends SequentialCommandGroup{
+public class brakeModeOff extends SequentialCommandGroup{
 
 
-    public moveToPosition(Positions position){
+    public brakeModeOff(){
 
-        addRequirements(RobotContainer.arm, RobotContainer.elevator);
+        addRequirements(RobotContainer.arm, RobotContainer.elevator, RobotContainer.intake);
 
     addCommands(
 
-        new InstantCommand(() -> RobotContainer.arm.setArmPosition(position)),
-        new InstantCommand(() -> RobotContainer.elevator.setPrimaryPosition(position)),
-        new InstantCommand(() -> RobotContainer.elevator.setSecondaryPosition(position))
+        new InstantCommand(() -> RobotContainer.arm.turnOffBrake()),
+        new InstantCommand(() -> RobotContainer.elevator.turnOffBrake()),
+        new InstantCommand(() -> RobotContainer.intake.turnOffBrake())
 
          );
     }

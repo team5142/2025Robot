@@ -4,24 +4,21 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
-import frc.robot.Constants.CurrentLimits;
-import frc.robot.Constants.PositionClass;
-import com.revrobotics.AbsoluteEncoder;
 
+import frc.robot.Constants.CurrentLimits;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
-import edu.wpi.first.wpilibj.DigitalInput;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PositionClass.Positions;
 
@@ -30,7 +27,17 @@ public class ArmSubsystem extends SubsystemBase {
   private SparkMax armMotor;
   private SparkMaxConfig armConfig;
   private SparkClosedLoopController armPID;
-  private AbsoluteEncoder armEncoder;
+  private AbsoluteEncoder armAbsoluteEncoder;
+  private RelativeEncoder armRelativeEncoder;
+
+  private final double kP = 0.1;
+  private final double kI = 0;
+  private final double kD = 0;
+
+  private final double kMax = 0.25;
+  private final double kMin = -0.25;
+
+  private final double armRatio = 108.33333; //gear ratio from the relative to absolute encoder
 
   /** Creates a new IntakeSubsystem. */
   public ArmSubsystem() {
@@ -41,9 +48,15 @@ public class ArmSubsystem extends SubsystemBase {
 
     armPID = armMotor.getClosedLoopController();
 
-    armEncoder = armMotor.getAbsoluteEncoder();
+    armAbsoluteEncoder = armMotor.getAbsoluteEncoder();
 
     configureArmMotor();
+
+    armRelativeEncoder = armMotor.getEncoder();
+
+    armPID.setReference(Positions.Home.armPosition, ControlType.kPosition);
+
+    armRelativeEncoder.setPosition(armAbsoluteEncoder.getPosition()); // This is to set the relative encoder to the absolute encoder's position
 
   }
 
@@ -52,26 +65,65 @@ public class ArmSubsystem extends SubsystemBase {
     //It configures the motor by adding to the intakeConfig object, 
     //and then applies it, and at the same time resets parameters.
     //NOTE: For PID Testing, we might need to change the persist mode.
+  
+  armConfig.softLimit
+  .forwardSoftLimit(34)
+  .reverseSoftLimit(0);
 
-  armConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
-  armConfig.absoluteEncoder.positionConversionFactor(1);
+  armConfig.closedLoop
+  .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+  .p(kP)
+  .i(kI)
+  .d(kD)
+  .outputRange(kMin, kMax);
+
+  armConfig.absoluteEncoder.positionConversionFactor(armRatio)
+  .inverted(true)
+  .zeroOffset(0.638);
 
 
-  armConfig.smartCurrentLimit(CurrentLimits.Neo550);
+  armConfig.smartCurrentLimit(CurrentLimits.Neo550)
+  .inverted(true)
+  .idleMode(IdleMode.kBrake);
+  
   armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
   }
 
   public void setArmPID(double position){
+
     armPID.setReference(position, ControlType.kPosition);
+
   }
 
   public void setArmPosition(Positions Position){
+
     armPID.setReference(Position.armPosition, ControlType.kPosition);
+
   }
+
+    public void turnOffBrake(){
+
+    armConfig.idleMode(IdleMode.kCoast);
+    armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+  }
+  
+  public void turnOnBrake(){
+
+    armConfig.idleMode(IdleMode.kBrake);
+    armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+  }
+  
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    SmartDashboard.putNumber("Arm Abs:", armAbsoluteEncoder.getPosition());
+    SmartDashboard.putNumber("Arm Rel:", armRelativeEncoder.getPosition());
+
+
   }
 }

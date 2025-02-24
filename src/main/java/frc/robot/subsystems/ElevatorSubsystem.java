@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
+
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -14,12 +14,12 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Constants.CurrentLimits;
-import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
-import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
 
 import frc.robot.Constants.PositionClass.Positions;
 
@@ -28,31 +28,25 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private SparkMax leadElevatorMotor;
   private SparkMax followingElevatorMotor;
-  // private SparkMax secondaryElevatorMotor;
+  private SparkMax secondaryElevatorMotor;
 
   private SparkMaxConfig leadElevatorConfig;
   private SparkMaxConfig followingElevatorConfig;
   private SparkMaxConfig secondaryElevatorConfig;
 
-  private final double primarykP = 0;
+  private final double primarykP = 0.1;
   private final double primarykI = 0;
   private final double primarykD = 0;
 
-  private final double primaryMaxVelocity = 0.5;
-  private final double primaryMaxAcceleration = 0.5;
+  private final double primaryForwardSpeedLimit = 1;
+  private final double primaryReverseSpeedLimit = -1;
 
-  private final double primaryForwardSpeedLimit = 0.5;
-  private final double primaryReverseSpeedLimit = 0.5;
-
-  private final double secondarykP = 0;
+  private final double secondarykP = 0.25;
   private final double secondarykI = 0;
   private final double secondarykD = 0;
 
-  private final double secondaryMaxVelocity = 0.5;
-  private final double secondaryMaxAcceleration = 0.5;
-
-  private final double secondaryForwardSpeedLimit = 0.5;
-  private final double secondaryReverseSpeedLimit = 0.5;
+  private final double secondaryForwardSpeedLimit = 1;
+  private final double secondaryReverseSpeedLimit = -1;
 
   private SparkClosedLoopController leadPID;
   private SparkClosedLoopController secondaryPID;
@@ -64,7 +58,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     leadElevatorMotor = new SparkMax(15, MotorType.kBrushless);
     followingElevatorMotor = new SparkMax(16, MotorType.kBrushless);
     //These two control the main stage
-    // secondaryElevatorMotor = new SparkMax(17, MotorType.kBrushless);
+    secondaryElevatorMotor = new SparkMax(17, MotorType.kBrushless);
     //This motor controls the second stage
 
 
@@ -72,7 +66,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     //Initialize PIDS
     leadPID = leadElevatorMotor.getClosedLoopController();
-    // secondaryPID = secondaryElevatorMotor.getClosedLoopController();
+    secondaryPID = secondaryElevatorMotor.getClosedLoopController();
 
 
     leadElevatorConfig = new SparkMaxConfig();
@@ -82,6 +76,10 @@ public class ElevatorSubsystem extends SubsystemBase {
    
 
     configureElevatorMotors();
+
+
+   
+
   }
 
   private void configureElevatorMotors(){
@@ -94,14 +92,24 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     leadElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500);
     followingElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500);
-    secondaryElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500);
+    secondaryElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500)
+    .inverted(true);
       //Applies a 40 amp limit
 
-    leadElevatorConfig.idleMode(IdleMode.kCoast);
-    followingElevatorConfig.idleMode(IdleMode.kCoast);
-    secondaryElevatorConfig.idleMode(IdleMode.kCoast);
+    leadElevatorConfig.idleMode(IdleMode.kBrake)
+    .softLimit
+    .forwardSoftLimit(190)
+    .reverseSoftLimit(0);
+    
+    followingElevatorConfig.idleMode(IdleMode.kBrake);
+  
+    secondaryElevatorConfig.idleMode(IdleMode.kBrake)
+    .softLimit
+    .forwardSoftLimit(140)
+    .reverseSoftLimit(0);
       // Makes it so that the motors stay in their position after being shut off.
 
+    
     leadElevatorConfig.closedLoop
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed loop
@@ -109,10 +117,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       .p(primarykP)
       .i(primarykI)
       .d(primarykD)
-      .outputRange(primaryReverseSpeedLimit, primaryForwardSpeedLimit)
-      .maxMotion
-      .maxAcceleration(1)
-      .maxVelocity(1);
+      .outputRange(primaryReverseSpeedLimit, primaryForwardSpeedLimit);
 
     secondaryElevatorConfig.closedLoop
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -121,19 +126,22 @@ public class ElevatorSubsystem extends SubsystemBase {
       .p(secondarykP)
       .i(secondarykI)
       .d(secondarykD)
-      .outputRange(secondaryReverseSpeedLimit, secondaryForwardSpeedLimit)
-      .maxMotion
-      .maxAcceleration(1)
-      .maxVelocity(1);
+      .outputRange(secondaryReverseSpeedLimit, secondaryForwardSpeedLimit);
 
 
     leadElevatorMotor.configure(leadElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     followingElevatorMotor.configure(followingElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    // secondaryElevatorMotor.configure(secondaryElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    secondaryElevatorMotor.configure(secondaryElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       //Resets and configures sparkmaxes
 
 
    
+  }
+
+  public boolean isElevatorActive(){
+
+    return secondaryElevatorMotor.getEncoder().getPosition() > 20; //used to tell if elevator encoder is higher than 20
+
   }
   
   public void setPrimaryPID(double height) {
@@ -144,19 +152,19 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void setSecondaryPID(double height) {
 
-    // secondaryPID.setReference(height, ControlType.kPosition);
+    secondaryPID.setReference(height, ControlType.kPosition);
     
   }
 
   public void setPrimaryPosition(Positions position) {
 
-    leadPID.setReference(position.primaryElevator, ControlType.kMAXMotionPositionControl);
+    leadPID.setReference(position.primaryElevator, ControlType.kPosition);
 
   }
 
   public void setSecondaryPosition(Positions position) {
 
-    // secondaryPID.setReference(position.secondaryElevator, ControlType.kMAXMotionPositionControl);
+    secondaryPID.setReference(position.secondaryElevator, ControlType.kPosition);
     
   }
 
@@ -177,11 +185,40 @@ public class ElevatorSubsystem extends SubsystemBase {
     leadElevatorMotor.set(0);
   }
   
+  public void turnOffBrake(){
+
+    leadElevatorConfig.idleMode(IdleMode.kCoast);
+    followingElevatorConfig.idleMode(IdleMode.kCoast);
+    secondaryElevatorConfig.idleMode(IdleMode.kCoast);
+
+    leadElevatorMotor.configure(leadElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    followingElevatorMotor.configure(followingElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    secondaryElevatorMotor.configure(secondaryElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+
+  }
   
-  
+  public void turnOnBrake(){
+
+    leadElevatorConfig.idleMode(IdleMode.kBrake);
+    followingElevatorConfig.idleMode(IdleMode.kBrake);
+    secondaryElevatorConfig.idleMode(IdleMode.kBrake);  
+
+    leadElevatorMotor.configure(leadElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    followingElevatorMotor.configure(followingElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    secondaryElevatorMotor.configure(secondaryElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+  }
+
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //smartdashboard
+    // display isAlgaeIntaked() and left and right coral to the SmartDashboard
+
+    SmartDashboard.putBoolean("elevator up", isElevatorActive());
+
+
   }
 }
