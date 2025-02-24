@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
@@ -25,8 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.PositionClass.Positions;
 import frc.robot.commands.algaeIntake;
 import frc.robot.commands.algaeThrow;
-import frc.robot.commands.brakeModeOff;
-import frc.robot.commands.brakeModeOn;
+
 import frc.robot.commands.coralIntake;
 import frc.robot.commands.moveToPosition;
 import frc.robot.generated.TunerConstants;
@@ -120,8 +120,7 @@ public class RobotContainer {
         
         rightSide.button(6).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
 
-        rightSide.button(10).onTrue(new brakeModeOff()) //lever up = coast, lever down = brake (normal)
-                            .onFalse(new brakeModeOn());
+        
 
 
       
@@ -167,6 +166,26 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+
+        // End of button binds
+
+        // Turn off motor brakes when disabled, and on when enabled
+
+
+        RobotModeTriggers.teleop().onTrue(Commands.runOnce(() -> {
+                arm.turnOnBrake();
+                elevator.turnOnBrake();
+                intake.turnOnBrake();
+            }));
+
+        RobotModeTriggers.disabled().onTrue(Commands.runOnce(() -> {
+                arm.turnOffBrake();
+                elevator.turnOffBrake();
+                intake.turnOffBrake();
+            }).ignoringDisable(true));
+
+
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
