@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.PositionClass.Positions;
 import frc.robot.subsystems.IntakeSubsystem;
 public class algaeIntake extends SequentialCommandGroup{
 
@@ -18,6 +19,8 @@ public class algaeIntake extends SequentialCommandGroup{
         addRequirements(RobotContainer.intake);
 
     addCommands(
+
+    
 
         new InstantCommand(RobotContainer.intake::intakeAlgae),
         new WaitUntilCommand(RobotContainer.intake::isAlgaeIntaked),

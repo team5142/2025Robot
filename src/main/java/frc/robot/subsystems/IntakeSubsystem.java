@@ -48,13 +48,14 @@ public class IntakeSubsystem extends SubsystemBase {
   private final double algaeFF = Constants.FeedForwards.Neo550FF;
 
   private final double algaeForwardSpeedLimit = 0.5;
-  private final double algaeReverseSpeedLimit = 0.5;
+  private final double algaeReverseSpeedLimit = -0.5;
 
   private final double algaeIntakeSpeed = 1;
-  private final double algaeEjectSpeed = 1;
+  private final double algaeEjectSpeed = -1;
+  private final double algaeHoldSpeed = 0.5;
 
-  private final double coralIntakeSpeed = 0.75;
-  private final double coralEjectSpeed = 0.75;
+  private final double coralIntakeSpeed = 1;
+  private final double coralEjectSpeed = 0.75; //do we even need coral eject?
 
 
   private RelativeEncoder algaeEncoder;
@@ -104,7 +105,8 @@ public class IntakeSubsystem extends SubsystemBase {
     coralConfig.smartCurrentLimit(CurrentLimits.Neo550)
     .idleMode(IdleMode.kBrake);
 
-    algaeConfig.smartCurrentLimit(CurrentLimits.Neo550);
+    algaeConfig.smartCurrentLimit(CurrentLimits.Neo550)
+    .idleMode(IdleMode.kBrake);
   
     algaeConfig.closedLoop
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -113,6 +115,7 @@ public class IntakeSubsystem extends SubsystemBase {
       .p(algaekP)
       .i(algaekI)
       .d(algaekD)
+      .velocityFF(algaeFF)
       .outputRange(algaeReverseSpeedLimit, algaeForwardSpeedLimit);
 
     coralMotor.configure(coralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -126,8 +129,8 @@ public class IntakeSubsystem extends SubsystemBase {
   
   public void holdAlgae(){
 
-    algaePID.setReference(algaeEncoder.getPosition(), ControlType.kPosition);
-    //sets the reference to the current position, so that it keeps the motor in the same place once the algae is intaked and keeps it secured.
+    algaePID.setReference(algaeHoldSpeed, ControlType.kVelocity);
+    //keeps a vpid velocity to hold the ball in tight
   }
 
 
@@ -175,7 +178,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public boolean isCoralIntaked(){
 
-    return (this.isLeftCoralIntaked() || this.isRightCoralIntaked());
+    return (isLeftCoralIntaked() || isRightCoralIntaked());
     
   }
 

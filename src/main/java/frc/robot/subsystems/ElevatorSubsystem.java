@@ -96,14 +96,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     .inverted(true);
       //Applies a 40 amp limit
 
-    leadElevatorConfig.idleMode(IdleMode.kCoast)
+    leadElevatorConfig.idleMode(IdleMode.kBrake)
     .softLimit
     .forwardSoftLimit(190)
     .reverseSoftLimit(0);
     
-    followingElevatorConfig.idleMode(IdleMode.kCoast);
+    followingElevatorConfig.idleMode(IdleMode.kBrake);
   
-    secondaryElevatorConfig.idleMode(IdleMode.kCoast)
+    secondaryElevatorConfig.idleMode(IdleMode.kBrake)
     .softLimit
     .forwardSoftLimit(140)
     .reverseSoftLimit(0);
@@ -136,6 +136,12 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 
    
+  }
+
+  public boolean isElevatorActive(){
+
+    return secondaryElevatorMotor.getEncoder().getPosition() > 20; //used to tell if elevator encoder is higher than 20
+
   }
   
   public void setPrimaryPID(double height) {
@@ -210,6 +216,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
+
+    SmartDashboard.putBoolean("elevator up", isElevatorActive());
 
 
   }

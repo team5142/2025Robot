@@ -67,8 +67,8 @@ public final class Constants {
 							5),
 			L2("L2",
 							0,
-							0,
-							0),
+							140,
+							5),
 			L3("L3",
 							0,
 							0,
@@ -82,9 +82,9 @@ public final class Constants {
 							0,
 							0),
 			Barge("Barge",
-							0,
-							0,
-							0);
+							190,
+							140,
+							30);
 
 			public final String label;
 			public final double primaryElevator;

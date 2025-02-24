@@ -13,7 +13,7 @@ import frc.robot.Constants.PositionClass.Positions;
 import frc.robot.subsystems.IntakeSubsystem;
 public class algaeThrow extends SequentialCommandGroup{
 
-    double delay = 1; //amount of time to wait before throwing algae
+    double delay = 1.5; //amount of time to wait before throwing algae
 
     public algaeThrow(){
         
@@ -21,9 +21,12 @@ public class algaeThrow extends SequentialCommandGroup{
 
     addCommands(
 
-        new moveToPosition(Positions.L4), //while moving to l4 (top)...
+        new moveToPosition(Positions.Barge), //put out arm and go up
         new WaitCommand(delay), // wait a small amount of time until we're close to the top
-        new InstantCommand(RobotContainer.intake::ejectAlgae) //throw the algae with upwards momentum
+        new moveToPosition(Positions.L4), //now still go to top but fling arm up
+        new InstantCommand(RobotContainer.intake::ejectAlgae),
+        new WaitCommand(1),
+        new InstantCommand(RobotContainer.intake::stopAlgae) //throw the algae with upwards momentum
             
         //note: maybe also starting with arm down all the way -> flinging it up would make it have more momentum?
 

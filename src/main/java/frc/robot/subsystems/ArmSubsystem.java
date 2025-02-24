@@ -18,6 +18,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PositionClass.Positions;
 
@@ -36,7 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
   private final double kMax = 0.25;
   private final double kMin = -0.25;
 
-  private final double armRatio = (5 * 5 * (65/15)); //gear ratio from the relative to absolute encoder
+  private final double armRatio = 108.33333; //gear ratio from the relative to absolute encoder
 
   /** Creates a new IntakeSubsystem. */
   public ArmSubsystem() {
@@ -76,12 +77,14 @@ public class ArmSubsystem extends SubsystemBase {
   .d(kD)
   .outputRange(kMin, kMax);
 
-  armConfig.absoluteEncoder.positionConversionFactor(armRatio);
-
+  armConfig.absoluteEncoder.positionConversionFactor(armRatio)
+  .inverted(true)
+  .zeroOffset(0.638);
 
 
   armConfig.smartCurrentLimit(CurrentLimits.Neo550)
-  .inverted(true);
+  .inverted(true)
+  .idleMode(IdleMode.kBrake);
   
   armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -117,5 +120,10 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    SmartDashboard.putNumber("Arm Abs:", armAbsoluteEncoder.getPosition());
+    SmartDashboard.putNumber("Arm Rel:", armRelativeEncoder.getPosition());
+
+
   }
 }

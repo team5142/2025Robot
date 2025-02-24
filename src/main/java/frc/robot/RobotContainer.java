@@ -25,6 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.PositionClass.Positions;
 import frc.robot.commands.algaeIntake;
 import frc.robot.commands.algaeThrow;
+import frc.robot.commands.brakeModeOff;
+import frc.robot.commands.brakeModeOn;
 import frc.robot.commands.coralIntake;
 import frc.robot.commands.moveToPosition;
 import frc.robot.generated.TunerConstants;
@@ -88,32 +90,35 @@ public class RobotContainer {
         );
         
         //for testing elevator
-        joystick.y().onTrue(Commands.runOnce(elevator::primaryForward))
-                    .onFalse(Commands.runOnce(elevator::primaryStop));
-
-        joystick.x().onTrue(Commands.runOnce(elevator::primaryBackward))
-                    .onFalse(Commands.runOnce(elevator::primaryStop));
+     
 
 
 
-        rightSide.button(4).onTrue(new moveToPosition(Positions.Feed)
-                                .alongWith(new coralIntake().withTimeout(8))//Intake goes until it detects a piece (and then 
-                                .andThen(new moveToPosition(Positions.Home)));     //goes a bit more to make sure its all the way in)
+        rightSide.button(4).onTrue(
+                         new coralIntake().withTimeout(6).unless(() -> elevator.isElevatorActive())
+                         .andThen(new moveToPosition(Positions.Home))
+                         .andThen(Commands.runOnce(intake::stopCoral)));              //Intake goes until it detects a piece (and then 
+                                                                                   //goes a bit more to make sure its all the way in)
                                                                                    //but if it takes more than 8 seconds it stops going
                                                                                    //it first moves the arm back all the way to intake
                                                                                    //and home after
+                                                                                   //all unless elevator is up to prevent breaking
         
         rightSide.button(5).onTrue(Commands.runOnce(intake::intakeCoral)) //shoots out the coral, or just manual intake 
                           .onFalse(Commands.runOnce(intake::stopCoral));    
 
 
         rightSide.button(2).onTrue(new moveToPosition(Positions.L1));
+        rightSide.button(8).onTrue(new moveToPosition(Positions.L2));
         rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
         rightSide.button(3).onTrue(new moveToPosition(Positions.Home));
 
         rightSide.button(7).onTrue(new algaeIntake().withTimeout(8)); //intakes algae until it detects a piece (cancels after 8 secs)
         
         rightSide.button(6).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
+
+        rightSide.button(10).onTrue(new brakeModeOff()) //lever up = coast, lever down = brake (normal)
+                            .onFalse(new brakeModeOn());
 
 
       
