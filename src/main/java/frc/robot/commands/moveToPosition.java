@@ -22,7 +22,8 @@ public class moveToPosition extends SequentialCommandGroup{
 
         new InstantCommand(() -> RobotContainer.arm.setArmPosition(position)),
         new InstantCommand(() -> RobotContainer.elevator.setPrimaryPosition(position)),
-        new InstantCommand(() -> RobotContainer.elevator.setSecondaryPosition(position))
+        new InstantCommand(() -> RobotContainer.elevator.setSecondaryPosition(position)),
+        new InstantCommand(() -> RobotContainer.smartdashboard.updatePosition(position))
 
          );
     }

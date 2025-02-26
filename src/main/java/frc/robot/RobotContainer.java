@@ -63,10 +63,10 @@ public class RobotContainer {
     private final CommandGenericHID leftSide = new CommandGenericHID(2);
     
     
-    public static final ElevatorSubsystem elevator = new ElevatorSubsystem();
-
+    public final static ElevatorSubsystem elevator = new ElevatorSubsystem();
     public final static ArmSubsystem arm = new ArmSubsystem();
     public final static IntakeSubsystem intake = new IntakeSubsystem();
+    public final static SmartDashboardSubsystem smartdashboard = new SmartDashboardSubsystem();
 
     private final SendableChooser<Command> autoChooser;
 
@@ -113,7 +113,7 @@ public class RobotContainer {
 
 
         rightSide.button(4).onTrue(new moveToPosition(Positions.L1));
-        rightSide.button(5).onTrue(new moveToPosition(Positions.L2)); 
+        rightSide.button(5).onTrue(new moveToPosition(Positions.L2));
         rightSide.button(1).onTrue(new moveToPosition(Positions.L3)); 
         rightSide.button(2).onTrue(new moveToPosition(Positions.L4));
         rightSide.button(6).onTrue(new moveToPosition(Positions.Home));

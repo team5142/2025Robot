@@ -83,7 +83,7 @@ public final class Constants {
 							0),
 			Barge("Barge",
 							190,
-							140,
+							70,
 							30);
 
 			public final String label;

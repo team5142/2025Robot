@@ -38,7 +38,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   private SparkMaxConfig followingElevatorConfig;
   private SparkMaxConfig secondaryElevatorConfig;
 
-  private DigitalInput primaryLimitSwitch;
   // private DigitalInput secondaryLimitSwitch;
   private final double primarykP = 0.1;
   private final double primarykI = 0;
