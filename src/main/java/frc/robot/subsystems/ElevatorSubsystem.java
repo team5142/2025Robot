@@ -14,6 +14,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,6 +30,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   private SparkMax leadElevatorMotor;
   private SparkMax followingElevatorMotor;
   private SparkMax secondaryElevatorMotor;
+
+  private DigitalInput primaryLimitSwitch;
 
   private SparkMaxConfig leadElevatorConfig;
   private SparkMaxConfig followingElevatorConfig;
@@ -59,6 +62,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     followingElevatorMotor = new SparkMax(16, MotorType.kBrushless);
     //These two control the main stage
     secondaryElevatorMotor = new SparkMax(17, MotorType.kBrushless);
+
+    primaryLimitSwitch = new DigitalInput(0);
+
     //This motor controls the second stage
 
 
@@ -136,6 +142,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 
    
+  }
+
+  public boolean isPrimarySwitchHit(){
+
+    return primaryLimitSwitch.get();
   }
 
   public boolean isElevatorActive(){
@@ -218,6 +229,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
 
     SmartDashboard.putBoolean("elevator up", isElevatorActive());
+    SmartDashboard.putBoolean("primary switch", isPrimarySwitchHit());
 
 
   }

@@ -97,8 +97,8 @@ public class RobotContainer {
 
 
 
-        rightSide.button(4).onTrue(
-                         new coralIntake().withTimeout(6).unless(() -> elevator.isElevatorActive())
+        rightSide.button(7).onTrue(
+                         new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
                          .andThen(new moveToPosition(Positions.Home))
                          .andThen(Commands.runOnce(intake::stopCoral)));              //Intake goes until it detects a piece (and then 
                                                                                    //goes a bit more to make sure its all the way in)
@@ -107,18 +107,20 @@ public class RobotContainer {
                                                                                    //and home after
                                                                                    //all unless elevator is up to prevent breaking
         
-        rightSide.button(5).onTrue(Commands.runOnce(intake::intakeCoral)) //shoots out the coral, or just manual intake 
+        joystick.rightBumper().onTrue
+        (Commands.runOnce(intake::intakeCoral))//shoots out the coral, or just manual intake 
                           .onFalse(Commands.runOnce(intake::stopCoral));    
 
 
-        rightSide.button(2).onTrue(new moveToPosition(Positions.L1));
-        rightSide.button(8).onTrue(new moveToPosition(Positions.L2));
-        rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
-        rightSide.button(3).onTrue(new moveToPosition(Positions.Home));
+        rightSide.button(4).onTrue(new moveToPosition(Positions.L1));
+        rightSide.button(5).onTrue(new moveToPosition(Positions.L2)); 
+        rightSide.button(1).onTrue(new moveToPosition(Positions.L3)); 
+        rightSide.button(2).onTrue(new moveToPosition(Positions.L4));
+        rightSide.button(6).onTrue(new moveToPosition(Positions.Home));
 
-        rightSide.button(7).onTrue(new algaeIntake().withTimeout(8)); //intakes algae until it detects a piece (cancels after 8 secs)
+        rightSide.button(3).onTrue(new algaeIntake().withTimeout(8)); //intakes algae until it detects a piece (cancels after 8 secs)
         
-        rightSide.button(6).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
+        // rightSide.button(3).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
 
         
 
@@ -173,17 +175,17 @@ public class RobotContainer {
         // Turn off motor brakes when disabled, and on when enabled
 
 
-        RobotModeTriggers.teleop().onTrue(Commands.runOnce(() -> {
-                arm.turnOnBrake();
-                elevator.turnOnBrake();
-                intake.turnOnBrake();
-            }));
+        // RobotModeTriggers.teleop().onTrue(Commands.runOnce(() -> {
+        //         arm.turnOnBrake();
+        //         elevator.turnOnBrake();
+        //         intake.turnOnBrake();
+        //     }));
 
-        RobotModeTriggers.disabled().onTrue(Commands.runOnce(() -> {
-                arm.turnOffBrake();
-                elevator.turnOffBrake();
-                intake.turnOffBrake();
-            }).ignoringDisable(true));
+        // RobotModeTriggers.disabled().onTrue(Commands.runOnce(() -> {
+        //         arm.turnOffBrake();
+        //         elevator.turnOffBrake();
+        //         intake.turnOffBrake();
+        //     }).ignoringDisable(true));
 
 
 
