@@ -174,11 +174,10 @@ public class RobotContainer {
 
         // Turn off motor brakes when disabled, and on when enabled
 
+        //
 
         // RobotModeTriggers.teleop().onTrue(Commands.runOnce(() -> {
-        //         arm.turnOnBrake();
-        //         elevator.turnOnBrake();
-        //         intake.turnOnBrake();
+        //         new resetElevator();
         //     }));
 
         // RobotModeTriggers.disabled().onTrue(Commands.runOnce(() -> {

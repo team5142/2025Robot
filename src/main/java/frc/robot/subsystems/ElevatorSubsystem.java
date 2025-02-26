@@ -16,12 +16,9 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Constants.CurrentLimits;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 import frc.robot.Constants.PositionClass.Positions;
 
@@ -55,7 +52,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final double secondaryForwardSpeedLimit = 1;
   private final double secondaryReverseSpeedLimit = -1;
 
-  private final double secondaryResetSpeed = -0.25;
+  // private final double secondaryResetSpeed = -0.25;
 
   private SparkClosedLoopController leadPID;
   private SparkClosedLoopController secondaryPID;
