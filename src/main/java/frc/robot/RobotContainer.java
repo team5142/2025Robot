@@ -10,6 +10,8 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,6 +49,7 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
@@ -71,7 +74,10 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
 
+
     public RobotContainer() {
+
+        registerNamedCommands();
 
         autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -189,6 +195,28 @@ public class RobotContainer {
 
 
         drivetrain.registerTelemetry(logger::telemeterize);
+    }
+
+    public void registerNamedCommands() { //registering commands for pathplanner autos
+
+        NamedCommands.registerCommand("algaeIntake", new algaeIntake());
+        NamedCommands.registerCommand("algaeThrow", new algaeThrow());
+        NamedCommands.registerCommand("moveToHome", new moveToPosition(Positions.Home));
+        NamedCommands.registerCommand("moveToL1", new moveToPosition(Positions.L1));
+        NamedCommands.registerCommand("moveToL2", new moveToPosition(Positions.L2));
+        NamedCommands.registerCommand("moveToL3", new moveToPosition(Positions.L3));
+        NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4));
+        NamedCommands.registerCommand("coralIntake", new coralIntake());
+        NamedCommands.registerCommand("coralShoot", 
+
+        Commands.runOnce(() -> { //for shooting out coral autonomously:
+
+            intake.intakeCoral(); //run the intake to stop it out
+            new WaitCommand(1); //wait a bit (change this to make it take less long)
+            intake.stopCoral(); //stop the intake
+
+        }));
+
     }
 
     public Command getAutonomousCommand() {
