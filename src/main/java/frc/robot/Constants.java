@@ -84,6 +84,10 @@ public final class Constants {
 			Barge("Barge",
 							190,
 							70,
+							30),
+			groundAlgae("groundAlgae",
+							0,
+							0,
 							30);
 
 			public final String label;

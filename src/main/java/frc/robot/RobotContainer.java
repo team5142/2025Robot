@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -124,8 +125,15 @@ public class RobotContainer {
         rightSide.button(2).onTrue(new moveToPosition(Positions.L4));
         rightSide.button(6).onTrue(new moveToPosition(Positions.Home));
 
-        rightSide.button(3).onTrue(new algaeIntake().withTimeout(8)); //intakes algae until it detects a piece (cancels after 8 secs)
-        
+        rightSide.button(3).onTrue(Commands.runOnce(() -> { //Algae intake
+
+            new ConditionalCommand(null, new moveToPosition(Positions.groundAlgae), elevator::isElevatorActive);
+            //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
+            new algaeIntake().handleInterrupt(intake::stopAlgae).withTimeout(4);
+            //intake an algae, if it doesn't work within 4 seconds stop (handle interrupt detects the timeout).
+
+        })); 
+
         // rightSide.button(3).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
 
         
@@ -199,14 +207,19 @@ public class RobotContainer {
 
     public void registerNamedCommands() { //registering commands for pathplanner autos
 
-        NamedCommands.registerCommand("algaeIntake", new algaeIntake());
+        NamedCommands.registerCommand("algaeIntake", new algaeIntake().withTimeout(8));
         NamedCommands.registerCommand("algaeThrow", new algaeThrow());
         NamedCommands.registerCommand("moveToHome", new moveToPosition(Positions.Home));
         NamedCommands.registerCommand("moveToL1", new moveToPosition(Positions.L1));
         NamedCommands.registerCommand("moveToL2", new moveToPosition(Positions.L2));
         NamedCommands.registerCommand("moveToL3", new moveToPosition(Positions.L3));
         NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4));
-        NamedCommands.registerCommand("coralIntake", new coralIntake());
+        NamedCommands.registerCommand("coralIntake", //paste of previous coral intake command
+
+        new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
+                         .andThen(new moveToPosition(Positions.Home))
+                         .andThen(Commands.runOnce(intake::stopCoral)));
+
         NamedCommands.registerCommand("coralShoot", 
 
         Commands.runOnce(() -> { //for shooting out coral autonomously:
