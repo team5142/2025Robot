@@ -127,7 +127,7 @@ public class RobotContainer {
 
         rightSide.button(3).onTrue(Commands.runOnce(() -> { //Algae intake
 
-            new ConditionalCommand(null, new moveToPosition(Positions.groundAlgae), elevator::isElevatorActive);
+            new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive);
             //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
             new algaeIntake().handleInterrupt(intake::stopAlgae).withTimeout(4);
             //intake an algae, if it doesn't work within 4 seconds stop (handle interrupt detects the timeout).
