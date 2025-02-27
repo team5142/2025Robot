@@ -116,7 +116,8 @@ public class RobotContainer {
         
         joystick.rightBumper().onTrue
         (Commands.runOnce(intake::intakeCoral))//shoots out the coral, or just manual intake 
-                          .onFalse(Commands.runOnce(intake::stopCoral));    
+                          .onFalse(Commands.runOnce(intake::stopCoral)
+                          .andThen(new moveToPosition(Positions.Home)));
 
 
         rightSide.button(4).onTrue(new moveToPosition(Positions.L1));
@@ -227,6 +228,7 @@ public class RobotContainer {
             intake.intakeCoral(); //run the intake to stop it out
             new WaitCommand(1); //wait a bit (change this to make it take less long)
             intake.stopCoral(); //stop the intake
+            new moveToPosition(Positions.Home); //elevator down
 
         }));
 
