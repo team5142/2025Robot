@@ -203,7 +203,6 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
 
-    SmartDashboard.putNumber("Algae Current", algaeMotor.getOutputCurrent());
   
   }
 }

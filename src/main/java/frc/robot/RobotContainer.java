@@ -10,14 +10,18 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
@@ -25,8 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.PositionClass.Positions;
 import frc.robot.commands.algaeIntake;
 import frc.robot.commands.algaeThrow;
-import frc.robot.commands.brakeModeOff;
-import frc.robot.commands.brakeModeOn;
+
 import frc.robot.commands.coralIntake;
 import frc.robot.commands.moveToPosition;
 import frc.robot.generated.TunerConstants;
@@ -47,6 +50,7 @@ public class RobotContainer {
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
@@ -63,15 +67,18 @@ public class RobotContainer {
     private final CommandGenericHID leftSide = new CommandGenericHID(2);
     
     
-    public static final ElevatorSubsystem elevator = new ElevatorSubsystem();
-
+    public final static ElevatorSubsystem elevator = new ElevatorSubsystem();
     public final static ArmSubsystem arm = new ArmSubsystem();
     public final static IntakeSubsystem intake = new IntakeSubsystem();
+    public final static SmartDashboardSubsystem smartdashboard = new SmartDashboardSubsystem();
 
     private final SendableChooser<Command> autoChooser;
 
 
+
     public RobotContainer() {
+
+        registerNamedCommands();
 
         autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -97,8 +104,8 @@ public class RobotContainer {
 
 
 
-        rightSide.button(4).onTrue(
-                         new coralIntake().withTimeout(6).unless(() -> elevator.isElevatorActive())
+        rightSide.button(7).onTrue(
+                         new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
                          .andThen(new moveToPosition(Positions.Home))
                          .andThen(Commands.runOnce(intake::stopCoral)));              //Intake goes until it detects a piece (and then 
                                                                                    //goes a bit more to make sure its all the way in)
@@ -107,21 +114,30 @@ public class RobotContainer {
                                                                                    //and home after
                                                                                    //all unless elevator is up to prevent breaking
         
-        rightSide.button(5).onTrue(Commands.runOnce(intake::intakeCoral)) //shoots out the coral, or just manual intake 
-                          .onFalse(Commands.runOnce(intake::stopCoral));    
+        joystick.rightBumper().onTrue
+        (Commands.runOnce(intake::intakeCoral))//shoots out the coral, or just manual intake 
+                          .onFalse(Commands.runOnce(intake::stopCoral)
+                          .andThen(new moveToPosition(Positions.Home)));
 
 
-        rightSide.button(2).onTrue(new moveToPosition(Positions.L1));
-        rightSide.button(8).onTrue(new moveToPosition(Positions.L2));
-        rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
-        rightSide.button(3).onTrue(new moveToPosition(Positions.Home));
+        rightSide.button(4).onTrue(new moveToPosition(Positions.L1));
+        rightSide.button(5).onTrue(new moveToPosition(Positions.L2));
+        rightSide.button(1).onTrue(new moveToPosition(Positions.L3)); 
+        rightSide.button(2).onTrue(new moveToPosition(Positions.L4));
+        rightSide.button(6).onTrue(new moveToPosition(Positions.Home));
 
-        rightSide.button(7).onTrue(new algaeIntake().withTimeout(8)); //intakes algae until it detects a piece (cancels after 8 secs)
+        rightSide.button(3).onTrue(Commands.runOnce(() -> { //Algae intake
+
+            new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive);
+            //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
+            new algaeIntake().handleInterrupt(intake::stopAlgae).withTimeout(4);
+            //intake an algae, if it doesn't work within 4 seconds stop (handle interrupt detects the timeout).
+
+        })); 
+
+        // rightSide.button(3).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
+
         
-        rightSide.button(6).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
-
-        rightSide.button(10).onTrue(new brakeModeOff()) //lever up = coast, lever down = brake (normal)
-                            .onFalse(new brakeModeOn());
 
 
       
@@ -168,7 +184,54 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
+
+        // End of button binds
+
+        // Turn off motor brakes when disabled, and on when enabled
+
+        //
+
+        // RobotModeTriggers.teleop().onTrue(Commands.runOnce(() -> {
+        //         new resetElevator();
+        //     }));
+
+        // RobotModeTriggers.disabled().onTrue(Commands.runOnce(() -> {
+        //         arm.turnOffBrake();
+        //         elevator.turnOffBrake();
+        //         intake.turnOffBrake();
+        //     }).ignoringDisable(true));
+
+
+
         drivetrain.registerTelemetry(logger::telemeterize);
+    }
+
+    public void registerNamedCommands() { //registering commands for pathplanner autos
+
+        NamedCommands.registerCommand("algaeIntake", new algaeIntake().withTimeout(8));
+        NamedCommands.registerCommand("algaeThrow", new algaeThrow());
+        NamedCommands.registerCommand("moveToHome", new moveToPosition(Positions.Home));
+        NamedCommands.registerCommand("moveToL1", new moveToPosition(Positions.L1));
+        NamedCommands.registerCommand("moveToL2", new moveToPosition(Positions.L2));
+        NamedCommands.registerCommand("moveToL3", new moveToPosition(Positions.L3));
+        NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4));
+        NamedCommands.registerCommand("coralIntake", //paste of previous coral intake command
+
+        new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
+                         .andThen(new moveToPosition(Positions.Home))
+                         .andThen(Commands.runOnce(intake::stopCoral)));
+
+        NamedCommands.registerCommand("coralShoot", 
+
+        Commands.runOnce(() -> { //for shooting out coral autonomously:
+
+            intake.intakeCoral(); //run the intake to stop it out
+            new WaitCommand(1); //wait a bit (change this to make it take less long)
+            intake.stopCoral(); //stop the intake
+            new moveToPosition(Positions.Home); //elevator down
+
+        }));
+
     }
 
     public Command getAutonomousCommand() {

@@ -11,12 +11,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "AutoShooting"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 0.5
@@ -29,12 +23,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "AutoIntaking"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 0.5
@@ -44,12 +32,6 @@
           "type": "path",
           "data": {
             "pathName": "HPS South Left to CD"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoShooting"
           }
         },
         {

@@ -9,12 +9,6 @@
           "data": {
             "pathName": "FarLeft to CD"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoShooting"
-          }
         }
       ]
     }

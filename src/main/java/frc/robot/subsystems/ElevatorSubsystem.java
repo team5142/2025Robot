@@ -14,10 +14,9 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Constants.CurrentLimits;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 
@@ -30,16 +29,21 @@ public class ElevatorSubsystem extends SubsystemBase {
   private SparkMax followingElevatorMotor;
   private SparkMax secondaryElevatorMotor;
 
+  private DigitalInput primaryLimitSwitch;
+
   private SparkMaxConfig leadElevatorConfig;
   private SparkMaxConfig followingElevatorConfig;
   private SparkMaxConfig secondaryElevatorConfig;
 
+  // private DigitalInput secondaryLimitSwitch;
   private final double primarykP = 0.1;
   private final double primarykI = 0;
   private final double primarykD = 0;
 
   private final double primaryForwardSpeedLimit = 1;
   private final double primaryReverseSpeedLimit = -1;
+
+  private final double primaryResetSpeed = -0.25;
 
   private final double secondarykP = 0.25;
   private final double secondarykI = 0;
@@ -48,6 +52,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final double secondaryForwardSpeedLimit = 1;
   private final double secondaryReverseSpeedLimit = -1;
 
+  // private final double secondaryResetSpeed = -0.25;
+
   private SparkClosedLoopController leadPID;
   private SparkClosedLoopController secondaryPID;
 
@@ -55,12 +61,18 @@ public class ElevatorSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
   public ElevatorSubsystem() {
 
+
     leadElevatorMotor = new SparkMax(15, MotorType.kBrushless);
     followingElevatorMotor = new SparkMax(16, MotorType.kBrushless);
     //These two control the main stage
     secondaryElevatorMotor = new SparkMax(17, MotorType.kBrushless);
+
+    primaryLimitSwitch = new DigitalInput(0);
+
     //This motor controls the second stage
 
+    primaryLimitSwitch = new DigitalInput(0);
+    // secondaryLimitSwitch = new DigitalInput(1);
 
     
 
@@ -138,11 +150,23 @@ public class ElevatorSubsystem extends SubsystemBase {
    
   }
 
+  public boolean isPrimarySwitchHit(){
+
+    return primaryLimitSwitch.get();
+  }
+
   public boolean isElevatorActive(){
 
     return secondaryElevatorMotor.getEncoder().getPosition() > 20; //used to tell if elevator encoder is higher than 20
 
   }
+
+  public boolean isPrimaryLimitSwitchPressed(){
+
+    return primaryLimitSwitch.get();
+
+  }
+
   
   public void setPrimaryPID(double height) {
 
@@ -174,15 +198,22 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   }
 
-  public void primaryBackward(){
+  public void primaryDown(){
 
-    leadElevatorMotor.set(-1);
+    leadElevatorMotor.set(primaryResetSpeed);
 
   }
 
   public void primaryStop(){
 
     leadElevatorMotor.set(0);
+
+  }
+
+  public void zeroPrimaryEncoder(){
+
+    leadElevatorMotor.getEncoder().setPosition(0);
+
   }
   
   public void turnOffBrake(){
@@ -218,6 +249,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
 
     SmartDashboard.putBoolean("elevator up", isElevatorActive());
+    SmartDashboard.putBoolean("primary switch", isPrimarySwitchHit());
 
 
   }
