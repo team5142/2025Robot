@@ -105,7 +105,7 @@ public class RobotContainer {
 
 
 
-        rightSide.button(7).onTrue(
+        leftSide.button(8).onTrue(
                          new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
                          .andThen(Commands.runOnce(intake::stopCoral))
                          .andThen(new moveToPosition(Positions.Home)));              //Intake goes until it detects a piece (and then 
@@ -120,21 +120,22 @@ public class RobotContainer {
                           .onFalse(Commands.runOnce(intake::stopCoral));
                         //   .andThen(new moveToPosition(Positions.Home)));
 
+        //leftSide.button 6 and 4 operater prefernce 7 will designate Left and Right intake
 
-        rightSide.button(4).onTrue(new moveToPosition(Positions.L1));
-        rightSide.button(5).onTrue(new moveToPosition(Positions.L2));
-        rightSide.button(1).onTrue(new moveToPosition(Positions.L3)); 
-        rightSide.button(2).onTrue(new moveToPosition(Positions.L4));
-        rightSide.button(6).onTrue(new moveToPosition(Positions.Home));
+        rightSide.button(7).onTrue(new moveToPosition(Positions.L1));
+        rightSide.button(3).onTrue(new moveToPosition(Positions.L2));
+        rightSide.button(2).onTrue(new moveToPosition(Positions.L3)); 
+        rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
+        rightSide.button(8).onTrue(new moveToPosition(Positions.Home));
 
-        rightSide.button(9).onTrue(new moveToPosition(Positions.Algae1));
-        rightSide.button(10).onTrue(new moveToPosition(Positions.Algae2));
+        rightSide.button(5).onTrue(new moveToPosition(Positions.Algae1));
+        rightSide.button(4).onTrue(new moveToPosition(Positions.Algae2));
 
-        rightSide.button(3).onTrue(new SequentialCommandGroup( //Algae intake
+        leftSide.button(3).onTrue(new SequentialCommandGroup( //Algae intake
 
         new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive),
         //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
-        new algaeIntake().handleInterrupt(intake::stopAlgae).withTimeout(4)
+        new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(4)
         //intake an algae, if it doesn't work within 4 seconds stop (handle interrupt detects the timeout).
 
         )); 
@@ -165,9 +166,10 @@ public class RobotContainer {
         // ), 
         // intake::isAlgaeIntaked)); 
 
-        leftSide.button(2).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
-        rightSide.button(8).onTrue(Commands.runOnce(intake::ejectAlgae))
+        leftSide.button(5).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
+        leftSide.button(2).onTrue(Commands.runOnce(intake::ejectAlgae))
         .onFalse(Commands.runOnce(intake::stopAlgae));
+        // leftSide.button(5).onTrue(new moveToPosition(Positions.BargePrep));
         
 
 
@@ -245,7 +247,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("moveToL1", new moveToPosition(Positions.L1));
         NamedCommands.registerCommand("moveToL2", new moveToPosition(Positions.L2));
         NamedCommands.registerCommand("moveToL3", new moveToPosition(Positions.L3));
-        NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4));
+        NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4).andThen(new WaitCommand(1)));
         NamedCommands.registerCommand("coralIntake", //paste of previous coral intake command
 
         new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
@@ -256,7 +258,7 @@ public class RobotContainer {
 
         Commands.runOnce(() -> { //for shooting out coral autonomously:
 
-            intake.intakeCoral(); //run the intake to stop it out
+            intake.ejectCoral(); //run the intake to shoot it out
             new WaitCommand(1); //wait a bit (change this to make it take less long)
             intake.stopCoral(); //stop the intake
             new moveToPosition(Positions.Home); //elevator down

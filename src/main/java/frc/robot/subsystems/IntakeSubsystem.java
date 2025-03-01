@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private Canandcolor rightCoralSensor;
   private Canandcolor algaeSensor;
 
-  private final double algaeSThreshold = 0.63;
+  private final double algaeGThreshold = 0.40;
   private final double coralProximityThreshold = 0.1;
 
   private SparkMax coralMotor;
@@ -131,6 +131,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // algaePID.setReference(algaeHoldSpeed, ControlType.kVelocity);
     algaeMotor.set(algaeHoldSpeed);
+  
     //keeps a vpid velocity to hold the ball in tight
   }
 
@@ -161,7 +162,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean isAlgaeIntaked(){
-    return algaeSensor.getHSVSaturation() > algaeSThreshold; 
+    return algaeSensor.getGreen() > algaeGThreshold; 
     //algae sensor returns a value between 0 and 1, and we will find the value that determines if the algae is present.
   }
 
@@ -195,6 +196,19 @@ public class IntakeSubsystem extends SubsystemBase {
     coralConfig.idleMode(IdleMode.kBrake);
     coralMotor.configure(coralConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
+  }
+
+  public void turnOffAlgaeLight(){
+
+    algaeSensor.setLampLEDBrightness(0);
+
+  }
+
+  
+  public void turnOnAlgaeLight(){
+
+    algaeSensor.setLampLEDBrightness(0.99);
+    
   }
 
 

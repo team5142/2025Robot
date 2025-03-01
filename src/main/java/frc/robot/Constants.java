@@ -69,8 +69,6 @@ public final class Constants {
 							46,
 							0,
 							1.9),
-
-							
 			L3("L3",
 							67,
 							39,
@@ -78,27 +76,27 @@ public final class Constants {
 			L4("L4",
 							90,
 							114,
-							3),
+							4.5),
 			Algae1("Algae1",
-							30,
+							37,
 							0,
-							10),
+							5),
 			Algae2("Algae2",
-							50,
+							62,
 							39,
-							10),
+							5),
 			Processor("Processor",
 							0,
 							0,
-							30),
+							13),
 			BargePrep("Barge",
 							80,
-							115,
+							108,
 							1.9),
 			groundAlgae("groundAlgae",
 							0,
 							0,
-							25);
+							24);
 
 			public final String label;
 			public final double primaryElevator;
