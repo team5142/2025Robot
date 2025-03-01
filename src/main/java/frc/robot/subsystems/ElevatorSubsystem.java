@@ -29,7 +29,6 @@ public class ElevatorSubsystem extends SubsystemBase {
   private SparkMax followingElevatorMotor;
   private SparkMax secondaryElevatorMotor;
 
-  private DigitalInput primaryLimitSwitch;
 
   private SparkMaxConfig leadElevatorConfig;
   private SparkMaxConfig followingElevatorConfig;
@@ -67,12 +66,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     //These two control the main stage
     secondaryElevatorMotor = new SparkMax(17, MotorType.kBrushless);
 
-    primaryLimitSwitch = new DigitalInput(0);
 
     //This motor controls the second stage
 
-    primaryLimitSwitch = new DigitalInput(0);
-    // secondaryLimitSwitch = new DigitalInput(1);
 
     
 
@@ -110,15 +106,19 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     leadElevatorConfig.idleMode(IdleMode.kBrake)
     .softLimit
-    .forwardSoftLimit(190)
-    .reverseSoftLimit(0);
+    .forwardSoftLimit(90)
+    .reverseSoftLimit(0)
+    .forwardSoftLimitEnabled(true)
+    .reverseSoftLimitEnabled(true);
     
     followingElevatorConfig.idleMode(IdleMode.kBrake);
   
     secondaryElevatorConfig.idleMode(IdleMode.kBrake)
     .softLimit
-    .forwardSoftLimit(140)
-    .reverseSoftLimit(0);
+    .forwardSoftLimit(114)
+    .reverseSoftLimit(0)
+    .forwardSoftLimitEnabled(true)
+    .reverseSoftLimitEnabled(true);
       // Makes it so that the motors stay in their position after being shut off.
 
     
@@ -150,22 +150,18 @@ public class ElevatorSubsystem extends SubsystemBase {
    
   }
 
-  public boolean isPrimarySwitchHit(){
 
-    return primaryLimitSwitch.get();
-  }
 
   public boolean isElevatorActive(){
 
-    return secondaryElevatorMotor.getEncoder().getPosition() > 20; //used to tell if elevator encoder is higher than 20
+    return 
+    (secondaryElevatorMotor.getEncoder().getPosition() > 20)
+    ||
+    (leadElevatorMotor.getEncoder().getPosition() > 20); //used to tell if elevator encoders are higher than 20
 
   }
 
-  public boolean isPrimaryLimitSwitchPressed(){
-
-    return primaryLimitSwitch.get();
-
-  }
+  
 
   
   public void setPrimaryPID(double height) {
@@ -249,7 +245,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
 
     SmartDashboard.putBoolean("elevator up", isElevatorActive());
-    SmartDashboard.putBoolean("primary switch", isPrimarySwitchHit());
 
 
   }

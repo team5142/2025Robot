@@ -49,12 +49,12 @@ public class SmartDashboardSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
     // This method will be called once per scheduler run
-        refreshOdometryDisplay();
-        refreshPoseDisplay();
-        refreshIMUDisplay();
-        refreshElevatorPositioningDisplay();
-        refreshArmRotationDisplay();
-        refreshIntakeDisplay();
-        refreshClimberDisplay();
+        // refreshOdometryDisplay();
+        // refreshPoseDisplay();
+        // refreshIMUDisplay();
+        // refreshElevatorPositioningDisplay();
+        // refreshArmRotationDisplay();
+        // refreshIntakeDisplay();
+        // refreshClimberDisplay();
     }
 }

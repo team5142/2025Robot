@@ -9,7 +9,7 @@ import frc.robot.RobotContainer;
 
 public class algaeIntake extends SequentialCommandGroup{
 
-    double delay = 1; //amount of time to continue intaking after algae is detected
+    double delay = 0.1; //amount of time to continue intaking after algae is detected
 
     public algaeIntake(){
         
@@ -17,13 +17,11 @@ public class algaeIntake extends SequentialCommandGroup{
 
     addCommands(
 
-    
-
         new InstantCommand(RobotContainer.intake::intakeAlgae),
         new WaitUntilCommand(RobotContainer.intake::isAlgaeIntaked),
         new WaitCommand(delay),
-        new InstantCommand(RobotContainer.intake::holdAlgae),
-        new xboxVibrate()
+        new InstantCommand(RobotContainer.intake::holdAlgae)
+        // new xboxVibrate()
 
          );
     }

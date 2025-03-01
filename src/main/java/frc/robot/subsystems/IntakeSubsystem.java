@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private Canandcolor rightCoralSensor;
   private Canandcolor algaeSensor;
 
-  private final double algaeProximityThreshold = 0.1;
+  private final double algaeSThreshold = 0.63;
   private final double coralProximityThreshold = 0.1;
 
   private SparkMax coralMotor;
@@ -52,10 +52,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private final double algaeIntakeSpeed = 1;
   private final double algaeEjectSpeed = -1;
-  private final double algaeHoldSpeed = 0.5;
+  private final double algaeHoldSpeed = 0.15;
 
-  private final double coralIntakeSpeed = 1;
-  private final double coralEjectSpeed = 0.75; //do we even need coral eject?
+  private final double coralIntakeSpeed = 0.3;
+  private final double coralEjectSpeed = 1; 
 
 
   private RelativeEncoder algaeEncoder;
@@ -129,7 +129,8 @@ public class IntakeSubsystem extends SubsystemBase {
   
   public void holdAlgae(){
 
-    algaePID.setReference(algaeHoldSpeed, ControlType.kVelocity);
+    // algaePID.setReference(algaeHoldSpeed, ControlType.kVelocity);
+    algaeMotor.set(algaeHoldSpeed);
     //keeps a vpid velocity to hold the ball in tight
   }
 
@@ -160,7 +161,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean isAlgaeIntaked(){
-    return algaeSensor.getProximity() < algaeProximityThreshold; 
+    return algaeSensor.getHSVSaturation() > algaeSThreshold; 
     //algae sensor returns a value between 0 and 1, and we will find the value that determines if the algae is present.
   }
 

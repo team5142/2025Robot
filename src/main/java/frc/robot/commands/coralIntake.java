@@ -10,7 +10,7 @@ import frc.robot.Constants.PositionClass.Positions;
 import frc.robot.RobotContainer;
 public class coralIntake extends SequentialCommandGroup{
 
-    double delay = 0.325; //amount of time to continue intaking after coral is detected
+    double delay = 0.15; //amount of time to continue intaking after coral is detected
 
     public coralIntake(){
 
@@ -22,8 +22,8 @@ public class coralIntake extends SequentialCommandGroup{
         new InstantCommand(RobotContainer.intake::intakeCoral),
         new WaitUntilCommand(RobotContainer.intake::isCoralIntaked),
         new WaitCommand(delay),
-        new InstantCommand(RobotContainer.intake::stopCoral),
-        new xboxVibrate()
+        new InstantCommand(RobotContainer.intake::stopCoral)
+        // new xboxVibrate()
         
     );
     }
