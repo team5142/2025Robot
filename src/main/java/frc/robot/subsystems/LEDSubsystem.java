@@ -46,13 +46,13 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void setRightGreen(){
 
-    rightBlinkin.set(0.73); //red
+    rightBlinkin.set(0.73); //green value
 
   }
   
   public void setLeftGreen(){
     
-    leftBlinkin.set(0.73); //red
+    leftBlinkin.set(0.73); //green value
 
   }
 

@@ -22,8 +22,8 @@ public class algaeIntake extends SequentialCommandGroup{
         new WaitUntilCommand(RobotContainer.intake::isAlgaeIntaked),
         new WaitCommand(delay),
         new InstantCommand(RobotContainer.intake::turnOffAlgaeLight),
-        new InstantCommand(RobotContainer.intake::holdAlgae)
-        // new xboxVibrate()
+        new InstantCommand(RobotContainer.intake::holdAlgae),
+        new xboxVibrate()
 
          );
     }

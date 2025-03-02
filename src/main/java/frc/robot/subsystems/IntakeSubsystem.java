@@ -162,10 +162,13 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean isAlgaeIntaked(){
-    return algaeSensor.getGreen() > algaeGThreshold; 
+
+    return (algaeSensor.getGreen() > algaeGThreshold);
+
     //algae sensor returns a value between 0 and 1, and we will find the value that determines if the algae is present.
   }
 
+ 
   public boolean isLeftCoralIntaked(){
     return leftCoralSensor.getProximity() < coralProximityThreshold;
   }
@@ -173,10 +176,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public boolean isRightCoralIntaked(){
     return rightCoralSensor.getProximity() < coralProximityThreshold;
   }
-
-
-
-
 
   public boolean isCoralIntaked(){
 

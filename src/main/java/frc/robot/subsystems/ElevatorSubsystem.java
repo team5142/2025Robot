@@ -66,27 +66,17 @@ public class ElevatorSubsystem extends SubsystemBase {
     //These two control the main stage
     secondaryElevatorMotor = new SparkMax(17, MotorType.kBrushless);
 
-
     //This motor controls the second stage
-
-
-    
 
     //Initialize PIDS
     leadPID = leadElevatorMotor.getClosedLoopController();
     secondaryPID = secondaryElevatorMotor.getClosedLoopController();
 
-
     leadElevatorConfig = new SparkMaxConfig();
     followingElevatorConfig = new SparkMaxConfig();
-    secondaryElevatorConfig = new SparkMaxConfig();
-    //Only one config is necessary as it will be used for all the canandmags.
-   
+    secondaryElevatorConfig = new SparkMaxConfig();   
 
     configureElevatorMotors();
-
-
-   
 
   }
 
@@ -121,7 +111,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     .reverseSoftLimitEnabled(true);
       // Makes it so that the motors stay in their position after being shut off.
 
-    
+  
     leadElevatorConfig.closedLoop
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed loop
@@ -146,7 +136,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     secondaryElevatorMotor.configure(secondaryElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       //Resets and configures sparkmaxes
 
-
    
   }
 
@@ -155,9 +144,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   public boolean isElevatorActive(){
 
     return 
-    (secondaryElevatorMotor.getEncoder().getPosition() > 20)
+    (secondaryElevatorMotor.getEncoder().getPosition() > 15)
     ||
-    (leadElevatorMotor.getEncoder().getPosition() > 20); //used to tell if elevator encoders are higher than 20
+    (leadElevatorMotor.getEncoder().getPosition() > 15); //used to tell if elevator encoders are higher than 20
 
   }
 
