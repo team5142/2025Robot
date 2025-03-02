@@ -83,7 +83,7 @@ public class RobotContainer {
 
         autoChooser = AutoBuilder.buildAutoChooser();
 
-        SmartDashboard.putData("Auto Selector", autoChooser);
+        SmartDashboard.putData("Auto Mode", autoChooser);
 
         configureBindings();
     }
@@ -115,16 +115,14 @@ public class RobotContainer {
                                                                                    //and home after
                                                                                    //all unless elevator is up to prevent breaking
         
-        // joystick.rightBumper().onTrue
-        // (Commands.runOnce(intake::ejectCoral))//shoots out the coral, or just manual intake 
-        //                   .onFalse(Commands.runOnce(intake::stopCoral));
-        //                 //   .andThen(new moveToPosition(Positions.Home)));
+        joystick.rightBumper().onTrue
+        (Commands.runOnce(intake::ejectCoral))//shoots out the coral, or just manual intake 
+                          .onFalse(Commands.runOnce(intake::stopCoral));
+                        //   .andThen(new moveToPosition(Positions.Home)));
 
-        joystick.rightBumper().onTrue(Commands.runOnce(() -> {intake.ejectCoral(); intake.ejectAlgae();})) //run both intakes from right trigger
-                              .onFalse(Commands.runOnce(() -> {intake.stopCoral(); intake.stopAlgae();})); //stop both intakes from right trigger release
+        //leftSide.button 6 and 4 operater prefernce 7 will designate Left and Right intake
 
-
-        rightSide.button(7).onTrue(new moveToPosition(Positions.L1)); //do we need this?
+        rightSide.button(7).onTrue(new moveToPosition(Positions.L1));
         rightSide.button(3).onTrue(new moveToPosition(Positions.L2));
         rightSide.button(2).onTrue(new moveToPosition(Positions.L3)); 
         rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
@@ -133,7 +131,7 @@ public class RobotContainer {
         rightSide.button(5).onTrue(new moveToPosition(Positions.Algae1));
         rightSide.button(4).onTrue(new moveToPosition(Positions.Algae2));
 
-        leftSide.button(3).onTrue(Commands.sequence( //Algae intake
+        leftSide.button(3).onTrue(new SequentialCommandGroup( //Algae intake
 
         new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive),
         //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
@@ -144,12 +142,69 @@ public class RobotContainer {
 
         leftSide.button(1).onTrue(new moveToPosition(Positions.Processor));
 
-        leftSide.button(5).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
-
         // leftSide.button(6).onTrue(Commands.runOnce(led::setLeftRed));
         // leftSide.button(7).onTrue(Commands.runOnce(led::setLeftGreen));
         // leftSide.button(8).onTrue(Commands.runOnce(led::setLeftOff));
+
         
+        
+        // (new ConditionalCommand(
+            
+        // new SequentialCommandGroup(
+        //     new moveToPosition(Positions.Processor),
+        //     new WaitCommand(2),
+        //     Commands.runOnce(intake::ejectAlgae)
+        // ), 
+        
+        // new SequentialCommandGroup( //Algae intake
+
+        // new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive),
+        // //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
+        // new algaeIntake().handleInterrupt(intake::stopAlgae).withTimeout(4)
+        // //intake an algae, if it doesn't work within 4 seconds stop (handle interrupt detects the timeout).
+
+        // ), 
+        // intake::isAlgaeIntaked)); 
+
+        leftSide.button(5).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
+        leftSide.button(2).onTrue(Commands.runOnce(intake::ejectAlgae))
+        .onFalse(Commands.runOnce(intake::stopAlgae));
+        // leftSide.button(5).onTrue(new moveToPosition(Positions.BargePrep));
+        
+
+
+      
+
+        
+
+        //RIGHT SIDE BINDINGS
+
+        //Intake Coral - 7
+        //Intake Algae - 2
+        //Output Algae - 3
+
+        //Elevator to L1 - 6
+        //Elevator to L2 - 4
+        //Elevator to L3 - 1
+        //Elevator to L4 - 5
+        
+        //Climb - 9
+
+        //Left Side Bindings
+        //Climbing mode - Switch 9
+        //Arm to Home Position - 11
+        //Scoring in Processor Position - 2
+        //Arm to Barge Position - 3
+
+
+        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        joystick.b().whileTrue(drivetrain.applyRequest(() ->
+            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        )); // test this out -- it should point the wheels in the direction of the left joystick
+
+
+        
+
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // plug flash drive in for these?
@@ -201,15 +256,14 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("coralShoot", 
 
-        Commands.runOnce(() -> { //for shooting out coral autonomously:
+        Commands.sequence(//for shooting out coral autonomously:
 
-            intake.ejectCoral(); //run the intake to shoot it out
-            new WaitCommand(1); //wait a bit (change this to make it take less long)
-            intake.stopCoral(); //stop the intake
-            new moveToPosition(Positions.Home); //elevator down
+            Commands.runOnce(intake::ejectCoral), //run the intake to shoot it out
+            new WaitCommand(1), //wait a bit (change this to make it take less long)
+            Commands.runOnce(intake::stopCoral), //stop the intake
+            new moveToPosition(Positions.Home) //elevator down
 
-        }));
-
+        ));
     }
 
     public Command getAutonomousCommand() {
