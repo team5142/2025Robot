@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -72,7 +73,7 @@ public class RobotContainer {
     public final static ArmSubsystem arm = new ArmSubsystem();
     public final static IntakeSubsystem intake = new IntakeSubsystem();
     public final static SmartDashboardSubsystem smartdashboard = new SmartDashboardSubsystem();
-    // public final static LEDSubsystem led = new LEDSubsystem();
+    public final static LEDSubsystem led = new LEDSubsystem();
     private final SendableChooser<Command> autoChooser;
 
 
@@ -124,7 +125,7 @@ public class RobotContainer {
 
         rightSide.button(7).onTrue(new moveToPosition(Positions.L1));
         rightSide.button(3).onTrue(new moveToPosition(Positions.L2));
-        rightSide.button(2).onTrue(new moveToPosition(Positions.L3)); 
+        rightSide.button(2).onTrue(new moveToPosition(Positions.L3));
         rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
         rightSide.button(8).onTrue(new moveToPosition(Positions.Home));
 
@@ -142,9 +143,8 @@ public class RobotContainer {
 
         leftSide.button(1).onTrue(new moveToPosition(Positions.Processor));
 
-        // leftSide.button(6).onTrue(Commands.runOnce(led::setLeftRed));
-        // leftSide.button(7).onTrue(Commands.runOnce(led::setLeftGreen));
-        // leftSide.button(8).onTrue(Commands.runOnce(led::setLeftOff));
+        leftSide.button(6).onTrue(Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}));
+        leftSide.button(4).onTrue(Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}));
 
         
         
@@ -212,7 +212,10 @@ public class RobotContainer {
         joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-        
+
+        rightSide.button(9).onTrue(Commands.runOnce(SignalLogger::start));
+        rightSide.button(10).onTrue(Commands.runOnce(SignalLogger::stop));
+
 
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));

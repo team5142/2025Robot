@@ -37,7 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
   private final double kMax = 0.25;
   private final double kMin = -0.25;
 
-  private final double armRatio = 108.33333; //gear ratio from the relative to absolute encoder
+  private final double armRatio = 108.5; //gear ratio from the relative to absolute encoder
 
   /** Creates a new IntakeSubsystem. */
   public ArmSubsystem() {
@@ -82,7 +82,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   armConfig.absoluteEncoder.positionConversionFactor(armRatio)
   .inverted(true)
-  .zeroOffset(0.602);
+  .zeroOffset(0.029);
 
 
   armConfig.smartCurrentLimit(CurrentLimits.Neo550)
