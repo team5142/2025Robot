@@ -9,7 +9,7 @@ import frc.robot.RobotContainer;
 
 public class algaeIntake extends SequentialCommandGroup{
 
-    double delay = 0.25; //amount of time to continue intaking after algae is detected
+    double delay = 0.5; //amount of time to continue intaking after algae is detected
 
     public algaeIntake(){
         

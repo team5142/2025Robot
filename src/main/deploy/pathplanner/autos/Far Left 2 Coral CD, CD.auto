@@ -11,21 +11,28 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.5
+            "name": "coralShoot"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "CD to HPS South Left"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CD to HPS South Left"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "autoCoralIntake"
+                }
+              }
+            ]
           }
         },
         {
@@ -37,7 +44,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralShoot"
           }
         },
         {

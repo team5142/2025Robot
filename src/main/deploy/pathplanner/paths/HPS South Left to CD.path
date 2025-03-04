@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6322540907934482,
-        "y": 0.6792592008103953
+        "x": 1.35,
+        "y": 0.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7189277263936888,
-        "y": 0.9915749507425278
+        "x": 1.1208129074709556,
+        "y": 0.42081290747095546
       },
       "isLocked": false,
       "linkedName": "South HPS Left"
     },
     {
       "anchor": {
-        "x": 3.8237892229044497,
-        "y": 2.8747146922803415
+        "x": 3.8,
+        "y": 3.1
       },
       "prevControl": {
-        "x": 3.94983065121815,
-        "y": 3.0906164253642663
+        "x": 3.1557555712400465,
+        "y": 2.456137303282593
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,10 +31,22 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Raise",
+      "waypointRelativePos": 0.5,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "moveToL4"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 1.75,
+    "maxAcceleration": 1.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

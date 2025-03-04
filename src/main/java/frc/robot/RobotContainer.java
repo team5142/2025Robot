@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -34,8 +35,9 @@ import frc.robot.commands.algaeThrow;
 
 import frc.robot.commands.coralIntake;
 import frc.robot.commands.moveToPosition;
+import frc.robot.commands.xboxVibrate;
 import frc.robot.generated.TunerConstants;
-import frc.robot.commands.coralIntake;
+import frc.robot.commands.autoCoralIntake;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
@@ -48,6 +50,7 @@ public class RobotContainer {
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
 
+    
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
@@ -95,8 +98,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX((-joystick.getLeftY() * MaxSpeed)) // Drive forward with negative Y (forward)  /2 is to slow it down
-                    .withVelocityY((-joystick.getLeftX() * MaxSpeed)) // Drive left with negative X (left)
+                drive.withVelocityX((-joystick.getLeftY() * MaxSpeed)*.5) // Drive forward with negative Y (forward)  /2 is to slow it down
+                    .withVelocityY((-joystick.getLeftX() * MaxSpeed)*.5) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -106,16 +109,15 @@ public class RobotContainer {
 
 
 
-        leftSide.button(8).onTrue(
-                         new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
-                         .andThen(Commands.runOnce(intake::stopCoral))
-                         .andThen(new moveToPosition(Positions.Home)));              //Intake goes until it detects a piece (and then 
+        // leftSide.button(8).onTrue(
+        //                  new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
+        //                  .andThen(Commands.runOnce(intake::stopCoral))
+        //                  .andThen(new moveToPosition(Positions.Home)));              //Intake goes until it detects a piece (and then 
                                                                                    //goes a bit more to make sure its all the way in)
                                                                                    //but if it takes more than 8 seconds it stops going
                                                                                    //it first moves the arm back all the way to intake
                                                                                    //and home after
                                                                                    //all unless elevator is up to prevent breaking
-        
         joystick.rightBumper().onTrue
         (Commands.runOnce(intake::ejectCoral))//shoots out the coral, or just manual intake 
                           .onFalse(Commands.runOnce(intake::stopCoral));
@@ -136,18 +138,29 @@ public class RobotContainer {
 
         new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive),
         //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
-        new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(4)
+        new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(6)
         //intake an algae, if it doesn't work within 4 seconds stop (handle interrupt detects the timeout).
 
         )); 
 
         leftSide.button(1).onTrue(new moveToPosition(Positions.Processor));
 
-        leftSide.button(6).onTrue(Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}));
-        leftSide.button(4).onTrue(Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}));
 
-        
-        
+        //intake left
+        leftSide.button(6).onTrue(Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();})
+                         .andThen(new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(8).unless(elevator::isElevatorActive)
+                         .andThen(Commands.runOnce(intake::stopCoral))
+                         .andThen(new moveToPosition(Positions.Home))));
+
+
+
+        //intake right
+        leftSide.button(4).onTrue(Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();})
+                         .andThen(new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(8).unless(elevator::isElevatorActive)
+                         .andThen(Commands.runOnce(intake::stopCoral))
+                         .andThen(new moveToPosition(Positions.Home))));
+
+
         // (new ConditionalCommand(
             
         // new SequentialCommandGroup(
@@ -166,7 +179,7 @@ public class RobotContainer {
         // ), 
         // intake::isAlgaeIntaked)); 
 
-        leftSide.button(5).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
+        // leftSide.button(5).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
         leftSide.button(2).onTrue(Commands.runOnce(intake::ejectAlgae))
         .onFalse(Commands.runOnce(intake::stopAlgae));
         // leftSide.button(5).onTrue(new moveToPosition(Positions.BargePrep));
@@ -251,8 +264,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("moveToL2", new moveToPosition(Positions.L2));
         NamedCommands.registerCommand("moveToL3", new moveToPosition(Positions.L3));
         NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4).andThen(new WaitCommand(1)));
+        NamedCommands.registerCommand("autoCoralIntake", new autoCoralIntake());
         NamedCommands.registerCommand("coralIntake", //paste of previous coral intake command
-
         new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
                          .andThen(new moveToPosition(Positions.Home))
                          .andThen(Commands.runOnce(intake::stopCoral)));

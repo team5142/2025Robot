@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FarLeft to CD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.2
+            "pathName": "New Path"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "coralShoot"
+            "name": "autoCoralIntake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 8.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Path"
           }
         }
       ]
