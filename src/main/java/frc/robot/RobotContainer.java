@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -30,6 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.PositionClass.Positions;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.algaeIntake;
 import frc.robot.commands.algaeThrow;
 
@@ -79,6 +81,8 @@ public class RobotContainer {
     public final static LEDSubsystem led = new LEDSubsystem();
     private final SendableChooser<Command> autoChooser;
 
+    private double storedAngleTurn = 0.0;
+    private double angleStep = 60.0;
 
 
     public RobotContainer() {
@@ -91,6 +95,7 @@ public class RobotContainer {
 
         configureBindings();
     }
+
 
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
@@ -183,12 +188,6 @@ public class RobotContainer {
         leftSide.button(2).onTrue(Commands.runOnce(intake::ejectAlgae))
         .onFalse(Commands.runOnce(intake::stopAlgae));
         // leftSide.button(5).onTrue(new moveToPosition(Positions.BargePrep));
-        
-
-
-      
-
-        
 
         //RIGHT SIDE BINDINGS
 
@@ -209,22 +208,41 @@ public class RobotContainer {
         //Scoring in Processor Position - 2
         //Arm to Barge Position - 3
 
+        /* ENABLE TO TEST TURN TO DEGREES 
+        joystick.x().onTrue(Commands.runOnce(() -> {
+            circleDegreesRight();
+            new TurnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
+        }));
+
+        joystick.y().onTrue(Commands.runOnce(() -> {
+            circleDegreesLeft();
+            new TurnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
+        }));
+
+        // ALSO NEED TO PUT THIS CODE WHENEVER CORAL IS FIRST INTAKED (will match the angle the robot is at, at the driver station for each side.)
+        // resetStoredAngleTurn();
+        */
+
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         )); // test this out -- it should point the wheels in the direction of the left joystick
 
-
+        // RobotModeTriggers.disabled().onTrue(Commands.runOnce(() -> {
+        //         arm.turnOffBrake();
+        //         elevator.turnOffBrake();
+        //         intake.turnOffBrake();
+        //     }).ignoringDisable(true));
         
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // plug flash drive in for these?
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        //joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        //joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        //joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        //joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         rightSide.button(9).onTrue(Commands.runOnce(SignalLogger::start));
         rightSide.button(10).onTrue(Commands.runOnce(SignalLogger::stop));
@@ -254,6 +272,26 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
+
+    private double circleDegreesRight() {
+        return storedAngleTurn += angleStep;
+    }
+
+    private double circleDegreesLeft() {
+        return storedAngleTurn -= angleStep;
+    }
+
+    private double resetStoredAngleTurn(){
+        Rotation2d currentHeading = drivetrain.getHeadingFromIMU();
+        double remainder = currentHeading.getDegrees() % angleStep;
+        if (remainder <= (angleStep/2)){
+            storedAngleTurn = currentHeading.getDegrees() - remainder;
+        } else {
+            storedAngleTurn = currentHeading.getDegrees() + (angleStep - remainder);
+        }
+        return storedAngleTurn;
+    }
+
 
     public void registerNamedCommands() { //registering commands for pathplanner autos
 

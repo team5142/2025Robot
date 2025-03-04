@@ -251,6 +251,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return m_sysIdRoutineToApply.quasistatic(direction);
     }
 
+    public Rotation2d getHeading() {
+        return getState().Pose.getRotation(); // Assuming the pose contains the current heading
+    }
+
+    public Rotation2d getHeadingFromIMU() {
+        return Rotation2d.fromDegrees(getPigeon2().getYaw().getValueAsDouble());
+    }
+
     /**
      * Runs the SysId Dynamic test in the given direction for the routine
      * specified by {@link #m_sysIdRoutineToApply}.

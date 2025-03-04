@@ -23,7 +23,7 @@ public class LEDSubsystem extends SubsystemBase {
   private static Spark leftBlinkin;
   private static Spark rightBlinkin;
  
-  /** Creates a new ClimberSubsystem. */
+  /** Creates a new LEDSubsystem. */
 
   public LEDSubsystem() {
 
