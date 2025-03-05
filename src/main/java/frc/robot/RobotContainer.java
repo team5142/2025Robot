@@ -31,10 +31,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.PositionClass.Positions;
-import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.turnToAngle;
 import frc.robot.commands.algaeIntake;
 import frc.robot.commands.algaeThrow;
 
+import frc.robot.commands.turnToAngle;
 import frc.robot.commands.coralIntake;
 import frc.robot.commands.moveToPosition;
 import frc.robot.commands.xboxVibrate;
@@ -58,8 +59,7 @@ public class RobotContainer {
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-
+    
     private final Telemetry logger = new Telemetry(MaxSpeed);
     
 
@@ -81,8 +81,11 @@ public class RobotContainer {
     public final static LEDSubsystem led = new LEDSubsystem();
     private final SendableChooser<Command> autoChooser;
 
-    private double storedAngleTurn = 0.0;
-    private double angleStep = 60.0;
+    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+
+    private double storedAngleTurn;
+    private double angleStep;
 
 
     public RobotContainer() {
@@ -92,7 +95,8 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("Auto Mode", autoChooser);
-
+        storedAngleTurn = 150.0;
+        angleStep = 60.0;
         configureBindings();
     }
 
@@ -186,7 +190,8 @@ public class RobotContainer {
 
         // leftSide.button(5).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
         leftSide.button(2).onTrue(Commands.runOnce(intake::ejectAlgae))
-        .onFalse(Commands.runOnce(intake::stopAlgae));
+        .onFalse(Commands.runOnce(intake::stopAlgae).andThen(Commands.runOnce(intake::turnOffAlgaeLight)));
+
         // leftSide.button(5).onTrue(new moveToPosition(Positions.BargePrep));
 
         //RIGHT SIDE BINDINGS
@@ -214,6 +219,7 @@ public class RobotContainer {
             new TurnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
         }));
 
+        
         joystick.y().onTrue(Commands.runOnce(() -> {
             circleDegreesLeft();
             new TurnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
@@ -221,8 +227,22 @@ public class RobotContainer {
 
         // ALSO NEED TO PUT THIS CODE WHENEVER CORAL IS FIRST INTAKED (will match the angle the robot is at, at the driver station for each side.)
         // resetStoredAngleTurn();
-        */
+        
+        joystick.x().onTrue(Commands.runOnce(() -> {
+            resetStoredAngleTurn();
+        }));
+*/
+        joystick.povDown().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(180)));
+        joystick.povLeft().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(240)));
+        joystick.povRight().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(120)));
 
+        //joystick.y().onTrue(Commands.runOnce(() -> {
+        //    new turnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
+        //}));
+        //joystick.y().whileTrue(drivetrain.applyRequest(() -> {
+        //    new turnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
+        //}));
+        //joystick.y().whileTrue(new turnToAngle(drivetrain, storedAngleTurn));
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(() ->
@@ -244,8 +264,8 @@ public class RobotContainer {
         //joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         //joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-        rightSide.button(9).onTrue(Commands.runOnce(SignalLogger::start));
-        rightSide.button(10).onTrue(Commands.runOnce(SignalLogger::stop));
+        //rightSide.button(9).onTrue(Commands.runOnce(SignalLogger::start));
+        //rightSide.button(10).onTrue(Commands.runOnce(SignalLogger::stop));
 
 
         // reset the field-centric heading on left bumper press
@@ -272,7 +292,7 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
-
+/* 
     private double circleDegreesRight() {
         return storedAngleTurn += angleStep;
     }
@@ -281,7 +301,7 @@ public class RobotContainer {
         return storedAngleTurn -= angleStep;
     }
 
-    private double resetStoredAngleTurn(){
+    private void resetStoredAngleTurn(){
         Rotation2d currentHeading = drivetrain.getHeadingFromIMU();
         double remainder = currentHeading.getDegrees() % angleStep;
         if (remainder <= (angleStep/2)){
@@ -289,9 +309,14 @@ public class RobotContainer {
         } else {
             storedAngleTurn = currentHeading.getDegrees() + (angleStep - remainder);
         }
-        return storedAngleTurn;
+        storedAngleTurn = storedAngleTurn % 360;
+        SmartDashboard.putNumber("currentHeading:", currentHeading.getDegrees());
+        SmartDashboard.putNumber("remainder:", remainder
+        );
+        SmartDashboard.putNumber("storedAngleTurn:", storedAngleTurn);
+        //return storedAngleTurn % 360;
     }
-
+*/
 
     public void registerNamedCommands() { //registering commands for pathplanner autos
 

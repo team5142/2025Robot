@@ -124,8 +124,8 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("Arm Abs:", armAbsoluteEncoder.getPosition());
-    SmartDashboard.putNumber("Arm Rel:", armRelativeEncoder.getPosition());
+    SmartDashboard.putNumber("ARM ABSOLUTE POSITION:", armAbsoluteEncoder.getPosition());
+    SmartDashboard.putNumber("ARM RELATIVE POSITION:", armRelativeEncoder.getPosition());
 
 
   }

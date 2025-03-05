@@ -209,14 +209,21 @@ public class IntakeSubsystem extends SubsystemBase {
     algaeSensor.setLampLEDBrightness(0.99);
     
   }
+  private double intakePos;
+  public void setIntakePos(){
+     intakePos = coralMotor.getEncoder().getPosition();
+  }
 
-
+  public boolean isCoralReady(){
+    return intakePos+10<coralMotor.getEncoder().getPosition();
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
-
-  
+    SmartDashboard.putBoolean("LEFT CORAL LOADED:", isLeftCoralIntaked());
+    SmartDashboard.putBoolean("ALGAE LOADED:", isAlgaeIntaked());
+    SmartDashboard.putBoolean("RIGHT CORAL LOADED:", isRightCoralIntaked());
   }
 }

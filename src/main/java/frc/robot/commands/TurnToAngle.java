@@ -7,16 +7,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
-public class TurnToAngle extends Command {
-    private final CommandSwerveDrivetrain drivetrain;
-    private final PIDController pidController;
-    private final Rotation2d targetAngle;
-    private final SwerveRequest.RobotCentric driveRequest = new SwerveRequest.RobotCentric();
+public class turnToAngle extends Command {
+    private CommandSwerveDrivetrain drivetrain;
+    private PIDController pidController;
+    private Rotation2d targetAngle;
+    private SwerveRequest.RobotCentric driveRequest = new SwerveRequest.RobotCentric();
 
-    public TurnToAngle(CommandSwerveDrivetrain drivetrain, Rotation2d targetAngle) {
+    public turnToAngle(CommandSwerveDrivetrain drivetrain, Rotation2d tAngle) {
         this.drivetrain = drivetrain;
-        this.targetAngle = targetAngle;
-
+        this.targetAngle = tAngle;
+        SmartDashboard.putNumber("tangle", tAngle.getDegrees());
         // Initialize PID controller with gains (kP, kI, kD)
         this.pidController = new PIDController(0.02, 0.0, 0.0); // Tune these values
         pidController.setTolerance(1.0); // Tolerance in degrees
@@ -44,7 +44,7 @@ public class TurnToAngle extends Command {
 
         // Optional: Log the values to SmartDashboard for debugging
         SmartDashboard.putNumber("Current Heading", currentHeading.getDegrees());
-        SmartDashboard.putNumber("Target Heading", targetAngle.getDegrees());
+        SmartDashboard.putNumber("Target Angle", targetAngle.getDegrees());
         SmartDashboard.putNumber("Rotation Output", rotationOutput);
     }
 

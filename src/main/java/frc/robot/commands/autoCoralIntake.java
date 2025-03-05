@@ -23,7 +23,8 @@ public class autoCoralIntake extends SequentialCommandGroup{
         new moveToPosition(Positions.Feed),
         new InstantCommand(RobotContainer.intake::intakeCoral),
         new WaitUntilCommand(RobotContainer.intake::isCoralIntaked),
-        new WaitCommand(delay),
+        new InstantCommand(RobotContainer.intake::setIntakePos),
+        new WaitUntilCommand(RobotContainer.intake::isCoralReady),
         new InstantCommand(RobotContainer.intake::stopCoral),
         new InstantCommand(RobotContainer.led::setBothRed)
     );

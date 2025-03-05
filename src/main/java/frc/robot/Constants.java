@@ -62,9 +62,9 @@ public final class Constants {
 							0,
 							0),
 			L1("L1",
-							20,
+							21,
 							0,
-							1.7),
+							0),
 			L2("L2",
 							46,
 							0,
@@ -96,7 +96,7 @@ public final class Constants {
 			groundAlgae("groundAlgae",
 							0,
 							0,
-							24);
+							26);
 
 			public final String label;
 			public final double primaryElevator;
