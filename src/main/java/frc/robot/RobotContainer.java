@@ -46,8 +46,8 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* ============== Make a function to do this below */
 
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    public static double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    public static double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
@@ -86,6 +86,8 @@ public class RobotContainer {
 
     private double storedAngleTurn;
     private double angleStep;
+    private double turnDegrees = 0;
+        
 
 
     public RobotContainer() {
@@ -231,11 +233,19 @@ public class RobotContainer {
         joystick.x().onTrue(Commands.runOnce(() -> {
             resetStoredAngleTurn();
         }));
-*/
-        joystick.povDown().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(180)));
-        joystick.povLeft().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(240)));
-        joystick.povRight().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(120)));
+*/      
 
+
+        joystick.povLeft().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(90), joystick));
+        joystick.povDownLeft().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(120), joystick));
+        joystick.povDown().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(180), joystick));
+        joystick.povDownRight().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(240), joystick));
+        joystick.povRight().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(270), joystick));
+        joystick.povUpRight().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(300), joystick));
+        joystick.povUp().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(0), joystick));
+        joystick.povUpLeft().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(60), joystick));      
+        
+        
         //joystick.y().onTrue(Commands.runOnce(() -> {
         //    new turnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
         //}));
