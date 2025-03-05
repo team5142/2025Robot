@@ -81,7 +81,7 @@ public class RobotContainer {
     public final static LEDSubsystem led = new LEDSubsystem();
     private final SendableChooser<Command> autoChooser;
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
 
     private double storedAngleTurn;
@@ -172,49 +172,14 @@ public class RobotContainer {
                          .andThen(new moveToPosition(Positions.Home))));
 
 
-        // (new ConditionalCommand(
-            
-        // new SequentialCommandGroup(
-        //     new moveToPosition(Positions.Processor),
-        //     new WaitCommand(2),
-        //     Commands.runOnce(intake::ejectAlgae)
-        // ), 
-        
-        // new SequentialCommandGroup( //Algae intake
-
-        // new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive),
-        // //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
-        // new algaeIntake().handleInterrupt(intake::stopAlgae).withTimeout(4)
-        // //intake an algae, if it doesn't work within 4 seconds stop (handle interrupt detects the timeout).
-
-        // ), 
-        // intake::isAlgaeIntaked)); 
+       
 
         // leftSide.button(5).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
         leftSide.button(2).onTrue(Commands.runOnce(intake::ejectAlgae))
         .onFalse(Commands.runOnce(intake::stopAlgae).andThen(Commands.runOnce(intake::turnOffAlgaeLight)));
 
-        // leftSide.button(5).onTrue(new moveToPosition(Positions.BargePrep));
 
-        //RIGHT SIDE BINDINGS
-
-        //Intake Coral - 7
-        //Intake Algae - 2
-        //Output Algae - 3
-
-        //Elevator to L1 - 6
-        //Elevator to L2 - 4
-        //Elevator to L3 - 1
-        //Elevator to L4 - 5
         
-        //Climb - 9
-
-        //Left Side Bindings
-        //Climbing mode - Switch 9
-        //Arm to Home Position - 11
-        //Scoring in Processor Position - 2
-        //Arm to Barge Position - 3
-
         /* ENABLE TO TEST TURN TO DEGREES 
         joystick.x().onTrue(Commands.runOnce(() -> {
             circleDegreesRight();
@@ -236,14 +201,14 @@ public class RobotContainer {
 */      
 
 
-        joystick.povLeft().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(90), joystick));
-        joystick.povDownLeft().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(120), joystick));
-        joystick.povDown().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(180), joystick));
-        joystick.povDownRight().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(240), joystick));
-        joystick.povRight().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(270), joystick));
-        joystick.povUpRight().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(300), joystick));
-        joystick.povUp().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(0), joystick));
-        joystick.povUpLeft().whileTrue(new turnToAngle(drivetrain, Rotation2d.fromDegrees(60), joystick));      
+        joystick.povLeft().whileTrue(new turnToAngle(90));
+        joystick.povDownLeft().whileTrue(new turnToAngle(120));
+        joystick.povDown().whileTrue(new turnToAngle(180));
+        joystick.povDownRight().whileTrue(new turnToAngle(240));
+        joystick.povRight().whileTrue(new turnToAngle(270));
+        joystick.povUpRight().whileTrue(new turnToAngle(300));
+        joystick.povUp().whileTrue(new turnToAngle(0));
+        joystick.povUpLeft().whileTrue(new turnToAngle(60));      
         
         
         //joystick.y().onTrue(Commands.runOnce(() -> {

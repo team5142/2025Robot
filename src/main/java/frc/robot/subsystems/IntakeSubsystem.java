@@ -210,6 +210,7 @@ public class IntakeSubsystem extends SubsystemBase {
     
   }
   private double intakePos;
+  
   public void setIntakePos(){
      intakePos = coralMotor.getEncoder().getPosition();
   }
