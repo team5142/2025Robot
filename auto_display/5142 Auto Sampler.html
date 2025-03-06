@@ -25,13 +25,36 @@
             text-align: center;
         }
 
+        /* Grid View */
+        .gif-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            gap: 20px; /* Space between items */
+            width: 80%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .gif-item label {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: red; /* Red text */
+            text-align: center; /* Centered text */
+            margin-bottom: 10px;
+        }
+
+        .gif-item img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
         /* Carousel Container */
         .carousel {
             position: relative;
             width: 80%;
             max-width: 800px;
             overflow: hidden;
-            border: 2px solid #444;
+            border: 0px solid #FFF;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
         }
@@ -60,6 +83,12 @@
             border-radius: 10px;
         }
 
+       .toggles label {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: red; /* Red text */
+            margin-bottom: 10px;
+        }
         /* Label Above GIF */
         .carousel-item label {
             font-size: 1.5rem;
@@ -72,7 +101,7 @@
         .carousel-button {
             position: absolute;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translateY(100%);
             background-color: rgba(0, 0, 0, 0.5);
             color: white;
             border: none;
@@ -83,17 +112,23 @@
         }
 
         .carousel-button.prev {
-            left: 10px;
+            left: 450px; /* Move further left, outside the container */
         }
 
         .carousel-button.next {
-            right: 10px;
+            right: 450px; /* Move further right, outside the container */
         }
+
+        .carousel-button.hidden {
+             display: none;
+         }
 
         /* Hide the carousel initially */
         .carousel {
             display: none;
         }
+
+
 
         /* Show the carousel when the "Carousel View" button is clicked */
         .carousel.active {
@@ -107,10 +142,10 @@
     </style>
 </head>
 <body>
+    <button class="toggles" id="toggleView">Switch to Carousel View</button>
     <h1>5142 Autos</h1>
 
     <!-- Button to Switch to Carousel View -->
-    <button id="toggleView">Switch to Carousel View</button>
 
     <!-- Grid View -->
     <div class="gif-container">
@@ -143,11 +178,27 @@
             <label>Far Right 2 Coral KL</label>
             <img src="Far Right 2 Coral KL.png" alt="Auto 5">
         </div>
+
+        <div class="gif-item">
+            <label>Far Left 1 Coral EF</label>
+            <img src="Far Left 1 Coral EF.png" alt="Auto 6">
+        </div>
+
+        <div class="gif-item">
+            <label>Far Right 1 Coral IJ</label>
+            <img src="Far Right 1 Coral IJ.png" alt="Auto 7">
+        </div>
     </div>
 
     <!-- Carousel View -->
     <div class="carousel">
         <div class="carousel-track">
+            <!-- Clone of the last item (for seamless looping) -->
+            <div class="carousel-item">
+                <label>Far Right 2 Coral KL</label>
+                <img src="Far Right 2 Coral KL.png" alt="Auto 5">
+            </div>
+
             <!-- Auto 1 -->
             <div class="carousel-item">
                 <label>Center 1 Coral GH</label>
@@ -177,12 +228,30 @@
                 <label>Far Right 2 Coral KL</label>
                 <img src="Far Right 2 Coral KL.png" alt="Auto 5">
             </div>
-        </div>
 
-        <!-- Navigation Arrows -->
-        <button class="carousel-button prev">&larr;</button>
-        <button class="carousel-button next">&rarr;</button>
+            <div class="carousel-item">
+                <label>Far Left 1 Coral EF</label>
+                <img src="Far Left 1 Coral EF.png" alt="Auto 6">
+            </div>
+
+            <div class="carousel-item">
+                <label>Far Right 1 Coral IJ</label>
+                <img src="Far Right 1 Coral IJ.png" alt="Auto 7">
+            </div>
+
+            <!-- Clone of the first item (for seamless looping) -->
+            <div class="carousel-item">
+                <label>Center 1 Coral GH</label>
+                <img src="CenterToGH.gif" alt="Auto 1">
+            </div>
+
+        </div>
     </div>
+
+    <!-- Navigation Arrows (outside the carousel container) -->
+    <button class="carousel-button prev hidden">&larr;</button>
+    <button class="carousel-button next hidden">&rarr;</button>
+   
 
     <script>
         // JavaScript for Carousel Functionality
@@ -194,12 +263,17 @@
         const prevButton = document.querySelector('.carousel-button.prev');
         const nextButton = document.querySelector('.carousel-button.next');
 
-        let currentIndex = 0;
+        let currentIndex = 1; // Start at the first real item (not the clone)
 
         // Function to switch between grid and carousel views
         toggleViewButton.addEventListener('click', () => {
+            //document.getElementById("was").innerHTML = currentIndex;
+            carouselTrack.style.transition = 'none';    
+            carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`
             gridView.classList.toggle('active');
             carouselView.classList.toggle('active');
+            prevButton.classList.toggle('hidden');
+            nextButton.classList.toggle('hidden');
             toggleViewButton.textContent = gridView.classList.contains('active') 
                 ? 'Switch to Grid View' 
                 : 'Switch to Carousel View';
@@ -207,21 +281,52 @@
 
         // Function to move to the next slide
         nextButton.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % carouselItems.length;
-            updateCarousel();
+            //document.getElementById("was").innerHTML = currentIndex;
+            currentIndex++;
+            //document.getElementById("bool").innerHTML = (currentIndex >= carouselItems.length);
+            if (currentIndex >= carouselItems.length) {
+                // If at the last clone, instantly reset to the first real item
+                currentIndex = 1;
+                carouselTrack.style.transition = 'none';
+                carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+                setTimeout(() => {
+                    carouselTrack.style.transition = 'transform 0.5s ease-in-out';
+                    currentIndex++;
+                    carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+                }, 0);
+            } else {
+                //document.getElementById("false").innerHTML = (currentIndex >= carouselItems.length);
+                carouselTrack.style.transition = 'transform 0.5s ease-in-out';
+                carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+            //document.getElementById("switchedto").innerHTML = currentIndex;
         });
 
         // Function to move to the previous slide
         prevButton.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
-            updateCarousel();
+            //document.getElementById("was").innerHTML = currentIndex;
+            currentIndex--;
+            //document.getElementById("bool").innerHTML = (currentIndex >= carouselItems.length);
+            if (currentIndex < 1) {
+                // If at the first clone, instantly reset to the last real item
+                currentIndex = carouselItems.length-1;
+                
+                carouselTrack.style.transition = 'none';
+                carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+                setTimeout(() => {
+                    carouselTrack.style.transition = 'transform 0.5s ease-in-out';
+                    currentIndex--;
+                    carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+                }, 0);
+            } else {
+                //document.getElementById("false").innerHTML = (currentIndex >= carouselItems.length);
+                carouselTrack.style.transition = 'transform 0.5s ease-in-out';
+                carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+            //document.getElementById("switchedto").innerHTML = currentIndex;
         });
 
-        // Function to update the carousel position
-        function updateCarousel() {
-            const offset = -currentIndex * 100;
-            carouselTrack.style.transform = `translateX(${offset}%)`;
-        }
+
     </script>
 </body>
 </html>
