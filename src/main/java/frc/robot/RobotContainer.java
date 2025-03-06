@@ -99,6 +99,9 @@ public class RobotContainer {
         storedAngleTurn = 150.0;
         angleStep = 60.0;
         configureBindings();
+
+        drivetrain.setIMU180(); //we start the match facing backwards so we need to set the imu reversed
+
     }
 
 

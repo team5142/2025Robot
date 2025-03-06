@@ -35,7 +35,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final double kMax = 0.25;
   private final double kMin = -0.25;
 
-  private final double climberRatio = 60;
+  private final double climberRatio = 25;
   
   /** Creates a new ClimberSubsystem. */
 
