@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5142 Auto Selector</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: black; /* Black background */
+            color: white; /* White text */
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Carousel Container */
+        .carousel {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            overflow: hidden;
+            border: 2px solid #444;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Carousel Track (holds all GIFs) */
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* Individual GIF Item */
+        .carousel-item {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* GIF Image */
+        .carousel-item img {
+            max-width: 100%;
+            max-height: 400px; /* Adjust based on your preference */
+            border-radius: 10px;
+        }
+
+        /* Label Above GIF */
+        .carousel-item label {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: red; /* Red text */
+            margin-bottom: 10px;
+        }
+
+        /* Navigation Arrows */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 10;
+        }
+
+        .carousel-button.prev {
+            left: 10px;
+        }
+
+        .carousel-button.next {
+            right: 10px;
+        }
+
+        /* Hide the carousel initially */
+        .carousel {
+            display: none;
+        }
+
+        /* Show the carousel when the "Carousel View" button is clicked */
+        .carousel.active {
+            display: block;
+        }
+
+        /* Hide the grid view when the carousel is active */
+        .gif-container.active {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>5142 Autos</h1>
+
+    <!-- Button to Switch to Carousel View -->
+    <button id="toggleView">Switch to Carousel View</button>
+
+    <!-- Grid View -->
+    <div class="gif-container">
+        <!-- Auto 1 -->
+        <div class="gif-item">
+            <label>Center 1 Coral GH</label>
+            <img src="CenterToGH.gif" alt="Auto 1">
+        </div>
+
+        <!-- Auto 2 -->
+        <div class="gif-item">
+            <label>Far Left 1 Coral CD</label>
+            <img src="Far Left 1 Coral CD.png" alt="Auto 2">
+        </div>
+
+        <!-- Auto 3 -->
+        <div class="gif-item">
+            <label>Far Left 2 Coral CD</label>
+            <img src="Far Left 2 Coral CD.png" alt="Auto 3">
+        </div>
+
+        <!-- Auto 4 -->
+        <div class="gif-item">
+            <label>Far Right 1 Coral KL</label>
+            <img src="Far Right 1 Coral KL.png" alt="Auto 4">
+        </div>
+
+        <!-- Auto 5 -->
+        <div class="gif-item">
+            <label>Far Right 2 Coral KL</label>
+            <img src="Far Right 2 Coral KL.png" alt="Auto 5">
+        </div>
+    </div>
+
+    <!-- Carousel View -->
+    <div class="carousel">
+        <div class="carousel-track">
+            <!-- Auto 1 -->
+            <div class="carousel-item">
+                <label>Center 1 Coral GH</label>
+                <img src="CenterToGH.gif" alt="Auto 1">
+            </div>
+
+            <!-- Auto 2 -->
+            <div class="carousel-item">
+                <label>Far Left 1 Coral CD</label>
+                <img src="Far Left 1 Coral CD.png" alt="Auto 2">
+            </div>
+
+            <!-- Auto 3 -->
+            <div class="carousel-item">
+                <label>Far Left 2 Coral CD</label>
+                <img src="Far Left 2 Coral CD.png" alt="Auto 3">
+            </div>
+
+            <!-- Auto 4 -->
+            <div class="carousel-item">
+                <label>Far Right 1 Coral KL</label>
+                <img src="Far Right 1 Coral KL.png" alt="Auto 4">
+            </div>
+
+            <!-- Auto 5 -->
+            <div class="carousel-item">
+                <label>Far Right 2 Coral KL</label>
+                <img src="Far Right 2 Coral KL.png" alt="Auto 5">
+            </div>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <button class="carousel-button prev">&larr;</button>
+        <button class="carousel-button next">&rarr;</button>
+    </div>
+
+    <script>
+        // JavaScript for Carousel Functionality
+        const toggleViewButton = document.getElementById('toggleView');
+        const gridView = document.querySelector('.gif-container');
+        const carouselView = document.querySelector('.carousel');
+        const carouselTrack = document.querySelector('.carousel-track');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const prevButton = document.querySelector('.carousel-button.prev');
+        const nextButton = document.querySelector('.carousel-button.next');
+
+        let currentIndex = 0;
+
+        // Function to switch between grid and carousel views
+        toggleViewButton.addEventListener('click', () => {
+            gridView.classList.toggle('active');
+            carouselView.classList.toggle('active');
+            toggleViewButton.textContent = gridView.classList.contains('active') 
+                ? 'Switch to Grid View' 
+                : 'Switch to Carousel View';
+        });
+
+        // Function to move to the next slide
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % carouselItems.length;
+            updateCarousel();
+        });
+
+        // Function to move to the previous slide
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+            updateCarousel();
+        });
+
+        // Function to update the carousel position
+        function updateCarousel() {
+            const offset = -currentIndex * 100;
+            carouselTrack.style.transform = `translateX(${offset}%)`;
+        }
+    </script>
+</body>
+</html>

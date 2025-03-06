@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.78,
-        "y": 4.1
+        "x": 3.8,
+        "y": 4.95
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.550394736842105,
-        "y": 4.109621710526315
+        "x": 3.098190789473684,
+        "y": 5.6606907894736835
       },
       "isLocked": false,
-      "linkedName": "EF Reef Scoring Position"
+      "linkedName": "KL Reef Scoring Position"
     },
     {
       "anchor": {
-        "x": 4.502960526315789,
-        "y": 1.5329769736842105
+        "x": 1.35,
+        "y": 7.4
       },
       "prevControl": {
-        "x": 6.015318155494231,
-        "y": 1.5227583410546268
-      },
-      "nextControl": {
-        "x": 3.0789473684210527,
-        "y": 1.542598684210526
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.1419345436224067,
-        "y": 4.01554219069926
-      },
-      "prevControl": {
-        "x": 0.9814144736842105,
-        "y": 4.044243421052631
+        "x": 2.2519273910583624,
+        "y": 6.498072608941638
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "AB Reef Scoring Position"
+      "linkedName": "North HPS Right"
     }
   ],
   "rotationTargets": [],
@@ -58,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.030948055970001137
+    "rotation": -55.718551972628
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.57242749316657
+    "rotation": -61.543216473489096
   },
   "useDefaultConstraints": true
 }

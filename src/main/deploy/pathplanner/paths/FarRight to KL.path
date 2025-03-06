@@ -3,35 +3,47 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.15,
-        "y": 4.0
+        "x": 7.15,
+        "y": 7.525
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.149999999999999,
-        "y": 4.0
+        "x": 6.714922316576125,
+        "y": 7.366644673640216
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "FarRight"
     },
     {
       "anchor": {
-        "x": 5.795,
-        "y": 4.0
+        "x": 3.8,
+        "y": 4.95
       },
       "prevControl": {
-        "x": 4.795,
-        "y": 4.0
+        "x": 2.788499999999999,
+        "y": 6.701969391855919
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "KL Reef Scoring Position"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Raise",
+      "waypointRelativePos": 1,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "moveToL4"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 1.75,
     "maxAcceleration": 1.75,
@@ -42,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -61.543216473489096
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
