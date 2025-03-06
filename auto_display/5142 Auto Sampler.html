@@ -14,7 +14,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: black; /* Black background */
+            background-color: #111111; /* Black background */
             color: white; /* White text */
             font-family: Arial, sans-serif;
         }
@@ -23,6 +23,27 @@
             font-size: 3rem;
             margin-bottom: 20px;
             text-align: center;
+        }
+
+        /* Switch View Button */
+        #toggleView {
+            position: absolute;
+            top: 20px; /* Position at the top */
+            right: 20px; /* Position at the right */
+            background-color: black; /* Black background */
+            color: red; /* Red text */
+            border: 2px solid red; /* Red border */
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s, color 0.3s; /* Smooth hover effect */
+        }
+
+        #toggleView:hover {
+            background-color: red; /* Red background on hover */
+            color: black; /* Black text on hover */
         }
 
         /* Grid View */
@@ -35,17 +56,66 @@
             margin: 0 auto;
         }
 
+        
+
         .gif-item label {
             font-size: 1.5rem;
             font-weight: bold;
             color: red; /* Red text */
             text-align: center; /* Centered text */
             margin-bottom: 10px;
+            display: block; /* Ensure the label takes the full width */
+            width: 100%; /* Ensure the label takes the full width */
         }
 
         .gif-item img {
             max-width: 100%;
             border-radius: 10px;
+            cursor: pointer; /* Indicate the image is clickable */
+            transition: transform 0.3s ease; /* Smooth hover effect */
+        }
+
+        .gif-item img:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent black background */
+            z-index: 1000; /* Ensure it's on top of everything */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            transform: scale(2); /* Scale the image to 200% */
+            transform-origin: center center; /* Ensure scaling is centered */
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .close-modal:hover {
+            background-color: rgba(255, 0, 0, 0.8); /* Red background on hover */
         }
 
         /* Carousel Container */
@@ -83,12 +153,13 @@
             border-radius: 10px;
         }
 
-       .toggles label {
+        .toggles label {
             font-size: 1.5rem;
             font-weight: bold;
             color: red; /* Red text */
             margin-bottom: 10px;
         }
+
         /* Label Above GIF */
         .carousel-item label {
             font-size: 1.5rem;
@@ -100,9 +171,9 @@
         /* Navigation Arrows */
         .carousel-button {
             position: absolute;
-            top: 50%;
+            top: 56%;
             transform: translateY(100%);
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(1, 1, 1, 0.5);
             color: white;
             border: none;
             font-size: 2rem;
@@ -120,15 +191,13 @@
         }
 
         .carousel-button.hidden {
-             display: none;
-         }
+            display: none;
+        }
 
         /* Hide the carousel initially */
         .carousel {
             display: none;
         }
-
-
 
         /* Show the carousel when the "Carousel View" button is clicked */
         .carousel.active {
@@ -142,51 +211,57 @@
     </style>
 </head>
 <body>
-    <button class="toggles" id="toggleView">Switch to Carousel View</button>
-    <h1>5142 Autos</h1>
+    <br><br><br><br><button id="toggleView">Switch to Carousel View</button>
 
-    <!-- Button to Switch to Carousel View -->
+    <h1>5142 Autos</h1>
+    <br><br><br><br>
+
+    <!-- Modal for Full-Screen Image -->
+    <div class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" src="" alt="Full Screen Image">
+    </div>
 
     <!-- Grid View -->
     <div class="gif-container">
         <!-- Auto 1 -->
         <div class="gif-item">
-            <label>Center 1 Coral GH</label>
+            <label>Center 1 Coral GH</label><br><br>
             <img src="CenterToGH.gif" alt="Auto 1">
         </div>
 
         <!-- Auto 2 -->
         <div class="gif-item">
-            <label>Far Left 1 Coral CD</label>
+            <label>Far Left 1 Coral CD</label><br><br>
             <img src="Far Left 1 Coral CD.png" alt="Auto 2">
         </div>
 
         <!-- Auto 3 -->
         <div class="gif-item">
-            <label>Far Left 2 Coral CD</label>
+            <label>Far Left 2 Coral CD</label><br><br>
             <img src="Far Left 2 Coral CD.png" alt="Auto 3">
         </div>
 
         <!-- Auto 4 -->
         <div class="gif-item">
-            <label>Far Right 1 Coral KL</label>
+            <label>Far Right 1 Coral KL</label><br><br>
             <img src="Far Right 1 Coral KL.png" alt="Auto 4">
         </div>
 
         <!-- Auto 5 -->
         <div class="gif-item">
-            <label>Far Right 2 Coral KL</label>
+            <label>Far Right 2 Coral KL</label><br><br>
             <img src="Far Right 2 Coral KL.png" alt="Auto 5">
         </div>
 
         <div class="gif-item">
-            <label>Far Left 1 Coral EF</label>
-            <img src="Far Left 1 Coral EF.png" alt="Auto 6">
+            <label>Far Left 1 Coral EF</label><br><br>
+            <img src="Far Left 1 Coral EF.gif" alt="Auto 6">
         </div>
 
         <div class="gif-item">
-            <label>Far Right 1 Coral IJ</label>
-            <img src="Far Right 1 Coral IJ.png" alt="Auto 7">
+            <label>Far Right 1 Coral IJ</label><br><br>
+            <img src="Far Right 1 Coral IJ.gif" alt="Auto 7">
         </div>
     </div>
 
@@ -231,12 +306,12 @@
 
             <div class="carousel-item">
                 <label>Far Left 1 Coral EF</label>
-                <img src="Far Left 1 Coral EF.png" alt="Auto 6">
+                <img src="Far Left 1 Coral EF.gif" alt="Auto 6">
             </div>
 
             <div class="carousel-item">
                 <label>Far Right 1 Coral IJ</label>
-                <img src="Far Right 1 Coral IJ.png" alt="Auto 7">
+                <img src="Far Right 1 Coral IJ.gif" alt="Auto 7">
             </div>
 
             <!-- Clone of the first item (for seamless looping) -->
@@ -244,14 +319,12 @@
                 <label>Center 1 Coral GH</label>
                 <img src="CenterToGH.gif" alt="Auto 1">
             </div>
-
         </div>
     </div>
 
     <!-- Navigation Arrows (outside the carousel container) -->
     <button class="carousel-button prev hidden">&larr;</button>
     <button class="carousel-button next hidden">&rarr;</button>
-   
 
     <script>
         // JavaScript for Carousel Functionality
@@ -267,9 +340,8 @@
 
         // Function to switch between grid and carousel views
         toggleViewButton.addEventListener('click', () => {
-            //document.getElementById("was").innerHTML = currentIndex;
-            carouselTrack.style.transition = 'none';    
-            carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`
+            carouselTrack.style.transition = 'none';
+            carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
             gridView.classList.toggle('active');
             carouselView.classList.toggle('active');
             prevButton.classList.toggle('hidden');
@@ -281,9 +353,7 @@
 
         // Function to move to the next slide
         nextButton.addEventListener('click', () => {
-            //document.getElementById("was").innerHTML = currentIndex;
             currentIndex++;
-            //document.getElementById("bool").innerHTML = (currentIndex >= carouselItems.length);
             if (currentIndex >= carouselItems.length) {
                 // If at the last clone, instantly reset to the first real item
                 currentIndex = 1;
@@ -295,22 +365,17 @@
                     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
                 }, 0);
             } else {
-                //document.getElementById("false").innerHTML = (currentIndex >= carouselItems.length);
                 carouselTrack.style.transition = 'transform 0.5s ease-in-out';
                 carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
             }
-            //document.getElementById("switchedto").innerHTML = currentIndex;
         });
 
         // Function to move to the previous slide
         prevButton.addEventListener('click', () => {
-            //document.getElementById("was").innerHTML = currentIndex;
             currentIndex--;
-            //document.getElementById("bool").innerHTML = (currentIndex >= carouselItems.length);
             if (currentIndex < 1) {
                 // If at the first clone, instantly reset to the last real item
-                currentIndex = carouselItems.length-1;
-                
+                currentIndex = carouselItems.length - 1;
                 carouselTrack.style.transition = 'none';
                 carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
                 setTimeout(() => {
@@ -319,14 +384,35 @@
                     carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
                 }, 0);
             } else {
-                //document.getElementById("false").innerHTML = (currentIndex >= carouselItems.length);
                 carouselTrack.style.transition = 'transform 0.5s ease-in-out';
                 carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
             }
-            //document.getElementById("switchedto").innerHTML = currentIndex;
         });
 
+        // JavaScript for Modal Functionality
+        const modal = document.querySelector('.modal');
+        const modalImg = document.querySelector('.modal-content');
+        const closeModal = document.querySelector('.close-modal');
 
+        // Add click event to all grid images
+        document.querySelectorAll('.gif-item img').forEach(img => {
+            img.addEventListener('click', () => {
+                modal.style.display = 'flex'; // Show the modal
+                modalImg.src = img.src; // Set the clicked image as modal content
+            });
+        });
+
+        // Close the modal when the close button is clicked
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close the modal when clicking outside the image
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
