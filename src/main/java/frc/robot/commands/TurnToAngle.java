@@ -9,13 +9,13 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.RobotContainer;
 
-public class turnToAngle extends Command {
+public class TurnToAngle extends Command {
 
     private PIDController pidController;
     private double targetAngle;
     private SwerveRequest.FieldCentric driveRequest = new SwerveRequest.FieldCentric();
 
-    public turnToAngle(double tAngle) {
+    public TurnToAngle(double tAngle) {
 
         this.targetAngle = tAngle;
         SmartDashboard.putNumber("tangle", tAngle);

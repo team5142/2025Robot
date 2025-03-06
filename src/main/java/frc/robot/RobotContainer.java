@@ -31,11 +31,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.PositionClass.Positions;
-import frc.robot.commands.turnToAngle;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.algaeIntake;
 import frc.robot.commands.algaeThrow;
 
-import frc.robot.commands.turnToAngle;
 import frc.robot.commands.coralIntake;
 import frc.robot.commands.moveToPosition;
 import frc.robot.commands.xboxVibrate;
@@ -201,21 +200,21 @@ public class RobotContainer {
 */      
 
 
-        joystick.povLeft().whileTrue(new turnToAngle(90));
-        joystick.povDownLeft().whileTrue(new turnToAngle(120));
-        joystick.povDown().whileTrue(new turnToAngle(180));
-        joystick.povDownRight().whileTrue(new turnToAngle(240));
-        joystick.povRight().whileTrue(new turnToAngle(270));
-        joystick.povUpRight().whileTrue(new turnToAngle(300));
-        joystick.povUp().whileTrue(new turnToAngle(0));
-        joystick.povUpLeft().whileTrue(new turnToAngle(60));      
+        joystick.povLeft().whileTrue(new TurnToAngle(90));
+        joystick.povDownLeft().whileTrue(new TurnToAngle(120));
+        joystick.povDown().whileTrue(new TurnToAngle(180));
+        joystick.povDownRight().whileTrue(new TurnToAngle(240));
+        joystick.povRight().whileTrue(new TurnToAngle(270));
+        joystick.povUpRight().whileTrue(new TurnToAngle(300));
+        joystick.povUp().whileTrue(new TurnToAngle(0));
+        joystick.povUpLeft().whileTrue(new TurnToAngle(60));      
         
         
         //joystick.y().onTrue(Commands.runOnce(() -> {
-        //    new turnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
+        //    new TurnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
         //}));
         //joystick.y().whileTrue(drivetrain.applyRequest(() -> {
-        //    new turnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
+        //    new TurnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
         //}));
         //joystick.y().whileTrue(new turnToAngle(drivetrain, storedAngleTurn));
 
