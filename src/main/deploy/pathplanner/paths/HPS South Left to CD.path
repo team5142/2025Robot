@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.8,
-        "y": 3.1
+        "x": 3.789204545454545,
+        "y": 3.0328267045454544
       },
       "prevControl": {
-        "x": 3.1557555712400465,
-        "y": 2.456137303282593
+        "x": 3.1449601166945915,
+        "y": 2.388964007828047
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CD Reef Scoring Position"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

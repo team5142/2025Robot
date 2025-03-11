@@ -9,19 +9,19 @@
       "prevControl": null,
       "nextControl": {
         "x": 6.714887974650501,
-        "y": 0.6833678257984993
+        "y": 0.6833678257984992
       },
       "isLocked": false,
       "linkedName": "Far Left Starting Line"
     },
     {
       "anchor": {
-        "x": 3.8,
-        "y": 3.1
+        "x": 3.699460227272727,
+        "y": 3.042798295454545
       },
       "prevControl": {
-        "x": 2.788300022127877,
-        "y": 1.347684236309175
+        "x": 2.687760249400604,
+        "y": 1.29048253176372
       },
       "nextControl": null,
       "isLocked": false,

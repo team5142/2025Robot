@@ -54,7 +54,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     armRelativeEncoder = armMotor.getEncoder();
     
-    armRelativeEncoder.setPosition(armAbsoluteEncoder.getPosition()); // This is to set the relative encoder to the absolute encoder's position
+    // armRelativeEncoder.setPosition(armAbsoluteEncoder.getPosition()); // This is to set the relative encoder to the absolute encoder's position
 
     armPID.setReference(Positions.Home.armPosition, ControlType.kPosition);
 
@@ -82,7 +82,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   armConfig.absoluteEncoder.positionConversionFactor(armRatio)
   .inverted(true)
-  .zeroOffset(0.986); //0.986
+  .zeroOffset(0.01); //0.986
 
 
   armConfig.smartCurrentLimit(CurrentLimits.Neo550)
@@ -118,6 +118,7 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
   }
+
   
   
   @Override

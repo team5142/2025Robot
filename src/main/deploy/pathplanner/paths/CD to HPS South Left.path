@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8,
-        "y": 3.1
+        "x": 3.699460227272727,
+        "y": 3.042798295454545
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9682245596729735,
-        "y": 3.2849337652318638
+        "x": 3.867684786945701,
+        "y": 3.227732060686409
       },
       "isLocked": false,
       "linkedName": "CD Reef Scoring Position"

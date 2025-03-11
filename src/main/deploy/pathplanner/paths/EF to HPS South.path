@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.2868256578947355,
-        "y": 3.0623915968899516
+        "x": 5.045624999999999,
+        "y": 1.975653424919735
       },
       "isLocked": false,
       "linkedName": "EF Reef Scoring Position"
@@ -20,8 +20,8 @@
         "y": 0.65
       },
       "prevControl": {
-        "x": 3.732253289473684,
-        "y": 0.6755098684210531
+        "x": 2.0804120110300444,
+        "y": 1.3804120110300442
       },
       "nextControl": null,
       "isLocked": false,

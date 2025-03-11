@@ -30,6 +30,8 @@ public class LEDSubsystem extends SubsystemBase {
    leftBlinkin = new Spark(0);
    rightBlinkin = new Spark(1);
 
+   setBothRed();
+
   }
 
   public void setRightRed(){

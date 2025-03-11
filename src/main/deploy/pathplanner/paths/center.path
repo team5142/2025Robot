@@ -4,31 +4,36 @@
     {
       "anchor": {
         "x": 7.15,
-        "y": 4.1
+        "y": 4.03
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.301805926941782,
-        "y": 4.1
+        "x": 6.3020000000000005,
+        "y": 4.03
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.128371710526316,
-        "y": 2.8896381578947365
+        "x": 5.78,
+        "y": 4.03
       },
       "prevControl": {
-        "x": 6.128371710526316,
-        "y": 2.8896381578947365
+        "x": 6.28,
+        "y": 4.03
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "EF Reef Scoring Position"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,7 +47,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.00110509557771
+    "rotation": -179.0893872317185
   },
   "reversed": false,
   "folder": null,

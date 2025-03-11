@@ -78,14 +78,11 @@ public class RobotContainer {
     public final static IntakeSubsystem intake = new IntakeSubsystem();
     public final static SmartDashboardSubsystem smartdashboard = new SmartDashboardSubsystem();
     public final static LEDSubsystem led = new LEDSubsystem();
+    public final static ClimberSubsystem climber = new ClimberSubsystem();
     private final SendableChooser<Command> autoChooser;
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-
-    private double storedAngleTurn;
-    private double angleStep;
-    private double turnDegrees = 0;
         
 
 
@@ -96,8 +93,7 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.putData("Auto Mode", autoChooser);
-        storedAngleTurn = 150.0;
-        angleStep = 60.0;
+
         configureBindings();
 
         drivetrain.setIMU180(); //we start the match facing backwards so we need to set the imu reversed
@@ -147,31 +143,38 @@ public class RobotContainer {
         rightSide.button(5).onTrue(new moveToPosition(Positions.Algae1));
         rightSide.button(4).onTrue(new moveToPosition(Positions.Algae2));
 
+        rightSide.button(9).onTrue(Commands.runOnce(climber::setClimberUp));
+        rightSide.button(10).onTrue(Commands.runOnce(climber::climb));
+
         leftSide.button(3).onTrue(new SequentialCommandGroup( //Algae intake
 
         new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive),
         //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
-        new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(6)
+        new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(8)
         //intake an algae, if it doesn't work within 4 seconds stop (handle interrupt detects the timeout).
 
         )); 
 
         leftSide.button(1).onTrue(new moveToPosition(Positions.Processor));
 
+        // 3/6 10:00 PM Jordan Commented this out because it was throwing an error
+        //leftSide.button(7).onTrue(Commands.runOnce(elevator::getLPosition));
+        //leftSide.button(5).onTrue(Commands.runOnce(elevator::getFPosition));
+
 
         //intake left
         leftSide.button(6).onTrue(Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();})
-                         .andThen(new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(8).unless(elevator::isElevatorActive)
+                         .andThen(new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10).unless(elevator::isElevatorActive)
                          .andThen(Commands.runOnce(intake::stopCoral))
-                         .andThen(new moveToPosition(Positions.Home))));
+                         .andThen(new moveToPosition(Positions.Intaked))));
 
 
 
         //intake right
         leftSide.button(4).onTrue(Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();})
-                         .andThen(new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(8).unless(elevator::isElevatorActive)
+                         .andThen(new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10).unless(elevator::isElevatorActive)
                          .andThen(Commands.runOnce(intake::stopCoral))
-                         .andThen(new moveToPosition(Positions.Home))));
+                         .andThen(new moveToPosition(Positions.Intaked))));
 
 
        
@@ -203,14 +206,10 @@ public class RobotContainer {
 */      
 
 
-        joystick.povLeft().whileTrue(new turnToAngle(90));
-        joystick.povDownLeft().whileTrue(new turnToAngle(120));
-        joystick.povDown().whileTrue(new turnToAngle(180));
-        joystick.povDownRight().whileTrue(new turnToAngle(240));
-        joystick.povRight().whileTrue(new turnToAngle(270));
-        joystick.povUpRight().whileTrue(new turnToAngle(300));
-        joystick.povUp().whileTrue(new turnToAngle(0));
-        joystick.povUpLeft().whileTrue(new turnToAngle(60));      
+        joystick.x().whileTrue(new turnToAngle(120));
+        joystick.y().whileTrue(new turnToAngle(180));
+        joystick.b().whileTrue(new turnToAngle(240));
+            
         
         
         //joystick.y().onTrue(Commands.runOnce(() -> {
@@ -222,9 +221,9 @@ public class RobotContainer {
         //joystick.y().whileTrue(new turnToAngle(drivetrain, storedAngleTurn));
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        )); // test this out -- it should point the wheels in the direction of the left joystick
+        // joystick.b().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        // )); // test this out -- it should point the wheels in the direction of the left joystick
 
         // RobotModeTriggers.disabled().onTrue(Commands.runOnce(() -> {
         //         arm.turnOffBrake();
@@ -307,7 +306,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("autoCoralIntake", new autoCoralIntake());
         NamedCommands.registerCommand("coralIntake", //paste of previous coral intake command
         new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
-                         .andThen(new moveToPosition(Positions.Home))
+                         .andThen(new moveToPosition(Positions.Intaked))
                          .andThen(Commands.runOnce(intake::stopCoral)));
 
         NamedCommands.registerCommand("coralShoot", 

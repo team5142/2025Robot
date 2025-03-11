@@ -11,7 +11,6 @@ import frc.robot.Constants.PositionClass.Positions;
 import frc.robot.RobotContainer;
 public class autoCoralIntake extends SequentialCommandGroup{
 
-    double delay = 0.25; //amount of time to continue intaking after coral is detected
 
     public autoCoralIntake(){
 
@@ -23,8 +22,7 @@ public class autoCoralIntake extends SequentialCommandGroup{
         new moveToPosition(Positions.Feed),
         new InstantCommand(RobotContainer.intake::intakeCoral),
         new WaitUntilCommand(RobotContainer.intake::isCoralIntaked),
-        new InstantCommand(RobotContainer.intake::setIntakePos),
-        new WaitUntilCommand(RobotContainer.intake::isCoralReady),
+        new WaitUntilCommand(() -> RobotContainer.intake.isNeitherCoralIntaked()), //wait until it passes the sensor
         new InstantCommand(RobotContainer.intake::stopCoral),
         new InstantCommand(RobotContainer.led::setBothRed)
     );

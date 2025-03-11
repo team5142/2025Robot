@@ -54,13 +54,17 @@ public final class Constants {
 		// Positions in order: Primary Elevator, Secondary Elevator, Arm Position (0 -> 1)
 		public enum Positions {
 			Home("Home",
-							0,
+							16,
 							0,
 							1.7),
 			Feed("Feed",
 							0,
 							0,
 							0),
+			Intaked("Intaked",
+							0,
+							0,
+							1.7),
 			L1("L1",
 							21,
 							0,
