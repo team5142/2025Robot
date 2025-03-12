@@ -116,6 +116,78 @@ public final class Constants {
 		}
     }
 
+	public static final class PoseClass {
+
+		public enum Poses {
+
+			AB("AB",
+				new Pose2d(3.19, 4.025, Rotation2d.fromDegrees(0)), //pose that is lined up with the AB reef
+				7, //use FlipFieldPose if on red Side in command ***
+				18),											//tag in front of AB reef
+
+			CD("CD",
+				new Pose2d(3.84, 2.9, Rotation2d.fromDegrees(60)), //pose that is lined up with the CD reef
+				8,
+				17),													 //tag in front of CD reef
+
+
+			EF("EF",
+				new Pose2d(5.13, 2.905, Rotation2d.fromDegrees(120)),
+				9,
+				22),
+
+
+			GH("GH",
+				new Pose2d(5.785, 4.025, Rotation2d.fromDegrees(180)),
+				10,
+				21),
+
+
+			IJ("IJ",
+				new Pose2d(5.135, 5.15, Rotation2d.fromDegrees(-120)),
+				11,
+				7),
+
+
+			KL("KL",
+				new Pose2d(3.84, 5.14, Rotation2d.fromDegrees(-60)),
+				6,
+				20),
+
+
+			RightCoralStation("RightCoralStation",
+				new Pose2d(1.13, 1.0, Rotation2d.fromDegrees(54)),
+				2,
+				12),
+				
+
+			leftCoralStation("leftCoralStation",
+				new Pose2d(1.13, 7, Rotation2d.fromDegrees(120)),
+				1,
+				13);
+
+
+
+
+			public final String label;
+			public final Pose2d desiredPose;
+			public final int redAprilTagID;
+			public final int blueAprilTagID;
+
+
+			private Poses(String label, Pose2d desiredPose, int redAprilTagID, int blueAprilTagID) {
+					this.label = label;
+					this.desiredPose = desiredPose;
+					this.redAprilTagID = redAprilTagID;
+					this.blueAprilTagID = blueAprilTagID;
+				
+			}
+
+		}
+
+
+	}
+
 
 	public static final class CurrentLimits {
 

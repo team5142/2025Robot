@@ -104,6 +104,20 @@ public class RobotContainer {
      
 
 
+        
+        // joystick.rightBumper().onTrue
+        // (Commands.runOnce(intake::ejectCoral))//shoots out the coral, or just manual intake 
+        //                   .onFalse(Commands.runOnce(intake::stopCoral));
+        //                 //   .andThen(new moveToPosition(Positions.Home)));
+
+        rightSide.button(7).onTrue(new moveToPosition(Positions.L1)); //do we need this?
+        rightSide.button(3).onTrue(new moveToPosition(Positions.L2));
+        rightSide.button(2).onTrue(new moveToPosition(Positions.L3)); 
+        rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
+        rightSide.button(8).onTrue(new moveToPosition(Positions.Home));
+
+        rightSide.button(5).onTrue(new moveToPosition(Positions.Algae1));
+        rightSide.button(4).onTrue(new moveToPosition(Positions.Algae2));
 
         leftSide.button(8).onTrue(
                          new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
@@ -114,24 +128,6 @@ public class RobotContainer {
                                                                                    //it first moves the arm back all the way to intake
                                                                                    //and home after
                                                                                    //all unless elevator is up to prevent breaking
-        
-        // joystick.rightBumper().onTrue
-        // (Commands.runOnce(intake::ejectCoral))//shoots out the coral, or just manual intake 
-        //                   .onFalse(Commands.runOnce(intake::stopCoral));
-        //                 //   .andThen(new moveToPosition(Positions.Home)));
-
-        joystick.rightBumper().onTrue(Commands.runOnce(() -> {intake.ejectCoral(); intake.ejectAlgae();})) //run both intakes from right trigger
-                              .onFalse(Commands.runOnce(() -> {intake.stopCoral(); intake.stopAlgae();})); //stop both intakes from right trigger release
-
-
-        rightSide.button(7).onTrue(new moveToPosition(Positions.L1)); //do we need this?
-        rightSide.button(3).onTrue(new moveToPosition(Positions.L2));
-        rightSide.button(2).onTrue(new moveToPosition(Positions.L3)); 
-        rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
-        rightSide.button(8).onTrue(new moveToPosition(Positions.Home));
-
-        rightSide.button(5).onTrue(new moveToPosition(Positions.Algae1));
-        rightSide.button(4).onTrue(new moveToPosition(Positions.Algae2));
 
         leftSide.button(3).onTrue(Commands.sequence( //Algae intake
 
@@ -162,7 +158,9 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-
+        joystick.rightBumper().onTrue(Commands.runOnce(() -> {intake.ejectCoral(); intake.ejectAlgae();})) //run both intakes from right trigger
+        .onFalse(Commands.runOnce(() -> {intake.stopCoral(); intake.stopAlgae();})); //stop both intakes from right trigger release
+        
         // End of button binds
 
         // Turn off motor brakes when disabled, and on when enabled
