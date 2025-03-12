@@ -23,24 +23,26 @@ public class LEDSubsystem extends SubsystemBase {
   private static Spark leftBlinkin;
   private static Spark rightBlinkin;
  
-  /** Creates a new ClimberSubsystem. */
+  /** Creates a new LEDSubsystem. */
 
   public LEDSubsystem() {
 
    leftBlinkin = new Spark(0);
    rightBlinkin = new Spark(1);
 
+   setBothRed();
+
   }
 
   public void setRightRed(){
 
-    rightBlinkin.set(-0.17); //breath red value
+    rightBlinkin.set(0.61); //breath red value
 
   }
 
   public void setLeftRed(){
 
-    leftBlinkin.set(-0.17); //breath red value
+    leftBlinkin.set(0.61); //red value
     
   }
 
@@ -66,6 +68,30 @@ public class LEDSubsystem extends SubsystemBase {
     
     leftBlinkin.set(0.99);
 
+  }
+
+  public void setBothRed() {
+
+    setRightRed();
+    setLeftRed();
+    
+  }
+
+  public void setBothStrobeRed(){
+
+    leftBlinkin.set(-0.11);
+    rightBlinkin.set(-0.11);
+
+  }
+
+  public void setBothGreen() {
+    setRightGreen();
+    setLeftGreen();
+  }
+
+  public void setBothOff() {
+    setRightOff();
+    setLeftOff();
   }
 
 

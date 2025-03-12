@@ -37,7 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
   private final double kMax = 0.25;
   private final double kMin = -0.25;
 
-  private final double armRatio = 108.33333; //gear ratio from the relative to absolute encoder
+  private final double armRatio = 108.5; //gear ratio from the relative to absolute encoder
 
   /** Creates a new IntakeSubsystem. */
   public ArmSubsystem() {
@@ -82,7 +82,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   armConfig.absoluteEncoder.positionConversionFactor(armRatio)
   .inverted(true)
-  .zeroOffset(0.602);
+  .zeroOffset(0.01); //0.986
 
 
   armConfig.smartCurrentLimit(CurrentLimits.Neo550)
@@ -118,14 +118,15 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor.configure(armConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
   }
+
   
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("Arm Abs:", armAbsoluteEncoder.getPosition());
-    SmartDashboard.putNumber("Arm Rel:", armRelativeEncoder.getPosition());
+    SmartDashboard.putNumber("ARM ABSOLUTE POSITION:", armAbsoluteEncoder.getPosition());
+    SmartDashboard.putNumber("ARM RELATIVE POSITION:", armRelativeEncoder.getPosition());
 
 
   }

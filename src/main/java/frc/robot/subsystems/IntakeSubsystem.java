@@ -33,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private Canandcolor algaeSensor;
 
   private final double algaeGThreshold = 0.40;
-  private final double coralProximityThreshold = 0.1;
+  private final double coralProximityThreshold = 0.05;
 
   private SparkMax coralMotor;
   private SparkMaxConfig coralConfig;
@@ -54,7 +54,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final double algaeEjectSpeed = -1;
   private final double algaeHoldSpeed = 0.15;
 
-  private final double coralIntakeSpeed = 0.3;
+  private final double coralIntakeSpeed = 0.225;
   private final double coralEjectSpeed = 1; 
 
 
@@ -80,6 +80,8 @@ public class IntakeSubsystem extends SubsystemBase {
     rightCoralSensor = new Canandcolor(22);
     leftCoralSensor = new Canandcolor(23);
     algaeSensor = new Canandcolor(24);
+
+    turnOffAlgaeLight();
 
 
 
@@ -183,6 +185,12 @@ public class IntakeSubsystem extends SubsystemBase {
     
   }
 
+  public boolean isNeitherCoralIntaked(){
+
+    return (!isLeftCoralIntaked() && !isRightCoralIntaked());
+    
+  }
+
   public void turnOffBrake(){
 
     coralConfig.idleMode(IdleMode.kCoast);
@@ -209,6 +217,15 @@ public class IntakeSubsystem extends SubsystemBase {
     algaeSensor.setLampLEDBrightness(0.99);
     
   }
+  public double intakePos;
+
+  public void setIntakePos(){
+     intakePos = coralMotor.getEncoder().getPosition();
+  }
+
+  public boolean isCoralReady(){
+    return intakePos + 10 < coralMotor.getEncoder().getPosition();
+  }
 
 
 
@@ -216,7 +233,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
-
-  
+    SmartDashboard.putBoolean("LEFT CORAL LOADED:", isLeftCoralIntaked());
+    SmartDashboard.putBoolean("ALGAE LOADED:", isAlgaeIntaked());
+    SmartDashboard.putBoolean("RIGHT CORAL LOADED:", isRightCoralIntaked());
   }
 }

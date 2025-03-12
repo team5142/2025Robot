@@ -22,6 +22,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -136,6 +137,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         configureAutoBuilder();
 
+
+
     }
 
     /**
@@ -214,13 +217,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 ),
                 new PPHolonomicDriveController(
                     // PID constants for translation
-                    new PIDConstants(10, 0, 0),
+                    new PIDConstants(10, 0, 0), //10 , 0, 0
                     // PID constants for rotation
-                    new PIDConstants(7, 0, 0)
+                    new PIDConstants(7, 0, 0) //7, 0, 0
                 ),
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
-                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+                () -> (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red),
                 this // Subsystem for requirements
             );
         } catch (Exception ex) {
@@ -251,6 +254,18 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return m_sysIdRoutineToApply.quasistatic(direction);
     }
 
+    public Rotation2d getHeading() {
+        return getState().Pose.getRotation(); // Assuming the pose contains the current heading
+    }
+
+    public Rotation2d getHeadingFromIMU() {
+        return Rotation2d.fromDegrees(getPigeon2().getYaw().getValueAsDouble());
+    }
+
+    public void setIMU180(){
+        getPigeon2().setYaw(180);
+    }
+
     /**
      * Runs the SysId Dynamic test in the given direction for the routine
      * specified by {@link #m_sysIdRoutineToApply}.
@@ -279,10 +294,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                         : kBlueAlliancePerspectiveRotation
                 );
                 m_hasAppliedOperatorPerspective = true;
+                SmartDashboard.putNumber("Yaw", getPigeon2().getYaw().getValueAsDouble());
             });
         }
     }
 
+    
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
 

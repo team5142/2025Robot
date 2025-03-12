@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FarLeft to CD"
+            "pathName": "FarLeft to EF Sideways"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 0.2
+            "pathName": "EF to HPS South"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "coralShoot"
+            "pathName": "HPS South Left to CD"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CD to HPS South Left"
           }
         }
       ]

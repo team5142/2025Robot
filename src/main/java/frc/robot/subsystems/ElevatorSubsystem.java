@@ -144,14 +144,19 @@ public class ElevatorSubsystem extends SubsystemBase {
   public boolean isElevatorActive(){
 
     return 
-    (secondaryElevatorMotor.getEncoder().getPosition() > 15)
+    (secondaryElevatorMotor.getEncoder().getPosition() > 20)
     ||
-    (leadElevatorMotor.getEncoder().getPosition() > 15); //used to tell if elevator encoders are higher than 20
+    (leadElevatorMotor.getEncoder().getPosition() > 20); //used to tell if elevator encoders are higher than 20
 
   }
-
   
-
+  public double getElevatorPosition(){
+    return leadElevatorMotor.getEncoder().getPosition();
+  }
+  
+  public double getCarriagePosition(){
+    return secondaryElevatorMotor.getEncoder().getPosition();
+  }
   
   public void setPrimaryPID(double height) {
 
@@ -226,14 +231,26 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   }
 
+  
+  
 
+  // private int elevatorStallTime=0;
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
-
-    SmartDashboard.putBoolean("elevator up", isElevatorActive());
+    // if (leadElevatorMotor.getOutputCurrent()>=35 || followingElevatorMotor.getOutputCurrent()>=35){
+    //   elevatorStallTime++;
+    // }else{
+    //   elevatorStallTime=0;
+    // }
+    // if (elevatorStallTime>50){
+    //  setPrimaryPID(); fix this line
+    // }
+    SmartDashboard.putBoolean("ELEVATOR ACTIVE", isElevatorActive());
+    SmartDashboard.putNumber("ELEVATOR POSITION", getElevatorPosition());
+    SmartDashboard.putNumber("CARRIAGE POSITION", getCarriagePosition());
 
 
   }

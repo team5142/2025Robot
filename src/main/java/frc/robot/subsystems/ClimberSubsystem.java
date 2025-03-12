@@ -11,6 +11,8 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,17 +27,17 @@ public class ClimberSubsystem extends SubsystemBase {
   
   private SparkClosedLoopController climberPID;
 
-  private final double climberUpPosition = 10; //encoder value when climber is up
+  private final double climberUpPosition = 310; //encoder value when climber is up
   private final double climberDownPosition = 0; //encoder value when climber is down
 
   private final double kP = 0.1;
   private final double kI = 0;
   private final double kD = 0;
 
-  private final double kMax = 0.25;
-  private final double kMin = -0.25;
+  private final double kMax = 1;
+  private final double kMin = -1;
 
-  private final double climberRatio = 60;
+  private final double climberRatio = 25;
   
   /** Creates a new ClimberSubsystem. */
 
@@ -47,7 +49,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     climberPID = climberMotor.getClosedLoopController();
 
-    climberEncoder = climberMotor.getAbsoluteEncoder();
+    // climberEncoder = climberMotor.getAbsoluteEncoder();
 
     configureClimberMotor();
 
@@ -59,7 +61,23 @@ public class ClimberSubsystem extends SubsystemBase {
     .positionConversionFactor(1)
     .velocityConversionFactor(1);
 
-  climberConfig.smartCurrentLimit(CurrentLimits.Neo500);
+    climberConfig.closedLoop
+    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+    .p(kP)
+    .i(kI)
+    .d(kD)
+    .outputRange(kMin, kMax);
+
+  climberConfig.smartCurrentLimit(CurrentLimits.Neo500)
+  .inverted(true)
+  .idleMode(IdleMode.kBrake)
+  
+  .softLimit
+  .forwardSoftLimit(350)
+  .reverseSoftLimit(0)
+  .forwardSoftLimitEnabled(true)
+  .reverseSoftLimitEnabled(true);
+
   climberMotor.configure(climberConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 
@@ -76,6 +94,8 @@ public class ClimberSubsystem extends SubsystemBase {
     climberPID.setReference(climberDownPosition, ControlType.kPosition);
 
   }
+
+
 
   @Override
   public void periodic() {

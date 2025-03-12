@@ -3,38 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.795,
-        "y": 4.0
+        "x": 7.15,
+        "y": 0.525
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.803694434788503,
-        "y": 4.0
+        "x": 6.918481727043044,
+        "y": 0.9260014116420484
       },
       "isLocked": false,
-      "linkedName": "TEST STRAIGHT END"
+      "linkedName": "Far Left Starting Line"
     },
     {
       "anchor": {
-        "x": 3.18,
-        "y": 4.0
+        "x": 5.045624999999999,
+        "y": 3.0527698863636363
       },
       "prevControl": {
-        "x": 4.228782245905675,
-        "y": 4.0
+        "x": 5.322029464375018,
+        "y": 2.5740233106272417
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TEST STRAIGHT START"
+      "linkedName": "EF Reef Scoring Position"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Raise",
+      "waypointRelativePos": 0.6,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "moveToL4"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.75,
+    "maxAcceleration": 1.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -0.0
+    "rotation": 120.00110509557771
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.71196765454854
   },
   "useDefaultConstraints": true
 }

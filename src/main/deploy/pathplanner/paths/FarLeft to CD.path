@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.715953947368421,
-        "y": 0.6862664473684209
+        "x": 6.714887974650501,
+        "y": 0.6833678257984992
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Far Left Starting Line"
     },
     {
       "anchor": {
-        "x": 3.8237892229044497,
-        "y": 2.8747146922803415
+        "x": 3.699460227272727,
+        "y": 3.042798295454545
       },
       "prevControl": {
-        "x": 2.8020170454545457,
-        "y": 1.1282528409090913
+        "x": 2.687760249400604,
+        "y": 1.29048253176372
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,10 +31,22 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Raise",
+      "waypointRelativePos": 0.6,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "moveToL4"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.75,
+    "maxAcceleration": 1.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -48,7 +60,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -179.71196765454854
   },
   "useDefaultConstraints": true
 }

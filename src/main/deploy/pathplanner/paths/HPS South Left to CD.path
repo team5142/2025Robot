@@ -3,38 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6322540907934482,
-        "y": 0.6792592008103953
+        "x": 1.35,
+        "y": 0.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7189277263936888,
-        "y": 0.9915749507425278
+        "x": 1.1208129074709556,
+        "y": 0.42081290747095546
       },
       "isLocked": false,
       "linkedName": "South HPS Left"
     },
     {
       "anchor": {
-        "x": 3.8237892229044497,
-        "y": 2.8747146922803415
+        "x": 3.789204545454545,
+        "y": 3.0328267045454544
       },
       "prevControl": {
-        "x": 3.94983065121815,
-        "y": 3.0906164253642663
+        "x": 3.1449601166945915,
+        "y": 2.388964007828047
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CD Reef Scoring Position"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Raise",
+      "waypointRelativePos": 0.5,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "moveToL4"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 1.75,
+    "maxAcceleration": 1.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
