@@ -6,8 +6,11 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+
+import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.SignalLogger;
@@ -15,10 +18,12 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.Waypoint;
+import com.pathplanner.lib.util.FileVersionException;
 import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -35,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
@@ -58,7 +64,7 @@ public class RobotContainer {
     public static double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     public static double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband This should be 0.001 for cubed controls
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
 
@@ -106,7 +112,7 @@ public class RobotContainer {
 
         configureBindings();
 
-        drivetrain.setIMU180(); //we start the match facing backwards so we need to set the imu reversed
+        // drivetrain.setIMU180(); //we start the match facing backwards so we need to set the imu reversed
 
     }
 
@@ -154,7 +160,7 @@ public class RobotContainer {
         rightSide.button(4).onTrue(new moveToPosition(Positions.Algae2));
 
         rightSide.button(9).onTrue(Commands.runOnce(climber::setClimberUp));
-        rightSide.button(10).onTrue(Commands.runOnce(climber::climb));
+        rightSide.button(10).onTrue(Commands.runOnce(() -> {climber.climb(); led.setBothStrobeRed();}));
 
         leftSide.button(3).onTrue(new SequentialCommandGroup( //Algae intake
 
@@ -225,9 +231,11 @@ public class RobotContainer {
         
    
 
-        joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath()), Set.of(drivetrain))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight
+        joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath()), Set.of(drivetrain)).unless(() -> (LimelightHelpers.getFiducialID("limelight-front") == -1))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible
         
 
+          joystick.a().whileTrue(followPathCommand("center"));
+       
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // plug flash drive in for these?
@@ -346,6 +354,20 @@ public class RobotContainer {
       }
 
     }    
+
+    public Command followPathCommand(String pathName) {
+
+    try{
+        // Load the path you want to follow using its name in the GUI
+        PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+
+        // Create a path following command using AutoBuilder. This will also trigger event markers.
+        return AutoBuilder.followPath(path);
+    } catch (Exception e) {
+        DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+        return Commands.none();
+    }
+  }
 
 
 
