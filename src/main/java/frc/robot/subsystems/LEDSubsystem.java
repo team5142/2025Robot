@@ -32,7 +32,7 @@ public class LEDSubsystem extends SubsystemBase {
    leftBlinkin = new PWM(0);
    rightBlinkin = new PWM(1);
 
-   refreshLEDs();
+   refreshLEDs(); // from rev blinkin troubleshooting page, leds kept switching from 5v to 12v strip on their own
 
   }
 

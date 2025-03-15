@@ -150,16 +150,16 @@ public final class Constants {
 			IJ("IJ",
 				new Pose2d(5.135, 5.15, Rotation2d.fromDegrees(-120)),
 				11,
-				7),
+				20),
 
 
 			KL("KL",
 				new Pose2d(3.84, 5.14, Rotation2d.fromDegrees(-60)),
 				6,
-				20),
+				19),
 
 
-			RightCoralStation("RightCoralStation",
+			rightCoralStation("rightCoralStation",
 				new Pose2d(1.13, 1.0, Rotation2d.fromDegrees(54)),
 				2,
 				12),

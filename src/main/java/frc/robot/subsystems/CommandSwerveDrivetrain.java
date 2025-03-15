@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
+import frc.robot.LimelightHelpers;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -262,6 +262,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return Rotation2d.fromDegrees(getPigeon2().getYaw().getValueAsDouble());
     }
 
+    public Pose2d getPose(){
+        return getState().Pose;
+    }
+
     public void setIMU180(){
         getPigeon2().setYaw(180);
     }
@@ -296,6 +300,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
                 SmartDashboard.putNumber("Yaw", getPigeon2().getYaw().getValueAsDouble());
             });
+
+            // addVisionMeasurement(LimelightHelpers.getBotPose2d_wpiBlue("front"), Utils.getCurrentTimeSeconds());
         }
     }
 
