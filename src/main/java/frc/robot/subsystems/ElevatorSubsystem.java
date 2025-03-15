@@ -130,7 +130,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       .d(secondarykD)
       .outputRange(secondaryReverseSpeedLimit, secondaryForwardSpeedLimit);
       
-      secondaryElevatorConfig.closedLoopRampRate(15);
+      // secondaryElevatorConfig.closedLoopRampRate(15);
 
 
     leadElevatorMotor.configure(leadElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

@@ -15,6 +15,7 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -39,6 +40,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+    
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -263,6 +265,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     public Pose2d getPose(){
+        
         return getState().Pose;
     }
 
@@ -299,11 +302,35 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 );
                 m_hasAppliedOperatorPerspective = true;
                 SmartDashboard.putNumber("Yaw", getPigeon2().getYaw().getValueAsDouble());
-            });
+            });}
 
-            // addVisionMeasurement(LimelightHelpers.getBotPose2d_wpiBlue("front"), Utils.getCurrentTimeSeconds());
+      LimelightHelpers.SetRobotOrientation("limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
+      
+      boolean doRejectUpdate = false;
+
+      if(mt2.tagCount == 0) //dont add the measurement if no tags are seen
+            {
+
+              doRejectUpdate = true;
+      }
+      if(!doRejectUpdate)
+      {
+        setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        addVisionMeasurement(
+            mt2.pose,
+            mt2.timestampSeconds);
+      }
+
+      SmartDashboard.putNumber("PoseX", getState().Pose.getX());
+      SmartDashboard.putNumber("PoseY", getState().Pose.getY());
+      SmartDashboard.putNumber("PoseRotation", getState().Pose.getRotation().getDegrees());
+      SmartDashboard.putNumber("ID", LimelightHelpers.getFiducialID("limelight-front"));
+
+      
+
         }
-    }
+    
 
     
     private void startSimThread() {

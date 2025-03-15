@@ -101,10 +101,6 @@ public class LEDSubsystem extends SubsystemBase {
     leftBlinkin.setPulseTimeMicroseconds(2125); //makes it go to 5v strip
     rightBlinkin.setPulseTimeMicroseconds(2125);
 
-    setBothOff(); //refresh pattern
-
-    setBothRed();
-
   }
 
 

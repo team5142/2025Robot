@@ -117,8 +117,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX((-joystick.getLeftY() * MaxSpeed)) // Drive forward with negative Y (forward)  /2 is to slow it down
-                    .withVelocityY((-joystick.getLeftX() * MaxSpeed)) // Drive left with negative X (left)
+                drive.withVelocityX(joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)  /2 is to slow it down
+                    .withVelocityY(joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -193,6 +193,7 @@ public class RobotContainer {
         .onFalse(Commands.runOnce(intake::stopAlgae).andThen(Commands.runOnce(intake::turnOffAlgaeLight)));
 
 
+        leftSide.button(7).onTrue(Commands.runOnce(led::refreshLEDs).andThen(new WaitCommand(0.25)).andThen(Commands.runOnce(led::setBothOff)).andThen(new WaitCommand(0.25)).andThen(Commands.runOnce(led::setBothRed)));
         
         /* ENABLE TO TEST TURN TO DEGREES 
         joystick.x().onTrue(Commands.runOnce(() -> {
@@ -295,24 +296,48 @@ public class RobotContainer {
         Pose2d targetPose = inferDesiredPose();
 
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
+          // new Pose2d(0, 0, Rotation2d.fromDegrees(0)), 
+          // new Pose2d(0, 0 ,Rotation2d.fromDegrees(0))
         RobotContainer.drivetrain.getPose(),
         targetPose
         );
 
-        PathConstraints constraints = new PathConstraints(1.75, 1.75, 3 * Math.PI, 4 * Math.PI); // converted degrees to radians, everything taken from pathplanner settings
-        
+        List<Waypoint> goNowhere = PathPlannerPath.waypointsFromPoses(
+          new Pose2d(0, 0, Rotation2d.fromDegrees(0)), 
+          new Pose2d(0, 0 ,Rotation2d.fromDegrees(0))
+       
+        );
+
+        PathConstraints constraints = new PathConstraints(0.01, 0.01, 3 * Math.PI, 4 * Math.PI); // converted degrees to radians, everything taken from pathplanner settings
+        SmartDashboard.putNumber("GoalX", targetPose.getX());
+        SmartDashboard.putNumber("GoalY", targetPose.getY());
+        SmartDashboard.putNumber("GoalRotation", targetPose.getRotation().getDegrees());
+
+        if (LimelightHelpers.getFiducialID("limelight-front") == -1) {
+
+          return new PathPlannerPath(
+        goNowhere,
+        constraints,
+        null, // The ideal starting state, this is only relevant for pre-planned paths, so can be null for on-the-fly paths.
+        new GoalEndState(0.0, targetPose.getRotation()) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
+        );    
+
+        }
+
+
+
         return new PathPlannerPath(
         waypoints,
         constraints,
         null, // The ideal starting state, this is only relevant for pre-planned paths, so can be null for on-the-fly paths.
         new GoalEndState(0.0, targetPose.getRotation()) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
-        
         );    
     }
 
     public Pose2d inferDesiredPose() {
 
-        switch ((int)LimelightHelpers.getFiducialID("front")) { //get the apriltag id from the limelight, and use the giant switch statement to determine the desired pose
+
+        switch ((int)LimelightHelpers.getFiducialID("limelight-front")) { //get the apriltag id from the limelight, and use the giant switch statement to determine the desired pose
 
         case 7:
           return FlippingUtil.flipFieldPose(Poses.AB.desiredPose); //for red tags flip the pose we found with pathplanner to the other side
