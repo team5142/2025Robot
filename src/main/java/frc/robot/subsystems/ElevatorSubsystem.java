@@ -46,10 +46,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   private final double secondarykP = 0.25;
   private final double secondarykI = 0;
-  private final double secondarykD = 0;
+  private final double secondarykD = 0.5;
 
   private final double secondaryForwardSpeedLimit = 1;
-  private final double secondaryReverseSpeedLimit = -1;
+  private final double secondaryReverseSpeedLimit = -0.55;
 
   // private final double secondaryResetSpeed = -0.25;
 
@@ -96,7 +96,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     leadElevatorConfig.idleMode(IdleMode.kBrake)
     .softLimit
-    .forwardSoftLimit(90)
+    .forwardSoftLimit(68)
     .reverseSoftLimit(0)
     .forwardSoftLimitEnabled(true)
     .reverseSoftLimitEnabled(true);
@@ -105,7 +105,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   
     secondaryElevatorConfig.idleMode(IdleMode.kBrake)
     .softLimit
-    .forwardSoftLimit(114)
+    .forwardSoftLimit(69)
     .reverseSoftLimit(0)
     .forwardSoftLimitEnabled(true)
     .reverseSoftLimitEnabled(true);
@@ -129,6 +129,8 @@ public class ElevatorSubsystem extends SubsystemBase {
       .i(secondarykI)
       .d(secondarykD)
       .outputRange(secondaryReverseSpeedLimit, secondaryForwardSpeedLimit);
+      
+      secondaryElevatorConfig.closedLoopRampRate(15);
 
 
     leadElevatorMotor.configure(leadElevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

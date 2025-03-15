@@ -13,60 +13,62 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CurrentLimits;
+import edu.wpi.first.wpilibj.PWM;
 
 public class LEDSubsystem extends SubsystemBase {
 
 
-  private static Spark leftBlinkin;
-  private static Spark rightBlinkin;
+  private static PWM leftBlinkin;
+  private static PWM rightBlinkin;
  
   /** Creates a new LEDSubsystem. */
 
   public LEDSubsystem() {
 
-   leftBlinkin = new Spark(0);
-   rightBlinkin = new Spark(1);
+   leftBlinkin = new PWM(0);
+   rightBlinkin = new PWM(1);
 
-   setBothRed();
+   refreshLEDs();
 
   }
 
   public void setRightRed(){
 
-    rightBlinkin.set(0.61); //breath red value
+    rightBlinkin.setPulseTimeMicroseconds(1805); //red value
 
   }
 
   public void setLeftRed(){
 
-    leftBlinkin.set(0.61); //red value
+    leftBlinkin.setPulseTimeMicroseconds(1805); //red value
     
   }
 
   public void setRightGreen(){
 
-    rightBlinkin.set(0.73); //green value
+    rightBlinkin.setPulseTimeMicroseconds(1885); //green value
 
   }
   
   public void setLeftGreen(){
     
-    leftBlinkin.set(0.73); //green value
+    leftBlinkin.setPulseTimeMicroseconds(1885); //green value
 
   }
 
   public void setRightOff(){
 
-    rightBlinkin.set(0.99);
+    rightBlinkin.setPulseTimeMicroseconds(1995);
 
   }
   
   public void setLeftOff(){
     
-    leftBlinkin.set(0.99);
+    leftBlinkin.setPulseTimeMicroseconds(1995);
 
   }
 
@@ -79,8 +81,8 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void setBothStrobeRed(){
 
-    leftBlinkin.set(-0.11);
-    rightBlinkin.set(-0.11);
+    leftBlinkin.setPulseTimeMicroseconds(1445);
+    rightBlinkin.setPulseTimeMicroseconds(1445);
 
   }
 
@@ -92,6 +94,17 @@ public class LEDSubsystem extends SubsystemBase {
   public void setBothOff() {
     setRightOff();
     setLeftOff();
+  }
+
+  public void refreshLEDs(){
+
+    leftBlinkin.setPulseTimeMicroseconds(2125); //makes it go to 5v strip
+    rightBlinkin.setPulseTimeMicroseconds(2125);
+
+    setBothOff(); //refresh pattern
+
+    setBothRed();
+
   }
 
 
