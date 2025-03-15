@@ -247,7 +247,9 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-
+        joystick.rightBumper().onTrue(Commands.runOnce(() -> {intake.ejectCoral(); intake.ejectAlgae();})) //run both intakes from right trigger
+        .onFalse(Commands.runOnce(() -> {intake.stopCoral(); intake.stopAlgae();})); //stop both intakes from right trigger release
+        
         // End of button binds
 
         // Turn off motor brakes when disabled, and on when enabled
