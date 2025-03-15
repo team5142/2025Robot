@@ -157,7 +157,6 @@ public class RobotContainer {
 
         leftSide.button(1).onTrue(new moveToPosition(Positions.Processor));
 
-        // 3/6 10:00 PM Jordan Commented this out because it was throwing an error
         //leftSide.button(7).onTrue(Commands.runOnce(elevator::getLPosition));
         //leftSide.button(5).onTrue(Commands.runOnce(elevator::getFPosition));
 
