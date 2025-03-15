@@ -248,79 +248,48 @@ public class RobotContainer {
         
         // End of button binds
 
-        // Turn off motor brakes when disabled, and on when enabled
-
-        //
-
-        // RobotModeTriggers.teleop().onTrue(Commands.runOnce(() -> {
-        //         new resetElevator();
-        //     }));
-
-        // RobotModeTriggers.disabled().onTrue(Commands.runOnce(() -> {
-        //         arm.turnOffBrake();
-        //         elevator.turnOffBrake();
-        //         intake.turnOffBrake();
-        //     }).ignoringDisable(true));
-
-
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
-/* 
-    private double circleDegreesRight() {
-        return storedAngleTurn += angleStep;
-    }
 
-    private double circleDegreesLeft() {
-        return storedAngleTurn -= angleStep;
-    }
-
-    private void resetStoredAngleTurn(){
-        Rotation2d currentHeading = drivetrain.getHeadingFromIMU();
-        double remainder = currentHeading.getDegrees() % angleStep;
-        if (remainder <= (angleStep/2)){
-            storedAngleTurn = currentHeading.getDegrees() - remainder;
-        } else {
-            storedAngleTurn = currentHeading.getDegrees() + (angleStep - remainder);
-        }
-        storedAngleTurn = storedAngleTurn % 360;
-        SmartDashboard.putNumber("currentHeading:", currentHeading.getDegrees());
-        SmartDashboard.putNumber("remainder:", remainder
-        );
-        SmartDashboard.putNumber("storedAngleTurn:", storedAngleTurn);
-        //return storedAngleTurn % 360;
-    }
-*/
     public PathPlannerPath inferPath() {
 
         Pose2d targetPose = inferDesiredPose();
 
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
-          // new Pose2d(0, 0, Rotation2d.fromDegrees(0)), 
-          // new Pose2d(0, 0 ,Rotation2d.fromDegrees(0))
-        RobotContainer.drivetrain.getPose(),
-        targetPose
+     
+        new Pose2d(
+        drivetrain.getPose().getX(), 
+        drivetrain.getPose().getY(), 
+        Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-front")).plus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees()))), //starting pose: current x and y plus current heading (direction of travel),
+ 
+        new Pose2d(
+        targetPose.getX(),
+        targetPose.getY(),
+        Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-front")).plus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees()))) //ending pose: target x and y but the same heading as the start
         );
 
-        List<Waypoint> goNowhere = PathPlannerPath.waypointsFromPoses(
-          new Pose2d(0, 0, Rotation2d.fromDegrees(0)), 
-          new Pose2d(0, 0 ,Rotation2d.fromDegrees(0))
+        // List<Waypoint> goNowhere = PathPlannerPath.waypointsFromPoses(
+        //   new Pose2d(0, 0, Rotation2d.fromDegrees(0)), 
+        //   new Pose2d(0, 0 ,Rotation2d.fromDegrees(0))
        
-        );
+        // );
 
-        PathConstraints constraints = new PathConstraints(0.01, 0.01, 3 * Math.PI, 4 * Math.PI); // converted degrees to radians, everything taken from pathplanner settings
+        PathConstraints constraints = new PathConstraints(0.01, 0.01, 1 * Math.PI, 2 * Math.PI); // converted degrees to radians, everything taken from pathplanner settings
         SmartDashboard.putNumber("GoalX", targetPose.getX());
         SmartDashboard.putNumber("GoalY", targetPose.getY());
         SmartDashboard.putNumber("GoalRotation", targetPose.getRotation().getDegrees());
 
         if (LimelightHelpers.getFiducialID("limelight-front") == -1) {
 
-          return new PathPlannerPath(
-        goNowhere,
+        PathPlannerPath path = new PathPlannerPath(
+        waypoints,
         constraints,
         null, // The ideal starting state, this is only relevant for pre-planned paths, so can be null for on-the-fly paths.
         new GoalEndState(0.0, targetPose.getRotation()) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
-        );    
+        );
+        path.preventFlipping = true;
+        return path;    
 
         }
 

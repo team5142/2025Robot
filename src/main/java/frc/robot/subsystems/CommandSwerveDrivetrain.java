@@ -256,11 +256,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return m_sysIdRoutineToApply.quasistatic(direction);
     }
 
-    public Rotation2d getHeading() {
+    public Rotation2d getRotation() {
         return getState().Pose.getRotation(); // Assuming the pose contains the current heading
     }
 
-    public Rotation2d getHeadingFromIMU() {
+    public Rotation2d getRotationFromIMU() {
         return Rotation2d.fromDegrees(getPigeon2().getYaw().getValueAsDouble());
     }
 

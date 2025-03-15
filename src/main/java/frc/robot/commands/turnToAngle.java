@@ -52,7 +52,7 @@ public class turnToAngle extends Command {
         double ySpeed = -RobotContainer.joystick.getLeftX();
 
         // Get the current heading from the drivetrain
-        Rotation2d currentHeading = RobotContainer.drivetrain.getHeading();
+        Rotation2d currentHeading = RobotContainer.drivetrain.getRotation();
 
         double currentDegrees = currentHeading.getDegrees();
         double targetDegrees = targetAngle;
