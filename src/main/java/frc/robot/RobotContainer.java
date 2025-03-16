@@ -178,18 +178,42 @@ public class RobotContainer {
 
 
         //intake left
-        leftSide.button(6).onTrue(Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();})
-                         .andThen(new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10).unless(elevator::isElevatorActive)
-                         .andThen(Commands.runOnce(intake::stopCoral))
-                         .andThen(new moveToPosition(Positions.Intaked))));
-
-
-
+        leftSide.button(6).onTrue(new ConditionalCommand(
+          
+        Commands.sequence(
+        Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}),
+        (new moveToPosition(Positions.Home)), //if elevator is up and intake is pressed, go to home first
+        (new WaitCommand(0.5)),
+        (new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0))).withTimeout(10),
+        (Commands.runOnce(intake::stopCoral)),
+        (new moveToPosition(Positions.Intaked))), 
+        
+        Commands.sequence(
+        (Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();})),
+        (new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0))).withTimeout(10),
+        (Commands.runOnce(intake::stopCoral)),
+        (new moveToPosition(Positions.Intaked))), 
+        
+        elevator::isElevatorActive));
+          
         //intake right
-        leftSide.button(4).onTrue(Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();})
-                         .andThen(new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10).unless(elevator::isElevatorActive)
-                         .andThen(Commands.runOnce(intake::stopCoral))
-                         .andThen(new moveToPosition(Positions.Intaked))));
+        leftSide.button(4).onTrue(new ConditionalCommand(
+        
+        Commands.sequence(
+        Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}),
+        (new moveToPosition(Positions.Home)), //if elevator is up and intake is pressed, go to home first
+        (new WaitCommand(0.5)),
+        (new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0))).withTimeout(10),
+        (Commands.runOnce(intake::stopCoral)),
+        (new moveToPosition(Positions.Intaked))), 
+        
+        Commands.sequence(
+        (Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();})),
+        (new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0))).withTimeout(10),
+        (Commands.runOnce(intake::stopCoral)),
+        (new moveToPosition(Positions.Intaked))), 
+        
+        elevator::isElevatorActive));
 
 
        
