@@ -28,7 +28,7 @@ public class coralIntake extends SequentialCommandGroup{
             new SequentialCommandGroup(
                 new InstantCommand(RobotContainer.led::setBothStrobeRed),
                 new WaitCommand(1),
-                new InstantCommand(RobotContainer.led::setBothRed)
+                new InstantCommand(RobotContainer.led::setBothLava)
             ),
             new xboxVibrate()
         )

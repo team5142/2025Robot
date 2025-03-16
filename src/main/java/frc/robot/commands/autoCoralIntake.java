@@ -24,7 +24,7 @@ public class autoCoralIntake extends SequentialCommandGroup{
         new WaitUntilCommand(RobotContainer.intake::isCoralIntaked),
         new WaitUntilCommand(() -> RobotContainer.intake.isNeitherCoralIntaked()), //wait until it passes the sensor
         new InstantCommand(RobotContainer.intake::stopCoral),
-        new InstantCommand(RobotContainer.led::setBothRed)
+        new InstantCommand(RobotContainer.led::setBothLava)
     );
     }
 }

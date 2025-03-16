@@ -34,6 +34,8 @@ public class LEDSubsystem extends SubsystemBase {
 
    refreshLEDs(); // from rev blinkin troubleshooting page, leds kept switching from 5v to 12v strip on their own
 
+   setBothLava();
+   
   }
 
   public void setRightRed(){
@@ -94,6 +96,34 @@ public class LEDSubsystem extends SubsystemBase {
   public void setBothOff() {
     setRightOff();
     setLeftOff();
+  }
+
+  public void setBothParty(){
+
+    leftBlinkin.setPulseTimeMicroseconds(1015);
+    rightBlinkin.setPulseTimeMicroseconds(1015);
+
+  }
+
+  public void setBothFire(){
+
+    leftBlinkin.setPulseTimeMicroseconds(1255);
+    rightBlinkin.setPulseTimeMicroseconds(1255);
+
+  }
+
+  public void setBothScanner(){
+
+    leftBlinkin.setPulseTimeMicroseconds(1325);
+    rightBlinkin.setPulseTimeMicroseconds(1325);
+
+  }
+  
+  public void setBothLava(){
+
+    leftBlinkin.setPulseTimeMicroseconds(1305);
+    rightBlinkin.setPulseTimeMicroseconds(1305);
+
   }
 
   public void refreshLEDs(){

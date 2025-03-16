@@ -26,6 +26,7 @@ import com.pathplanner.lib.path.Waypoint;
 import com.pathplanner.lib.util.FileVersionException;
 import com.pathplanner.lib.util.FlippingUtil;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -103,7 +104,8 @@ public class RobotContainer {
 
         configureBindings();
 
-        // drivetrain.setIMU180(); //we start the match facing backwards so we need to set the imu reversed
+        CameraServer.startAutomaticCapture();
+        drivetrain.setIMU180(); //we start the match facing backwards so we need to set the imu reversed
 
     }
 
@@ -114,8 +116,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)  /2 is to slow it down
-                    .withVelocityY(joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)  /2 is to slow it down
+                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );     
@@ -196,10 +198,17 @@ public class RobotContainer {
 
        
 
-        // leftSide.button(5).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
+        rightSide.button(6).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
         leftSide.button(2).onTrue(Commands.runOnce(intake::ejectAlgae))
         .onFalse(Commands.runOnce(intake::stopAlgae).andThen(Commands.runOnce(intake::turnOffAlgaeLight)));
 
+        leftSide.button(5).whileTrue( //ground coral intake
+          Commands.runOnce(intake::intakeAlgae)
+          .alongWith(new moveToPosition(Positions.groundCoral)))
+
+          .onFalse(Commands.runOnce(intake::holdAlgae)
+          .andThen(new WaitCommand(0.5))
+          .andThen(new moveToPosition(Positions.Home)));
 
         leftSide.button(7).onTrue(
 
@@ -209,7 +218,7 @@ public class RobotContainer {
          new WaitCommand(0.1),
          Commands.runOnce(led::setBothOff),
          new WaitCommand(0.1),
-         Commands.runOnce(led::setBothRed)
+         Commands.runOnce(led::setBothLava)
 
         ));
         
@@ -224,10 +233,10 @@ public class RobotContainer {
         
    
 
-        // joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath()), Set.of(drivetrain)).unless(() -> (LimelightHelpers.getFiducialID("limelight-front") == -1))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible
+        joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath()), Set.of(drivetrain)).unless(() -> (LimelightHelpers.getFiducialID("limelight-front") == -1))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible
         
 
-          joystick.a().whileTrue(followPathCommand("center"));
+          // joystick.a().whileTrue(followPathCommand("center"));
        
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -246,7 +255,17 @@ public class RobotContainer {
 
         joystick.rightBumper().onTrue(Commands.runOnce(() -> {intake.ejectCoral(); intake.ejectAlgae();})) //run both intakes from right trigger
         .onFalse(Commands.runOnce(() -> {intake.stopCoral(); intake.stopAlgae();})); //stop both intakes from right trigger release
+
         
+
+        rightSide.button(11).onTrue(Commands.runOnce(led::setBothParty));
+        rightSide.button(12).onTrue(Commands.runOnce(led::setBothLava));
+        leftSide.button(9).onTrue(Commands.runOnce(led::setBothScanner));
+        leftSide.button(10).onTrue(Commands.runOnce(led::setBothFire));
+
+
+
+
         // End of button binds
 
 
@@ -257,18 +276,21 @@ public class RobotContainer {
 
         Pose2d targetPose = inferDesiredPose();
 
+        Rotation2d desiredHeading = Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-front")).minus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees())).times(-1);
+
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
      
         new Pose2d(
         drivetrain.getPose().getX(), 
         drivetrain.getPose().getY(), 
-        Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-front")).plus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees()))), //starting pose: current x and y plus current heading (direction of travel),
+        desiredHeading), //starting pose: current x and y plus current heading (direction of travel),
  
         new Pose2d(
         targetPose.getX(),
         targetPose.getY(),
-        Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-front")).plus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees()))) //ending pose: target x and y but the same heading as the start
-        );
+        desiredHeading))
+
+        ;
 
         // List<Waypoint> goNowhere = PathPlannerPath.waypointsFromPoses(
         //   new Pose2d(0, 0, Rotation2d.fromDegrees(0)), 
@@ -276,9 +298,10 @@ public class RobotContainer {
        
         // );
 
-        PathConstraints constraints = new PathConstraints(0.01, 0.01, 1 * Math.PI, 2 * Math.PI); // converted degrees to radians, everything taken from pathplanner settings
+        PathConstraints constraints = new PathConstraints(2.5, 2.5, 3 * Math.PI, 4 * Math.PI); // converted degrees to radians, everything taken from pathplanner settings
         SmartDashboard.putNumber("GoalX", targetPose.getX());
         SmartDashboard.putNumber("GoalY", targetPose.getY());
+        SmartDashboard.putNumber("Goal Heading", desiredHeading.getDegrees());
         SmartDashboard.putNumber("GoalRotation", targetPose.getRotation().getDegrees());
 
         if (LimelightHelpers.getFiducialID("limelight-front") == -1) {
@@ -356,6 +379,7 @@ public class RobotContainer {
 
         // Create a path following command using AutoBuilder. This will also trigger event markers.
         return AutoBuilder.followPath(path);
+
     } catch (Exception e) {
         DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
         return Commands.none();

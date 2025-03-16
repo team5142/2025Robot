@@ -82,25 +82,33 @@ public final class Constants {
 							69,
 							4),
 			Algae1("Algae1",
-							28,
+							20,
 							0,
-							6),
+							4),
 			Algae2("Algae2",
-							47,
+							40,
 							24,
-							6),
+							4),
 			Processor("Processor",
 							0,
 							0,
 							13),
-			BargePrep("Barge",
-							60,
-							65.4,
+			BargePrep("BargePrep",
+							40,
+							45,
+							1.7),
+			Barge("Barge",
+							68,
+							69,
 							1.7),
 			groundAlgae("groundAlgae",
 							0,
 							0,
-							18);
+							18),
+			groundCoral("groundCoral",
+							0,
+							0,
+							32);
 
 			public final String label;
 			public final double primaryElevator;
@@ -125,24 +133,24 @@ public final class Constants {
 		public enum Poses {
 
 			AB("AB",
-				new Pose2d(3.19, 4.025, Rotation2d.fromDegrees(0)), //pose that is lined up with the AB reef
+				new Pose2d(3.26, 4.025, Rotation2d.fromDegrees(0)), //pose that is lined up with the AB reef
 				7, //use FlipFieldPose if on red Side in command ***
 				18),											//tag in front of AB reef
 
 			CD("CD",
-				new Pose2d(3.84, 2.9, Rotation2d.fromDegrees(60)), //pose that is lined up with the CD reef
+				new Pose2d(3.9, 3.02, Rotation2d.fromDegrees(60)), //pose that is lined up with the CD reef
 				8,
 				17),													 //tag in front of CD reef
 
 
 			EF("EF",
-				new Pose2d(5.13, 2.905, Rotation2d.fromDegrees(120)),
+				new Pose2d(5.095, 2.990, Rotation2d.fromDegrees(120)),
 				9,
 				22),
 
 
 			GH("GH",
-				new Pose2d(5.785, 4.025, Rotation2d.fromDegrees(180)),
+				new Pose2d(5.66, 4.025, Rotation2d.fromDegrees(180)),
 				10,
 				21),
 
