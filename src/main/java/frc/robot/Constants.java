@@ -100,7 +100,7 @@ public final class Constants {
 			groundAlgae("groundAlgae",
 							0,
 							0,
-							26);
+							18);
 
 			public final String label;
 			public final double primaryElevator;

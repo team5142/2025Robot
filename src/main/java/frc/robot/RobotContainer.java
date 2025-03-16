@@ -66,20 +66,14 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband This should be 0.001 for cubed controls
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-
-
     
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
     
     private final Telemetry logger = new Telemetry(MaxSpeed);
     
-
-    
-
     //DEFINE CONTROLLERS
     //main drive controller
     public final static CommandXboxController joystick = new CommandXboxController(0);
@@ -87,7 +81,6 @@ public class RobotContainer {
     private final CommandGenericHID rightSide = new CommandGenericHID(1);
     //left side of button box: port 2
     private final CommandGenericHID leftSide = new CommandGenericHID(2);
-    
     
     public final static ElevatorSubsystem elevator = new ElevatorSubsystem();
     public final static ArmSubsystem arm = new ArmSubsystem();
@@ -98,8 +91,6 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-
-        
 
 
     public RobotContainer() {
@@ -127,28 +118,14 @@ public class RobotContainer {
                     .withVelocityY(joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
-        );
-        
-        //for testing elevator
-     
+        );     
 
 
 
-        // leftSide.button(8).onTrue(
-        //                  new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
-        //                  .andThen(Commands.runOnce(intake::stopCoral))
-        //                  .andThen(new moveToPosition(Positions.Home)));              //Intake goes until it detects a piece (and then 
-                                                                                   //goes a bit more to make sure its all the way in)
-                                                                                   //but if it takes more than 8 seconds it stops going
-                                                                                   //it first moves the arm back all the way to intake
-                                                                                   //and home after
-                                                                                   //all unless elevator is up to prevent breaking
         joystick.rightBumper().onTrue
         (Commands.runOnce(intake::ejectCoral))//shoots out the coral, or just manual intake 
                           .onFalse(Commands.runOnce(intake::stopCoral));
                         //   .andThen(new moveToPosition(Positions.Home)));
-
-        //leftSide.button 6 and 4 operater prefernce 7 will designate Left and Right intake
 
         rightSide.button(7).onTrue(new moveToPosition(Positions.L1));
         rightSide.button(3).onTrue(new moveToPosition(Positions.L2));
@@ -167,53 +144,54 @@ public class RobotContainer {
         new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive),
         //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
         new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(8)
-        //intake an algae, if it doesn't work within 4 seconds stop (handle interrupt detects the timeout).
+        //intake an algae, if it doesn't work within 8 seconds stop (handle interrupt detects the timeout).
 
         )); 
 
         leftSide.button(1).onTrue(new moveToPosition(Positions.Processor));
 
-        //leftSide.button(7).onTrue(Commands.runOnce(elevator::getLPosition));
-        //leftSide.button(5).onTrue(Commands.runOnce(elevator::getFPosition));
-
 
         //intake left
-        leftSide.button(6).onTrue(new ConditionalCommand(
+        leftSide.button(6).onTrue(
           
-        Commands.sequence(
-        Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}),
-        (new moveToPosition(Positions.Home)), //if elevator is up and intake is pressed, go to home first
-        (new WaitCommand(0.5)),
-        (new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0))).withTimeout(10),
-        (Commands.runOnce(intake::stopCoral)),
-        (new moveToPosition(Positions.Intaked))), 
-        
-        Commands.sequence(
-        (Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();})),
-        (new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0))).withTimeout(10),
-        (Commands.runOnce(intake::stopCoral)),
-        (new moveToPosition(Positions.Intaked))), 
-        
-        elevator::isElevatorActive));
+        new ConditionalCommand(
+          
+          Commands.sequence( //on true
+            Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}),
+            new moveToPosition(Positions.Home), //if elevator is up and intake is pressed, go to home first
+            new WaitCommand(0.5),
+            new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10),
+            Commands.runOnce(intake::stopCoral),
+            new moveToPosition(Positions.Intaked)), 
+          
+          Commands.sequence( //on false
+            Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}),
+            new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10),
+            Commands.runOnce(intake::stopCoral),
+            new moveToPosition(Positions.Intaked)), 
+          
+          elevator::isElevatorActive)); //condition
           
         //intake right
-        leftSide.button(4).onTrue(new ConditionalCommand(
+        leftSide.button(4).onTrue(
+          
+        new ConditionalCommand(
         
-        Commands.sequence(
-        Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}),
-        (new moveToPosition(Positions.Home)), //if elevator is up and intake is pressed, go to home first
-        (new WaitCommand(0.5)),
-        (new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0))).withTimeout(10),
-        (Commands.runOnce(intake::stopCoral)),
-        (new moveToPosition(Positions.Intaked))), 
-        
-        Commands.sequence(
-        (Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();})),
-        (new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0))).withTimeout(10),
-        (Commands.runOnce(intake::stopCoral)),
-        (new moveToPosition(Positions.Intaked))), 
-        
-        elevator::isElevatorActive));
+          Commands.sequence(
+            Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}),
+            new moveToPosition(Positions.Home), //if elevator is up and intake is pressed, go to home first
+            new WaitCommand(0.5),
+            new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10),
+            Commands.runOnce(intake::stopCoral),
+            new moveToPosition(Positions.Intaked)), 
+          
+          Commands.sequence(
+            Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}),
+            new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10),
+            Commands.runOnce(intake::stopCoral),
+            new moveToPosition(Positions.Intaked)), 
+            
+          elevator::isElevatorActive));
 
 
        
@@ -223,31 +201,22 @@ public class RobotContainer {
         .onFalse(Commands.runOnce(intake::stopAlgae).andThen(Commands.runOnce(intake::turnOffAlgaeLight)));
 
 
-        leftSide.button(7).onTrue(Commands.runOnce(led::refreshLEDs).andThen(new WaitCommand(0.25)).andThen(Commands.runOnce(led::setBothOff)).andThen(new WaitCommand(0.25)).andThen(Commands.runOnce(led::setBothRed)));
-        
-        /* ENABLE TO TEST TURN TO DEGREES 
-        joystick.x().onTrue(Commands.runOnce(() -> {
-            circleDegreesRight();
-            new TurnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
-        }));
+        leftSide.button(7).onTrue(
 
-        
-        joystick.y().onTrue(Commands.runOnce(() -> {
-            circleDegreesLeft();
-            new TurnToAngle(drivetrain, Rotation2d.fromDegrees(storedAngleTurn));
-        }));
+        Commands.sequence(
 
-        // ALSO NEED TO PUT THIS CODE WHENEVER CORAL IS FIRST INTAKED (will match the angle the robot is at, at the driver station for each side.)
-        // resetStoredAngleTurn();
-        
-        joystick.x().onTrue(Commands.runOnce(() -> {
-            resetStoredAngleTurn();
-        }));
-        
-*/      
+         Commands.runOnce(led::refreshLEDs), //sets to 5v strip if it gets messed up
+         new WaitCommand(0.1),
+         Commands.runOnce(led::setBothOff),
+         new WaitCommand(0.1),
+         Commands.runOnce(led::setBothRed)
 
+        ));
+        
+       
+        
 
-        joystick.x().whileTrue(new turnToAngle(120));
+        joystick.x().whileTrue(new turnToAngle(120)); //TODO: make this be correct for -180 to 180
         joystick.y().whileTrue(new turnToAngle(180));
         joystick.b().whileTrue(new turnToAngle(240));
             
@@ -255,7 +224,7 @@ public class RobotContainer {
         
    
 
-        joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath()), Set.of(drivetrain)).unless(() -> (LimelightHelpers.getFiducialID("limelight-front") == -1))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible
+        // joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath()), Set.of(drivetrain)).unless(() -> (LimelightHelpers.getFiducialID("limelight-front") == -1))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible
         
 
           joystick.a().whileTrue(followPathCommand("center"));
@@ -423,7 +392,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        // return Commands.print("No autonomous command configured");
+
         return autoChooser.getSelected();
 
     }

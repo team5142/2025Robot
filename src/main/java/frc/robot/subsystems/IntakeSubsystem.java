@@ -83,12 +83,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     turnOffAlgaeLight();
 
-
-
-
-    
-    
-
   }
 
   private void configureIntakeMotors(){
