@@ -304,23 +304,35 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 SmartDashboard.putNumber("Yaw", getPigeon2().getYaw().getValueAsDouble());
             });}
 
+            
+
+
       LimelightHelpers.SetRobotOrientation("limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
       LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
       
       boolean doRejectUpdate = false;
 
+    try{
+
       if(mt2.tagCount == 0) //dont add the measurement if no tags are seen
+
             {
 
               doRejectUpdate = true;
-      }
+
+            }
       if(!doRejectUpdate)
-      {
-        setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-        addVisionMeasurement(
-            mt2.pose,
-            mt2.timestampSeconds);
-      }
+
+            {
+                setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+                addVisionMeasurement(
+                    mt2.pose,
+                    mt2.timestampSeconds);
+            }
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
 
       SmartDashboard.putNumber("PoseX", getState().Pose.getX());
       SmartDashboard.putNumber("PoseY", getState().Pose.getY());
