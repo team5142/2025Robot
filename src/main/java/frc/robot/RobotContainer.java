@@ -394,6 +394,20 @@ public class RobotContainer {
 
     public void registerNamedCommands() { //registering commands for pathplanner autos
 
+        // new Trigger(elevator::isElevatorUp).and(RobotModeTriggers.autonomous()) //this is here just because its part of auto
+        // .onTrue(
+        //   Commands.sequence(
+
+
+        //   new WaitCommand(0.1), //we probably have to wait a little bit
+        //   Commands.runOnce(intake::ejectCoral), //run the intake to shoot it out
+        //   new WaitCommand(0.35), //wait a bit (change this to make it take less long)
+        //   Commands.runOnce(intake::stopCoral) //stop the intake
+
+        //   ));
+        
+        
+
         NamedCommands.registerCommand("algaeIntake", new algaeIntake().withTimeout(8));
         NamedCommands.registerCommand("algaeThrow", new algaeThrow());
         NamedCommands.registerCommand("moveToHome", new moveToPosition(Positions.Home));

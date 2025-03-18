@@ -155,9 +155,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   public boolean isElevatorUp(){
 
     return
-    (leadElevatorMotor.getEncoder().getPosition() > 62)
+    (leadElevatorMotor.getEncoder().getPosition() > 66)
     &&
-    (secondaryElevatorMotor.getEncoder().getPosition() > 63);
+    (secondaryElevatorMotor.getEncoder().getPosition() > 67);
 
   }
   
