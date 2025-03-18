@@ -18,7 +18,7 @@ public class turnToAngle extends Command {
     public turnToAngle(double tAngle) {
 
         this.targetAngle = tAngle;
-        SmartDashboard.putNumber("tangle", tAngle);
+        // SmartDashboard.putNumber("tangle", tAngle);
         // Initialize PID controller with gains (kP, kI, kD)
         this.pidController = new PIDController(0.1, 0.0, 0.0); // Tune these values
         pidController.setTolerance(1.0); // Tolerance in degrees
@@ -68,10 +68,10 @@ public class turnToAngle extends Command {
             .withRotationalRate(rotationOutput));
 
         // Optional: Log the values to SmartDashboard for debugging
-        SmartDashboard.putNumber("Current Heading", currentHeading.getDegrees());
-        SmartDashboard.putNumber("Target Angle", targetAngle);
-        SmartDashboard.putNumber("Rotation Output", rotationOutput);
-        SmartDashboard.putNumber("ANGLE ERROR", error);
+        // SmartDashboard.putNumber("Current Heading", currentHeading.getDegrees());
+        // SmartDashboard.putNumber("Target Angle", targetAngle);
+        // SmartDashboard.putNumber("Rotation Output", rotationOutput);
+        // SmartDashboard.putNumber("ANGLE ERROR", error);
     }
 
     @Override

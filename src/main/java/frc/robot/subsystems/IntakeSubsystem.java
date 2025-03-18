@@ -227,8 +227,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // display isAlgaeIntaked() and left and right coral to the SmartDashboard
-    SmartDashboard.putBoolean("LEFT CORAL LOADED:", isLeftCoralIntaked());
-    SmartDashboard.putBoolean("ALGAE LOADED:", isAlgaeIntaked());
-    SmartDashboard.putBoolean("RIGHT CORAL LOADED:", isRightCoralIntaked());
+    // SmartDashboard.putBoolean("LEFT CORAL LOADED:", isLeftCoralIntaked());
+    // SmartDashboard.putBoolean("ALGAE LOADED:", isAlgaeIntaked());
+    // SmartDashboard.putBoolean("RIGHT CORAL LOADED:", isRightCoralIntaked());
   }
 }

@@ -304,7 +304,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         //         SmartDashboard.putNumber("Yaw", getPigeon2().getYaw().getValueAsDouble());
         //     });}
 
-            SmartDashboard.putNumber("Yaw", getPigeon2().getYaw().getValueAsDouble());
+            // SmartDashboard.putNumber("Yaw", getPigeon2().getYaw().getValueAsDouble());
 
 
             
@@ -345,11 +345,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     
 
-      SmartDashboard.putNumber("PoseX", getState().Pose.getX());
-      SmartDashboard.putNumber("PoseY", getState().Pose.getY());
-      SmartDashboard.putNumber("PoseRotation", getState().Pose.getRotation().getDegrees());
-      SmartDashboard.putNumber("ID", LimelightHelpers.getFiducialID("limelight-front"));
-      SmartDashboard.putNumber("Area", mt2.avgTagArea);
+    //   SmartDashboard.putNumber("PoseX", getState().Pose.getX());
+    //   SmartDashboard.putNumber("PoseY", getState().Pose.getY());
+    //   SmartDashboard.putNumber("PoseRotation", getState().Pose.getRotation().getDegrees());
+    //   SmartDashboard.putNumber("ID", LimelightHelpers.getFiducialID("limelight-front"));
+    //   SmartDashboard.putNumber("Area", mt2.avgTagArea);
       
     } catch (Exception ex) {
         ex.printStackTrace();

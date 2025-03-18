@@ -259,9 +259,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     // if (elevatorStallTime>50){
     //  setPrimaryPID(); fix this line
     // }
-    SmartDashboard.putBoolean("ELEVATOR ACTIVE", isElevatorActive());
-    SmartDashboard.putNumber("ELEVATOR POSITION", getElevatorPosition());
-    SmartDashboard.putNumber("CARRIAGE POSITION", getCarriagePosition());
+    // SmartDashboard.putBoolean("ELEVATOR ACTIVE", isElevatorActive());
+    // SmartDashboard.putNumber("ELEVATOR POSITION", getElevatorPosition());
+    // SmartDashboard.putNumber("CARRIAGE POSITION", getCarriagePosition());
 
 
   }

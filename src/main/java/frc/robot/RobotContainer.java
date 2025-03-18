@@ -13,6 +13,7 @@ import java.util.Set;
 import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.fasterxml.jackson.core.util.JsonParserSequence;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -162,15 +163,13 @@ public class RobotContainer {
             Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}),
             new moveToPosition(Positions.Home), //if elevator is up and intake is pressed, go to home first
             new WaitCommand(0.5),
-            new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10),
-            Commands.runOnce(intake::stopCoral),
-            new moveToPosition(Positions.Intaked)), 
+            advancedIntake(), //runs intake waiting for coral to be in, then sets the arm back with a timeout
+            signalIntake()),
           
           Commands.sequence( //on false
             Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}),
-            new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10),
-            Commands.runOnce(intake::stopCoral),
-            new moveToPosition(Positions.Intaked)), 
+            advancedIntake(), 
+            signalIntake()), 
           
           elevator::isElevatorActive)); //condition
           
@@ -183,15 +182,13 @@ public class RobotContainer {
             Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}),
             new moveToPosition(Positions.Home), //if elevator is up and intake is pressed, go to home first
             new WaitCommand(0.5),
-            new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10),
-            Commands.runOnce(intake::stopCoral),
-            new moveToPosition(Positions.Intaked)), 
-          
+            advancedIntake(), //runs intake waiting for coral to be in, then sets the arm back with a timeout
+            signalIntake()),
+
           Commands.sequence(
             Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}),
-            new coralIntake().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0)).withTimeout(10),
-            Commands.runOnce(intake::stopCoral),
-            new moveToPosition(Positions.Intaked)), 
+            advancedIntake(), 
+            signalIntake()),
             
           elevator::isElevatorActive));
 
@@ -225,9 +222,9 @@ public class RobotContainer {
        
         
 
-        joystick.x().whileTrue(new turnToAngle(120)); //TODO: make this be correct for -180 to 180
-        joystick.y().whileTrue(new turnToAngle(180));
-        joystick.b().whileTrue(new turnToAngle(240));
+        // joystick.x().whileTrue(new turnToAngle(120)); //TODO: make this be correct for -180 to 180
+        // joystick.y().whileTrue(new turnToAngle(180));
+        // joystick.b().whileTrue(new turnToAngle(240));
             
         
         
@@ -288,35 +285,14 @@ public class RobotContainer {
         new Pose2d(
         targetPose.getX(),
         targetPose.getY(),
-        desiredHeading))
+        desiredHeading));
 
-        ;
-
-        // List<Waypoint> goNowhere = PathPlannerPath.waypointsFromPoses(
-        //   new Pose2d(0, 0, Rotation2d.fromDegrees(0)), 
-        //   new Pose2d(0, 0 ,Rotation2d.fromDegrees(0))
-       
-        // );
-
+      
         PathConstraints constraints = new PathConstraints(2.5, 2.5, 3 * Math.PI, 4 * Math.PI); // converted degrees to radians, everything taken from pathplanner settings
-        SmartDashboard.putNumber("GoalX", targetPose.getX());
-        SmartDashboard.putNumber("GoalY", targetPose.getY());
-        SmartDashboard.putNumber("Goal Heading", desiredHeading.getDegrees());
-        SmartDashboard.putNumber("GoalRotation", targetPose.getRotation().getDegrees());
-
-        if (LimelightHelpers.getFiducialID("limelight-front") == -1) {
-
-        PathPlannerPath path = new PathPlannerPath(
-        waypoints,
-        constraints,
-        null, // The ideal starting state, this is only relevant for pre-planned paths, so can be null for on-the-fly paths.
-        new GoalEndState(0.0, targetPose.getRotation()) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
-        );
-        path.preventFlipping = true;
-        return path;    
-
-        }
-
+        // SmartDashboard.putNumber("GoalX", targetPose.getX());
+        // SmartDashboard.putNumber("GoalY", targetPose.getY());
+        // SmartDashboard.putNumber("Goal Heading", desiredHeading.getDegrees());
+        // SmartDashboard.putNumber("GoalRotation", targetPose.getRotation().getDegrees());
 
 
         return new PathPlannerPath(
@@ -386,6 +362,34 @@ public class RobotContainer {
     }
   }
 
+    public Command advancedIntake(){
+
+      return Commands.sequence(
+
+      new coralIntake().withTimeout(10),
+      Commands.runOnce(intake::stopCoral),
+      new moveToPosition(Positions.Intaked)
+        
+      );
+    }
+
+    public Command signalIntake(){
+
+      return Commands.parallel(
+
+        Commands.sequence(
+
+          Commands.runOnce(RobotContainer.led::setBothStrobeRed),
+          new WaitCommand(1),
+          Commands.runOnce(RobotContainer.led::setBothLava)
+                          
+          ),
+
+        new xboxVibrate()
+
+                             );
+    }
+
 
 
     public void registerNamedCommands() { //registering commands for pathplanner autos
@@ -398,23 +402,24 @@ public class RobotContainer {
         NamedCommands.registerCommand("moveToL3", new moveToPosition(Positions.L3));
         NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4).andThen(new WaitCommand(1)));
         NamedCommands.registerCommand("autoCoralIntake", new autoCoralIntake());
+
         NamedCommands.registerCommand("coralRightIntake", //paste of previous coral intake command
 
         Commands.sequence(
-        new moveToPosition(Positions.Home),
+
         Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}),
-        new coralIntake().withTimeout(8),
-        new moveToPosition(Positions.Intaked),
-        Commands.runOnce(intake::stopCoral)));
+        new moveToPosition(Positions.Home),
+        new WaitCommand(0.5),
+        advancedIntake()));
 
         NamedCommands.registerCommand("coralLeftIntake", //paste of previous coral intake command
 
         Commands.sequence(
-        new moveToPosition(Positions.Home),
+
         Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}),
-        new coralIntake().withTimeout(8),
-        new moveToPosition(Positions.Intaked),
-        Commands.runOnce(intake::stopCoral)));
+        new moveToPosition(Positions.Home),
+        new WaitCommand(0.5),
+        advancedIntake()));
 
         NamedCommands.registerCommand("coralShoot", 
 

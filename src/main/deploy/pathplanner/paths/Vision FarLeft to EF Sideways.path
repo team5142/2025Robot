@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.100172170040646,
-        "y": 2.6
+        "x": 6.139369890975898,
+        "y": 2.5627274614589477
       },
       "isLocked": false,
       "linkedName": "LeftReefEdge"
@@ -20,8 +20,8 @@
         "y": 2.99
       },
       "prevControl": {
-        "x": 5.319301359465675,
-        "y": 2.575517887085147
+        "x": 5.280814561388418,
+        "y": 2.743421220772509
       },
       "nextControl": null,
       "isLocked": false,
