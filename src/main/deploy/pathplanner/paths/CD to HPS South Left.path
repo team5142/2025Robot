@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.699460227272727,
-        "y": 3.042798295454545
+        "x": 3.9,
+        "y": 3.02
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.867684786945701,
-        "y": 3.227732060686409
+        "x": 3.170720019260486,
+        "y": 2.3184753708686325
       },
       "isLocked": false,
       "linkedName": "CD Reef Scoring Position"
     },
     {
       "anchor": {
-        "x": 1.35,
-        "y": 0.65
+        "x": 1.475,
+        "y": 0.775
       },
       "prevControl": {
-        "x": 2.035957789476053,
-        "y": 1.335957789476053
+        "x": 2.035353856276269,
+        "y": 1.293131891855424
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.75,
-    "maxAcceleration": 1.75,
+    "maxVelocity": 5.21,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.75
+    "rotation": 59.99999999999999
   },
   "useDefaultConstraints": true
 }

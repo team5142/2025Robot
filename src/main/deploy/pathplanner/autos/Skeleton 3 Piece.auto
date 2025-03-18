@@ -27,6 +27,12 @@
           "data": {
             "pathName": "CD to HPS South Left"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HPS South Left to CD"
+          }
         }
       ]
     }

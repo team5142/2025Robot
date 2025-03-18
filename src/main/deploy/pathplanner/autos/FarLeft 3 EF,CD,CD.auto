@@ -7,7 +7,38 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FarLeft to CD"
+            "pathName": "FarLeft to EF Sideways"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralShoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "EF to HPS South"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "coralLeftIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HPS South Left to CD"
           }
         },
         {
@@ -29,7 +60,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "coralIntake"
+                  "name": "coralRightIntake"
                 }
               }
             ]
@@ -42,21 +73,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "coralShoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CD to HPS South Left"
           }
         }
       ]

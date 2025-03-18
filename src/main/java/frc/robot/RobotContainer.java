@@ -116,8 +116,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)  /2 is to slow it down
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX(-Math.pow(joystick.getLeftY(), 1) * MaxSpeed) // Drive forward with negative Y (forward)  /2 is to slow it down
+                    .withVelocityY(-Math.pow(joystick.getLeftX(), 1) * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );     
@@ -398,19 +398,31 @@ public class RobotContainer {
         NamedCommands.registerCommand("moveToL3", new moveToPosition(Positions.L3));
         NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4).andThen(new WaitCommand(1)));
         NamedCommands.registerCommand("autoCoralIntake", new autoCoralIntake());
-        NamedCommands.registerCommand("coralIntake", //paste of previous coral intake command
-        new coralIntake().withTimeout(6).unless(elevator::isElevatorActive)
-                         .andThen(new moveToPosition(Positions.Intaked))
-                         .andThen(Commands.runOnce(intake::stopCoral)));
+        NamedCommands.registerCommand("coralRightIntake", //paste of previous coral intake command
+
+        Commands.sequence(
+        new moveToPosition(Positions.Home),
+        Commands.runOnce(() -> {led.setRightRed(); led.setLeftOff();}),
+        new coralIntake().withTimeout(8),
+        new moveToPosition(Positions.Intaked),
+        Commands.runOnce(intake::stopCoral)));
+
+        NamedCommands.registerCommand("coralLeftIntake", //paste of previous coral intake command
+
+        Commands.sequence(
+        new moveToPosition(Positions.Home),
+        Commands.runOnce(() -> {led.setLeftRed(); led.setRightOff();}),
+        new coralIntake().withTimeout(8),
+        new moveToPosition(Positions.Intaked),
+        Commands.runOnce(intake::stopCoral)));
 
         NamedCommands.registerCommand("coralShoot", 
 
         Commands.sequence(//for shooting out coral autonomously:
 
             Commands.runOnce(intake::ejectCoral), //run the intake to shoot it out
-            new WaitCommand(1), //wait a bit (change this to make it take less long)
-            Commands.runOnce(intake::stopCoral), //stop the intake
-            new moveToPosition(Positions.Home) //elevator down
+            new WaitCommand(0.35), //wait a bit (change this to make it take less long)
+            Commands.runOnce(intake::stopCoral) //stop the intake
 
         ));
     }

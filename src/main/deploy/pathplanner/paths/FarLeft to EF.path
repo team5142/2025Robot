@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.045624999999999,
-        "y": 3.0527698863636363
+        "x": 5.095,
+        "y": 2.99
       },
       "prevControl": {
-        "x": 5.322029464375018,
-        "y": 2.5740233106272417
+        "x": 5.3714044643750185,
+        "y": 2.5112534242636055
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "Raise",
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.4,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -45,8 +45,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.75,
-    "maxAcceleration": 1.75,
+    "maxVelocity": 5.21,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

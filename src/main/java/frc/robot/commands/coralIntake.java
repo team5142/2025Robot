@@ -21,17 +21,20 @@ public class coralIntake extends SequentialCommandGroup{
         new moveToPosition(Positions.Feed),
         new InstantCommand(RobotContainer.intake::intakeCoral),
         new WaitUntilCommand(RobotContainer.intake::isCoralIntaked), //wait until the sensor senses on
-        new WaitUntilCommand(RobotContainer.intake::isNeitherCoralIntaked), //wait until it passes the sensor
+        new WaitCommand(0.2), //Did the coral bounce out? keep waiting, lets see if its still there. If it's not yet
+        new WaitUntilCommand(RobotContainer.intake::isCoralIntaked), //we wait until it is
 
-        new InstantCommand(RobotContainer.intake::stopCoral),
-        new ParallelCommandGroup(
-            new SequentialCommandGroup(
-                new InstantCommand(RobotContainer.led::setBothStrobeRed),
-                new WaitCommand(1),
-                new InstantCommand(RobotContainer.led::setBothLava)
-            ),
-            new xboxVibrate()
-        )
+        new WaitUntilCommand(RobotContainer.intake::isNeitherCoralIntaked), //wait until it passes the sensor
+        
+        new InstantCommand(RobotContainer.intake::stopCoral)
+        // new ParallelCommandGroup(
+        //     new SequentialCommandGroup(
+        //         new InstantCommand(RobotContainer.led::setBothStrobeRed),
+        //         new WaitCommand(1),
+        //         new InstantCommand(RobotContainer.led::setBothLava)
+        //     ),
+        //     new xboxVibrate()
+        // )
         
         
         

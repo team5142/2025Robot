@@ -312,7 +312,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
       LimelightHelpers.SetRobotOrientation("limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
       LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
-      
       boolean doRejectUpdate = false;
 
     try{
@@ -325,13 +324,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
             }
 
-    //   else if() //code here to check for bad measurements and reject them
+      else if(mt2.avgTagArea > 17) //code here to check for bad measurements and reject them
       
-    //         {
+            {
 
-    //           doRejectUpdate = true;
+              doRejectUpdate = true;
 
-    //         }
+            }
 
       if(!doRejectUpdate)
 
@@ -342,17 +341,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     mt2.timestampSeconds);
             }
 
-    } catch (Exception ex) {
-        ex.printStackTrace();
-    }
+    
+
+    
 
       SmartDashboard.putNumber("PoseX", getState().Pose.getX());
       SmartDashboard.putNumber("PoseY", getState().Pose.getY());
       SmartDashboard.putNumber("PoseRotation", getState().Pose.getRotation().getDegrees());
       SmartDashboard.putNumber("ID", LimelightHelpers.getFiducialID("limelight-front"));
-
+      SmartDashboard.putNumber("Area", mt2.avgTagArea);
       
-
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
         }
     
 

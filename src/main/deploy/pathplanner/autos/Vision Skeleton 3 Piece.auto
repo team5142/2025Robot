@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FarLeft to CD"
+            "pathName": "Vision FarLeft to EF Sideways"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.4
           }
         },
         {
@@ -23,13 +29,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "CD to HPS South Left"
+                  "pathName": "Vision EF to HPS South"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "coralIntake"
+                  "name": "coralLeftIntake"
                 }
               }
             ]
@@ -38,13 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "HPS South Left to CD"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.25
+            "pathName": "Vision HPS South Left to CD"
           }
         },
         {
@@ -54,9 +54,34 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Vision CD to HPS South Left"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "coralRightIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "CD to HPS South Left"
+            "pathName": "Vision HPS South Left to CD"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralShoot"
           }
         }
       ]
