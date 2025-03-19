@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.475,
-        "y": 0.775
+        "x": 1.6054261363636366,
+        "y": 0.6895028409090912
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.182999882324565,
-        "y": 1.4445023421447263
+        "x": 2.313426018688202,
+        "y": 1.3590051830538177
       },
       "isLocked": false,
       "linkedName": "South HPS Left"
     },
     {
       "anchor": {
-        "x": 3.9,
-        "y": 3.02
+        "x": 3.88,
+        "y": 2.985
       },
       "prevControl": {
-        "x": 3.2191338972343297,
-        "y": 2.3647692447383357
+        "x": 3.1991338972343297,
+        "y": 2.3297692447383356
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CD Reef Scoring Position"
+      "linkedName": "Vision CD Scoring Position"
     }
   ],
   "rotationTargets": [],
@@ -34,9 +34,14 @@
   "eventMarkers": [
     {
       "name": "Raise",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.0,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "moveToL4"
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -55,7 +60,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 54.63
+    "rotation": 53.58362148011395
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

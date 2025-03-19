@@ -40,13 +40,13 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void setRightRed(){
 
-    rightBlinkin.setPulseTimeMicroseconds(1805); //red value
+    rightBlinkin.setPulseTimeMicroseconds(1825); //red value
 
   }
 
   public void setLeftRed(){
 
-    leftBlinkin.setPulseTimeMicroseconds(1805); //red value
+    leftBlinkin.setPulseTimeMicroseconds(1825); //red value
     
   }
 

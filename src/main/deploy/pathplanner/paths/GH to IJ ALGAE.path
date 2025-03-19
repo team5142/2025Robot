@@ -3,54 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.15,
-        "y": 0.525
+        "x": 5.78,
+        "y": 4.03
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.030425438369493,
-        "y": 2.127331923537547
+        "x": 6.571278409090909,
+        "y": 4.229417613636364
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Vision GH"
     },
     {
       "anchor": {
-        "x": 2.857648026316992,
-        "y": 3.264884868423435
+        "x": 6.521420454545455,
+        "y": 4.757911931818182
       },
       "prevControl": {
-        "x": 2.9227409504096444,
-        "y": 2.9243059350001794
+        "x": 6.521420454545455,
+        "y": 4.507911931818182
       },
       "nextControl": {
-        "x": 2.7767660944525017,
-        "y": 3.6880749842709095
+        "x": 6.521420454545455,
+        "y": 5.007911931818178
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.26,
-        "y": 4.01554219069926
+        "x": 5.08,
+        "y": 5.08
       },
       "prevControl": {
-        "x": 3.200746653329419,
-        "y": 3.7726655946502867
+        "x": 5.558636363636364,
+        "y": 5.787982954545455
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "AB Reef Scoring Position"
+      "linkedName": "Vision IJ Scoring Position"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -58,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.030948055970001137
+    "rotation": -121.10880882854518
   },
   "reversed": false,
   "folder": null,
@@ -66,5 +71,5 @@
     "velocity": 0,
     "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

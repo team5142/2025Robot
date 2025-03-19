@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FarLeft to EF Sideways"
+            "pathName": "Start Left to EF"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.4
           }
         },
         {
@@ -69,7 +75,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "HPS South Left to CD"
+            "pathName": "HPS South Left to AB"
           }
         },
         {

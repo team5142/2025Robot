@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.139369890975898,
-        "y": 2.5627274614589477
+        "x": 5.913153409090909,
+        "y": 1.8162926136363637
       },
       "isLocked": false,
       "linkedName": "LeftReefEdge"
@@ -20,30 +20,39 @@
         "y": 2.99
       },
       "prevControl": {
-        "x": 5.280814561388418,
-        "y": 2.743421220772509
+        "x": 5.069751115134419,
+        "y": 3.239789832377165
+      },
+      "nextControl": {
+        "x": 5.145340909090908,
+        "y": 1.397485795454546
+      },
+      "isLocked": false,
+      "linkedName": "Vision EF Scoring Position"
+    },
+    {
+      "anchor": {
+        "x": 1.6054261363636366,
+        "y": 0.6895028409090912
+      },
+      "prevControl": {
+        "x": 3.5307386363636364,
+        "y": 1.4715340909090915
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Vision EF Scoring Position"
+      "linkedName": "South HPS Left"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 119.99999999999999
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Raise",
-      "waypointRelativePos": 0.0,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "moveToL4"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
     "maxAcceleration": 3.0,
@@ -54,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 53.58362148011395
   },
   "reversed": false,
   "folder": null,
@@ -62,5 +71,5 @@
     "velocity": 0,
     "rotation": 180.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

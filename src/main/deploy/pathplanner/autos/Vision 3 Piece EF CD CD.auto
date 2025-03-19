@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Combined 3 Piece Start"
+            "pathName": "Start Left to EF"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Vision HPS South Left to CD"
+            "waitTime": 0.4
           }
         },
         {
@@ -29,7 +29,38 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Vision CD to HPS South Left"
+                  "pathName": "EF to HPS South"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "coralLeftIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HPS South Left to CD"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralShoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CD to HPS South Left"
                 }
               },
               {
@@ -44,7 +75,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Vision HPS South Left to CD"
+            "pathName": "HPS South Left to CD"
           }
         },
         {

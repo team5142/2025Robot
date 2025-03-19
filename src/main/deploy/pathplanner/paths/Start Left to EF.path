@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.475,
-        "y": 0.775
+        "x": 7.154,
+        "y": 2.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.182999882324565,
-        "y": 1.4445023421447263
+        "x": 6.138685516567622,
+        "y": 2.6
       },
       "isLocked": false,
-      "linkedName": "South HPS Left"
+      "linkedName": "LeftReefEdge"
     },
     {
       "anchor": {
-        "x": 3.88,
-        "y": 2.985
+        "x": 5.08,
+        "y": 2.99
       },
       "prevControl": {
-        "x": 3.1991338972343297,
-        "y": 2.3297692447383356
+        "x": 5.280814561388418,
+        "y": 2.743421220772509
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Vision CD Scoring Position"
+      "linkedName": "Vision EF Scoring Position"
     }
   ],
   "rotationTargets": [],
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 119.16908339133202
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 54.63
+    "rotation": 180.0
   },
   "useDefaultConstraints": false
 }

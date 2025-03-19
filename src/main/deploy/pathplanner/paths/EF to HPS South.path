@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.095,
-        "y": 2.99
+        "x": 5.075,
+        "y": 2.985
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.095,
-        "y": 1.912883538556099
+        "x": 5.075,
+        "y": 1.9078835385560986
       },
       "isLocked": false,
-      "linkedName": "EF Reef Scoring Position"
+      "linkedName": "Vision EF Scoring Position"
     },
     {
       "anchor": {
-        "x": 1.475,
-        "y": 0.775
+        "x": 1.6054261363636366,
+        "y": 0.6895028409090912
       },
       "prevControl": {
-        "x": 2.2054120110300444,
-        "y": 1.5054120110300442
+        "x": 2.335838147393681,
+        "y": 1.4199148519391356
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 54.63
+    "rotation": 53.58362148011395
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 120.00110509557771
+    "rotation": 119.16908339133202
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
