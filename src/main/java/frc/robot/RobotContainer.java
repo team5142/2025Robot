@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -230,8 +231,12 @@ public class RobotContainer {
         
    
 
-        joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath()), Set.of(drivetrain)).unless(() -> (LimelightHelpers.getFiducialID("limelight-front") == -1))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible
+        joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("reef")), Set.of(drivetrain)).unless(() -> (Arrays.asList(-1, 1, 2, 3, 4, 5, 12, 13, 14, 15, 16).contains((int)LimelightHelpers.getFiducialID("limelight-front"))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
         
+
+        joystick.rightTrigger().and(() -> (int)LimelightHelpers.getFiducialID("limelight-front") != -1).whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("rightPickup")), Set.of(drivetrain)).unless(() -> (!(Arrays.asList(8, 6, 19, 17).contains((int)LimelightHelpers.getFiducialID("limelight-front")))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
+
+        joystick.leftTrigger().and(() -> (int)LimelightHelpers.getFiducialID("limelight-front") != -1).whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("leftPickup")), Set.of(drivetrain)).unless(() -> (!(Arrays.asList(8, 6, 19, 17).contains((int)LimelightHelpers.getFiducialID("limelight-front")))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
 
           // joystick.a().whileTrue(followPathCommand("center"));
        
@@ -269,9 +274,32 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
-    public PathPlannerPath inferPath() {
+    public PathPlannerPath inferPath(String target) {
 
-        Pose2d targetPose = inferDesiredPose();
+      Pose2d targetPose;
+
+      switch(target){
+
+      case("leftPickup"):
+      targetPose = inferDesiredLeftPickup();
+      break;
+
+      case("rightPickup"):
+      targetPose = inferDesiredRightPickup();
+      break;
+
+      case("reef"):
+      targetPose = inferDesiredReefPose();
+      break;
+
+      default:
+      targetPose = RobotContainer.drivetrain.getPose(); // Return current position if no apriltag matches
+      break;
+
+
+        
+
+      }
 
         Rotation2d desiredHeading = Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-front")).minus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees())).times(-1);
 
@@ -303,7 +331,7 @@ public class RobotContainer {
         );    
     }
 
-    public Pose2d inferDesiredPose() {
+    public Pose2d inferDesiredReefPose() {
 
 
         switch ((int)LimelightHelpers.getFiducialID("limelight-front")) { //get the apriltag id from the limelight, and use the giant switch statement to determine the desired pose
@@ -332,20 +360,54 @@ public class RobotContainer {
           return FlippingUtil.flipFieldPose(Poses.KL.desiredPose);
         case 19:
           return Poses.KL.desiredPose;
-        case 2:
-          return FlippingUtil.flipFieldPose(Poses.rightCoralStation.desiredPose);
-        case 12:
-          return Poses.rightCoralStation.desiredPose;
-        case 1:
-          return FlippingUtil.flipFieldPose(Poses.leftCoralStation.desiredPose);
-        case 13:
-          return Poses.leftCoralStation.desiredPose;
         default:
           return RobotContainer.drivetrain.getPose(); // Return current position if no apriltag matches
         
       }
 
     }    
+
+    public Pose2d inferDesiredRightPickup(){
+
+      switch((int)LimelightHelpers.getFiducialID("limelight-front")){
+
+        case(8):
+        return FlippingUtil.flipFieldPose(Poses.rightSideRightCoralStation.desiredPose);
+  
+        case(6):
+        return FlippingUtil.flipFieldPose(Poses.rightSideLeftCoralStation.desiredPose);
+  
+        case(17):
+        return Poses.rightSideRightCoralStation.desiredPose;
+
+        case(19):
+        return Poses.rightSideLeftCoralStation.desiredPose;
+  
+        default:
+        return RobotContainer.drivetrain.getPose(); // Return current position if no apriltag matches
+      }
+    }
+
+    public Pose2d inferDesiredLeftPickup(){
+
+      switch((int)LimelightHelpers.getFiducialID("limelight-front")){
+
+        case(8):
+        return FlippingUtil.flipFieldPose(Poses.leftSideRightCoralStation.desiredPose);
+  
+        case(6):
+        return FlippingUtil.flipFieldPose(Poses.leftSideLeftCoralStation.desiredPose);
+  
+        case(17):
+        return Poses.leftSideRightCoralStation.desiredPose;
+
+        case(19):
+        return Poses.leftSideLeftCoralStation.desiredPose;
+  
+        default:
+        return RobotContainer.drivetrain.getPose(); // Return current position if no apriltag matches
+           }
+        }
 
     public Command followPathCommand(String pathName) {
 
@@ -405,6 +467,8 @@ public class RobotContainer {
         //   Commands.runOnce(intake::stopCoral) //stop the intake
 
         //   ));
+
+
         
         
 

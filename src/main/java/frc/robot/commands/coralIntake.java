@@ -24,6 +24,8 @@ public class coralIntake extends SequentialCommandGroup{
         new WaitCommand(0.2), //Did the coral bounce out? keep waiting, lets see if its still there. If it's not yet
         new WaitUntilCommand(RobotContainer.intake::isCoralIntaked), //we wait until it is
         new WaitUntilCommand(RobotContainer.intake::isNeitherCoralIntaked), //wait until it passes the sensor
+        // new InstantCommand(RobotContainer.intake::setCoral),
+        // new WaitUntilCommand(RobotContainer.intake::isCoralIntaked), //we wait until it is
         new InstantCommand(RobotContainer.intake::stopCoral)
 
         

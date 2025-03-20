@@ -146,9 +146,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   public boolean isElevatorActive(){
 
     return 
-    (secondaryElevatorMotor.getEncoder().getPosition() > 20)
+    (secondaryElevatorMotor.getEncoder().getPosition() > 15)
     ||
-    (leadElevatorMotor.getEncoder().getPosition() > 20); //used to tell if elevator encoders are higher than 20
+    (leadElevatorMotor.getEncoder().getPosition() > 15); //used to tell if elevator encoders are higher than 20
 
   }
 

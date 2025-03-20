@@ -3,38 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6054261363636366,
-        "y": 0.6895028409090912
+        "x": 0.6680965909090909,
+        "y": 1.3675710227272737
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.313426018688202,
-        "y": 1.3590051830538177
+        "x": 3.7592897727272727,
+        "y": 0.948764204545455
       },
       "isLocked": false,
-      "linkedName": "South HPS Left"
+      "linkedName": "South HPS Right"
     },
     {
       "anchor": {
-        "x": 3.88,
-        "y": 2.985
+        "x": 3.2407670454545454,
+        "y": 4.029985795454545
       },
       "prevControl": {
-        "x": 3.1991338972343297,
-        "y": 2.3297692447383356
+        "x": 0.3390340909090912,
+        "y": 4.41887784090909
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Vision CD Scoring Position"
+      "linkedName": "Vision AB Scoring Position"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "Raise",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.6,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -54,13 +59,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": -0.715828578038317
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 54.0
+    "rotation": 53.58362148011395
   },
   "useDefaultConstraints": false
 }

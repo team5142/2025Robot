@@ -167,16 +167,26 @@ public final class Constants {
 				20),
 
 
-			rightCoralStation("rightCoralStation",
+			rightSideRightCoralStation("rightSideRightCoralStation",
+				new Pose2d(1.13, 1.0, Rotation2d.fromDegrees(54)),
+				2,
+				12),
+				
+			leftSideRightCoralStation("leftSideRightCoralStation",
 				new Pose2d(1.13, 1.0, Rotation2d.fromDegrees(54)),
 				2,
 				12),
 				
 
-			leftCoralStation("leftCoralStation",
+			leftSideLeftCoralStation("leftSideLeftCoralStation",
 				new Pose2d(1.13, 7, Rotation2d.fromDegrees(120)),
 				1,
-				13);
+				13),
+				
+			rightSideLeftCoralStation("rightSideLeftCoralStation",
+				new Pose2d(1.13, 7, Rotation2d.fromDegrees(120)),
+				1,
+				13);;
 
 
 

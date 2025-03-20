@@ -55,6 +55,9 @@ public class IntakeSubsystem extends SubsystemBase {
   private final double algaeHoldSpeed = 0.15;
 
   private final double coralIntakeSpeed = 0.225;
+  private final double coralSetSpeed = -0.15;
+
+  
   private final double coralEjectSpeed = 1; 
 
 
@@ -147,6 +150,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void intakeCoral(){
     coralMotor.set(coralIntakeSpeed);
+  }
+
+  public void setCoral(){
+    coralMotor.set(coralSetSpeed);
   }
 
   public void ejectCoral(){
