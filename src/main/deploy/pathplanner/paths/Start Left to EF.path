@@ -34,7 +34,7 @@
   "eventMarkers": [
     {
       "name": "Raise",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.05,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
