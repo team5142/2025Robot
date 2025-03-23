@@ -68,7 +68,7 @@ public final class Constants {
 			L1("L1",
 							16,
 							0,
-							0),
+							14),
 			L2("L2",
 							35,
 							0,
@@ -94,8 +94,8 @@ public final class Constants {
 							0,
 							13),
 			BargePrep("BargePrep",
-							40,
-							45,
+							62,
+							63,
 							1.7),
 			Barge("Barge",
 							68,
@@ -104,7 +104,7 @@ public final class Constants {
 			groundAlgae("groundAlgae",
 							0,
 							0,
-							18),
+							20.5),
 			groundCoral("groundCoral",
 							0,
 							0,
@@ -156,13 +156,13 @@ public final class Constants {
 
 
 			IJ("IJ",
-				new Pose2d(5.135, 5.15, Rotation2d.fromDegrees(-120)),
+				new Pose2d(5.095, 5.03, Rotation2d.fromDegrees(-120)),
 				11,
 				7),
 
 
 			KL("KL",
-				new Pose2d(3.84, 5.14, Rotation2d.fromDegrees(-60)),
+				new Pose2d(3.9, 5.03, Rotation2d.fromDegrees(-60)),
 				6,
 				20),
 

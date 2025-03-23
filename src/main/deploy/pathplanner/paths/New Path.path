@@ -3,42 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6206081081081083,
-        "y": 7.3452702702702695
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3215482605427353,
-        "y": 6.6683802332525905
+        "x": 3.0,
+        "y": 7.0
       },
       "isLocked": false,
-      "linkedName": "North HPS Right"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.88,
-        "y": 5.07
+        "x": 3.9,
+        "y": 5.03
       },
       "prevControl": {
-        "x": 3.200269184795099,
-        "y": 5.726408418133835
+        "x": 2.9,
+        "y": 5.03
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Vision KL Scoring Position"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Raise",
-      "waypointRelativePos": 0.0,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
     "maxAcceleration": 3.0,
@@ -48,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": -59.99999999999999
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

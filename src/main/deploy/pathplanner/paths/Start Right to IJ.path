@@ -41,12 +41,7 @@
       "name": "Raise",
       "waypointRelativePos": 0.05,
       "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "moveToL4"
-        }
-      }
+      "command": null
     }
   ],
   "globalConstraints": {

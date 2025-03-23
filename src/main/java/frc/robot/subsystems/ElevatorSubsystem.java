@@ -54,6 +54,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   // private final double secondaryResetSpeed = -0.25;
 
   private SparkClosedLoopController leadPID;
+  private SparkClosedLoopController followingPID;
   private SparkClosedLoopController secondaryPID;
 
 
@@ -70,6 +71,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     //Initialize PIDS
     leadPID = leadElevatorMotor.getClosedLoopController();
+    followingPID = followingElevatorMotor.getClosedLoopController();
     secondaryPID = secondaryElevatorMotor.getClosedLoopController();
 
     leadElevatorConfig = new SparkMaxConfig();
@@ -85,11 +87,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     //Encoders are reset, if we want to go by inches or something we can try multiplying but
     //I think it's easier to just go by rotations and find values with hardware client
 
-    followingElevatorConfig.follow(15, true); 
+    // followingElevatorConfig.follow(15, true); 
       //Follows the lead motor, invert is set to true. We may want to also invert the other motor.
 
     leadElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500);
-    followingElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500);
+    followingElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500)
+    .inverted(true);
     secondaryElevatorConfig.smartCurrentLimit(CurrentLimits.Neo500)
     .inverted(true);
       //Applies a 40 amp limit
@@ -101,7 +104,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     .forwardSoftLimitEnabled(true)
     .reverseSoftLimitEnabled(true);
     
-    followingElevatorConfig.idleMode(IdleMode.kBrake);
+    followingElevatorConfig.idleMode(IdleMode.kBrake)
+    .softLimit
+    .forwardSoftLimit(68)
+    .reverseSoftLimit(0)
+    .forwardSoftLimitEnabled(true)
+    .reverseSoftLimitEnabled(true);
   
     secondaryElevatorConfig.idleMode(IdleMode.kBrake)
     .softLimit
@@ -113,6 +121,15 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   
     leadElevatorConfig.closedLoop
+      .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+      // Set PID values for position control. We don't need to pass a closed loop
+      // slot, as it will default to slot 0.
+      .p(primarykP)
+      .i(primarykI)
+      .d(primarykD)
+      .outputRange(primaryReverseSpeedLimit, primaryForwardSpeedLimit);
+
+      followingElevatorConfig.closedLoop
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed loop
       // slot, as it will default to slot 0.
@@ -155,9 +172,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   public boolean isElevatorUp(){
 
     return
-    (leadElevatorMotor.getEncoder().getPosition() > 66)
+    (leadElevatorMotor.getEncoder().getPosition() > 60)
     &&
-    (secondaryElevatorMotor.getEncoder().getPosition() > 67);
+    (secondaryElevatorMotor.getEncoder().getPosition() > 59);
 
   }
   
@@ -184,6 +201,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void setPrimaryPosition(Positions position) {
 
     leadPID.setReference(position.primaryElevator, ControlType.kPosition);
+    followingPID.setReference(position.primaryElevator, ControlType.kPosition);
+
 
   }
 

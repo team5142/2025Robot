@@ -7,7 +7,44 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start Left Combined Vision 3 Piece"
+            "pathName": "BUMP"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start Left to EF"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.4
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralShoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "EF to HPS South Left"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "coralLeftIntake"
+                }
+              }
+            ]
           }
         },
         {

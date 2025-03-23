@@ -9,8 +9,8 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.PositionClass.Positions;
 public class algaeThrow extends SequentialCommandGroup{
 
-    double stageDelay = 1;
-    double throwDelay = 1.5; //amount of time to wait before throwing algae
+    double stageDelay = 1.3;
+    double throwDelay = 0; //amount of time to wait before throwing algae
 
 
     public algaeThrow(){
@@ -24,8 +24,8 @@ public class algaeThrow extends SequentialCommandGroup{
         new moveToPosition(Positions.BargePrep),
         new WaitCommand(stageDelay),
         new moveToPosition(Positions.Barge), //now still go to top 
-        // new WaitCommand(throwDelay), //wait until we are at the top to eject
-        new WaitUntilCommand(RobotContainer.elevator::isElevatorUp),
+        new WaitCommand(throwDelay), //wait until we are at the top to eject
+        // new WaitUntilCommand(RobotContainer.elevator::isElevatorUp),
         new InstantCommand(RobotContainer.intake::ejectAlgae),
         new WaitCommand(0.75),
         new InstantCommand(RobotContainer.intake::stopAlgae) //throw the algae with upwards momentum

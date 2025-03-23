@@ -44,6 +44,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
@@ -107,9 +108,27 @@ public class RobotContainer {
         configureBindings();
 
         CameraServer.startAutomaticCapture();
-        drivetrain.setIMU180(); //we start the match facing backwards so we need to set the imu reversed
 
-    }
+
+
+        DriverStation.getAlliance().ifPresent(allianceColor -> {
+
+          if (allianceColor == Alliance.Blue){
+              drivetrain.setIMU180();}
+            });
+
+                          
+                          //we start the match facing backwards so we need to set the imu reversed
+
+        }
+      
+          //         setOperatorPerspectiveForward(
+          //             allianceColor == Alliance.Red
+          //                 ? kRedAlliancePerspectiveRotation
+          //                 : kBlueAlliancePerspectiveRotation
+          //         );
+
+    
 
 
     private void configureBindings() {
@@ -206,7 +225,9 @@ public class RobotContainer {
 
           .onFalse(Commands.runOnce(intake::holdAlgae)
           .andThen(new WaitCommand(0.5))
-          .andThen(new moveToPosition(Positions.Home)));
+          .andThen(new moveToPosition(Positions.Home))
+          .andThen(new WaitCommand(0.5))
+          .andThen(Commands.runOnce(intake::stopAlgae)));
 
         leftSide.button(7).onTrue(
 
@@ -323,12 +344,18 @@ public class RobotContainer {
         // SmartDashboard.putNumber("GoalRotation", targetPose.getRotation().getDegrees());
 
 
-        return new PathPlannerPath(
+        PathPlannerPath path = new PathPlannerPath(
         waypoints,
         constraints,
         null, // The ideal starting state, this is only relevant for pre-planned paths, so can be null for on-the-fly paths.
         new GoalEndState(0.0, targetPose.getRotation()) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
         );    
+
+        path.preventFlipping = true;
+
+        return path;
+
+
     }
 
     public Pose2d inferDesiredReefPose() {
