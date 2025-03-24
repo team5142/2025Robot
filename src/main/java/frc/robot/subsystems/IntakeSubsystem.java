@@ -50,7 +50,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final double algaeForwardSpeedLimit = 0.5;
   private final double algaeReverseSpeedLimit = -0.5;
 
-  private final double algaeIntakeSpeed = 0.5;
+  private final double algaeIntakeSpeed = 1;
   private final double algaeEjectSpeed = -1;
   private final double algaeHoldSpeed = 0.1;
 

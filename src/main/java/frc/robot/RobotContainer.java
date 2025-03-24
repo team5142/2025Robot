@@ -51,7 +51,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.PoseClass.Poses;
 import frc.robot.Constants.PositionClass.Positions;
-import frc.robot.commands.turnToAngle;
 import frc.robot.commands.algaeIntake;
 import frc.robot.commands.algaeThrow;
 
@@ -76,7 +75,7 @@ public class RobotContainer {
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     
-    private final Telemetry logger = new Telemetry(MaxSpeed);
+    // private final Telemetry logger = new Telemetry(MaxSpeed);
     
     //DEFINE CONTROLLERS
     //main drive controller
@@ -111,11 +110,7 @@ public class RobotContainer {
 
 
 
-        DriverStation.getAlliance().ifPresent(allianceColor -> {
-
-          if (allianceColor == Alliance.Blue){
-              drivetrain.setIMU180();}
-            });
+        
 
                           
                           //we start the match facing backwards so we need to set the imu reversed
@@ -292,7 +287,7 @@ public class RobotContainer {
         // End of button binds
 
 
-        drivetrain.registerTelemetry(logger::telemeterize);
+        // drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public PathPlannerPath inferPath(String target) {
@@ -337,7 +332,7 @@ public class RobotContainer {
         desiredHeading));
 
       
-        PathConstraints constraints = new PathConstraints(2.5, 2.5, 3 * Math.PI, 4 * Math.PI); // converted degrees to radians, everything taken from pathplanner settings
+        PathConstraints constraints = new PathConstraints(2.5, 2.75, 3 * Math.PI, 4 * Math.PI); // converted degrees to radians, everything taken from pathplanner settings
         // SmartDashboard.putNumber("GoalX", targetPose.getX());
         // SmartDashboard.putNumber("GoalY", targetPose.getY());
         // SmartDashboard.putNumber("Goal Heading", desiredHeading.getDegrees());
@@ -455,7 +450,7 @@ public class RobotContainer {
 
       return Commands.sequence(
 
-      new coralIntake().withTimeout(10),
+      new coralIntake().handleInterrupt(() -> {intake.stopCoral(); led.setBothLava(); joystick.setRumble(RumbleType.kBothRumble, 0);}).withTimeout(10),
       Commands.runOnce(intake::stopCoral),
       new moveToPosition(Positions.Intaked)
         

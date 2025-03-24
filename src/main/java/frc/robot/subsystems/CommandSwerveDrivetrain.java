@@ -286,13 +286,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     @Override
     public void periodic() {
-        /*
-         * Periodically try to apply the operator perspective.
-         * If we haven't applied the operator perspective before, then we should apply it regardless of DS state.
-         * This allows us to correct the perspective in case the robot code restarts mid-match.
-         * Otherwise, only check and apply the operator perspective if the DS is disabled.
-         * This ensures driving behavior doesn't change until an explicit disable event occurs during testing.
-         */
+        // /*
+        //  * Periodically try to apply the operator perspective.
+        //  * If we haven't applied the operator perspective before, then we should apply it regardless of DS state.
+        //  * This allows us to correct the perspective in case the robot code restarts mid-match.
+        //  * Otherwise, only check and apply the operator perspective if the DS is disabled.
+        //  * This ensures driving behavior doesn't change until an explicit disable event occurs during testing.
+        //  */
         if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
 
             DriverStation.getAlliance().ifPresent(allianceColor -> {
@@ -303,10 +303,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                         : kBlueAlliancePerspectiveRotation
                 );
 
-              });}
+              });
 
-        //         m_hasAppliedOperatorPerspective = true;
+              DriverStation.getAlliance().ifPresent(allianceColor -> {
 
+                if (allianceColor == Alliance.Blue){
+                    new Rotation2d();
+                    resetRotation(Rotation2d.fromDegrees(180));}
+                
+                  });
+                  
+            
+
+                m_hasAppliedOperatorPerspective = true;
+        }
 
         //     });
             
@@ -318,7 +328,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         
         // });
 
-            // SmartDashboard.putNumber("Yaw", getPigeon2().getYaw().getValueAsDouble());
 
 
             
@@ -362,14 +371,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     //   SmartDashboard.putNumber("PoseX", getState().Pose.getX());
     //   SmartDashboard.putNumber("PoseY", getState().Pose.getY());
     //   SmartDashboard.putNumber("PoseRotation", getState().Pose.getRotation().getDegrees());
-    //   SmartDashboard.putNumber("ID", LimelightHelpers.getFiducialID("limelight-front"));
+    // //   SmartDashboard.putNumber("ID", LimelightHelpers.getFiducialID("limelight-front"));
     //   SmartDashboard.putNumber("Area", mt2.avgTagArea);
       
     } catch (Exception ex) {
         ex.printStackTrace();
     }
 }
-        // }
     
 
     

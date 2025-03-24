@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.075,
-        "y": 2.985
+        "x": 5.095,
+        "y": 2.99
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.075,
-        "y": 1.9078835385560986
+        "x": 5.095,
+        "y": 1.912883538556099
       },
       "isLocked": false,
       "linkedName": "Vision EF Scoring Position"
