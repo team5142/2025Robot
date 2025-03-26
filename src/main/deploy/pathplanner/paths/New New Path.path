@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.522,
-        "y": 7.3
+        "x": 2.49,
+        "y": 1.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.244921826540045,
-        "y": 6.573074653828432
+        "x": 1.9745993874934746,
+        "y": 1.0519484339585565
       },
       "isLocked": false,
-      "linkedName": "North HPS Left"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.88,
-        "y": 5.07
+        "x": 1.605,
+        "y": 0.69
       },
       "prevControl": {
-        "x": 3.5046167847475154,
-        "y": 5.441821912157558
+        "x": 1.8700798864617645,
+        "y": 1.0490205858910961
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Vision KL Scoring Position"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 54.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": 41.56
   },
   "useDefaultConstraints": true
 }

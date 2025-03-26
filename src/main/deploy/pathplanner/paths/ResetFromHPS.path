@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.522,
-        "y": 7.3
+        "x": 1.6054261363636366,
+        "y": 0.6895028409090912
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.244921826540045,
-        "y": 6.573074653828432
+        "x": 2.6054261363636364,
+        "y": 0.6895028409090909
       },
       "isLocked": false,
-      "linkedName": "North HPS Left"
+      "linkedName": "South HPS Left"
     },
     {
       "anchor": {
-        "x": 3.88,
-        "y": 5.07
+        "x": 7.154,
+        "y": 2.25
       },
       "prevControl": {
-        "x": 3.5046167847475154,
-        "y": 5.441821912157558
+        "x": 6.154,
+        "y": 2.25
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Vision KL Scoring Position"
+      "linkedName": "LeftReefEdge"
     }
   ],
   "rotationTargets": [],
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -54.0
+    "rotation": 54.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -14,6 +14,7 @@ import java.util.Set;
 import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.core.util.JsonParserSequence;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -59,6 +60,7 @@ import frc.robot.commands.moveToPosition;
 import frc.robot.commands.xboxVibrate;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.autoCoralIntake;
+import frc.robot.commands.autoMoveToL4;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
@@ -102,6 +104,7 @@ public class RobotContainer {
 
         autoChooser = AutoBuilder.buildAutoChooser();
 
+        SmartDashboard.clearPersistent("Auto Mode");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         configureBindings();
@@ -159,7 +162,6 @@ public class RobotContainer {
 
         leftSide.button(3).onTrue(new SequentialCommandGroup( //Algae intake
 
-        new moveToPosition(Positions.groundAlgae).unless(elevator::isElevatorActive),
         //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
         new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(8)
         //intake an algae, if it doesn't work within 8 seconds stop (handle interrupt detects the timeout).
@@ -250,9 +252,9 @@ public class RobotContainer {
         joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("reef")), Set.of(drivetrain)).unless(() -> (Arrays.asList(-1, 1, 2, 3, 4, 5, 12, 13, 14, 15, 16).contains((int)LimelightHelpers.getFiducialID("limelight-front"))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
         
 
-        joystick.rightTrigger().and(() -> (int)LimelightHelpers.getFiducialID("limelight-front") != -1).whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("rightPickup")), Set.of(drivetrain)).unless(() -> (!(Arrays.asList(8, 6, 19, 17).contains((int)LimelightHelpers.getFiducialID("limelight-front")))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
+        joystick.rightTrigger().and(() -> (int)LimelightHelpers.getFiducialID("limelight-back") != -1).whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("rightPickup")), Set.of(drivetrain)).unless(() -> (!(Arrays.asList(1, 2, 12, 13).contains((int)LimelightHelpers.getFiducialID("limelight-back")))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
 
-        joystick.leftTrigger().and(() -> (int)LimelightHelpers.getFiducialID("limelight-front") != -1).whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("leftPickup")), Set.of(drivetrain)).unless(() -> (!(Arrays.asList(8, 6, 19, 17).contains((int)LimelightHelpers.getFiducialID("limelight-front")))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
+        joystick.leftTrigger().and(() -> (int)LimelightHelpers.getFiducialID("limelight-back") != -1).whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("leftPickup")), Set.of(drivetrain)).unless(() -> (!(Arrays.asList(1, 2, 12, 13).contains((int)LimelightHelpers.getFiducialID("limelight-back")))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
 
           // joystick.a().whileTrue(followPathCommand("center"));
        
@@ -293,23 +295,30 @@ public class RobotContainer {
     public PathPlannerPath inferPath(String target) {
 
       Pose2d targetPose;
+      Rotation2d desiredHeading;
 
       switch(target){
 
       case("leftPickup"):
       targetPose = inferDesiredLeftPickup();
+      desiredHeading = (Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-back") + 180).minus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees()))).times(-1);
+
       break;
 
       case("rightPickup"):
       targetPose = inferDesiredRightPickup();
+      desiredHeading = (Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-back") + 180).minus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees()))).times(-1);
+
       break;
 
       case("reef"):
       targetPose = inferDesiredReefPose();
+      desiredHeading = (Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-front")).minus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees()))).times(-1);
       break;
 
       default:
       targetPose = RobotContainer.drivetrain.getPose(); // Return current position if no apriltag matches
+      desiredHeading = RobotContainer.drivetrain.getPose().getRotation(); // Return current position if no apriltag matches
       break;
 
 
@@ -317,7 +326,6 @@ public class RobotContainer {
 
       }
 
-        Rotation2d desiredHeading = Rotation2d.fromDegrees(LimelightHelpers.getTX("limelight-front")).minus(Rotation2d.fromDegrees(drivetrain.getRotation().getDegrees())).times(-1);
 
         List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
      
@@ -391,18 +399,18 @@ public class RobotContainer {
 
     public Pose2d inferDesiredRightPickup(){
 
-      switch((int)LimelightHelpers.getFiducialID("limelight-front")){
+      switch((int)LimelightHelpers.getFiducialID("limelight-back")){
 
-        case(8):
+        case(2):
         return FlippingUtil.flipFieldPose(Poses.rightSideRightCoralStation.desiredPose);
   
-        case(6):
+        case(1):
         return FlippingUtil.flipFieldPose(Poses.rightSideLeftCoralStation.desiredPose);
   
-        case(17):
+        case(12):
         return Poses.rightSideRightCoralStation.desiredPose;
 
-        case(19):
+        case(13):
         return Poses.rightSideLeftCoralStation.desiredPose;
   
         default:
@@ -412,18 +420,18 @@ public class RobotContainer {
 
     public Pose2d inferDesiredLeftPickup(){
 
-      switch((int)LimelightHelpers.getFiducialID("limelight-front")){
+      switch((int)LimelightHelpers.getFiducialID("limelight-back")){
 
-        case(8):
+        case(2):
         return FlippingUtil.flipFieldPose(Poses.leftSideRightCoralStation.desiredPose);
   
-        case(6):
+        case(1):
         return FlippingUtil.flipFieldPose(Poses.leftSideLeftCoralStation.desiredPose);
   
-        case(17):
+        case(12):
         return Poses.leftSideRightCoralStation.desiredPose;
 
-        case(19):
+        case(13):
         return Poses.leftSideLeftCoralStation.desiredPose;
   
         default:
@@ -497,11 +505,13 @@ public class RobotContainer {
         NamedCommands.registerCommand("algaeIntake", new algaeIntake().withTimeout(8));
         NamedCommands.registerCommand("algaeThrow", new algaeThrow());
         NamedCommands.registerCommand("moveToHome", new moveToPosition(Positions.Home));
+        NamedCommands.registerCommand("moveToFeed", new moveToPosition(Positions.Feed));
         NamedCommands.registerCommand("moveToL1", new moveToPosition(Positions.L1));
         NamedCommands.registerCommand("moveToL2", new moveToPosition(Positions.L2));
         NamedCommands.registerCommand("moveToL3", new moveToPosition(Positions.L3));
-        NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4).andThen(new WaitCommand(1)));
+        NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4));//.andThen(new WaitCommand(1)));
         NamedCommands.registerCommand("autoCoralIntake", new autoCoralIntake());
+        NamedCommands.registerCommand("autoMoveToL4", new autoMoveToL4());
 
         NamedCommands.registerCommand("coralRightIntake", //paste of previous coral intake command
 

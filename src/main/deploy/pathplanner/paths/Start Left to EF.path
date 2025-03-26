@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 7.154,
-        "y": 2.6
+        "y": 2.25
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.451619318181818,
-        "y": 2.4943607954545453
+        "x": 6.443719587959536,
+        "y": 2.25
       },
       "isLocked": false,
       "linkedName": "LeftReefEdge"
@@ -29,24 +29,26 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
-  "pointTowardsZones": [],
-  "eventMarkers": [
+  "constraintZones": [
     {
-      "name": "Raise",
-      "waypointRelativePos": 0.05,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "moveToL4"
-        }
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.7469066366704183,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 5.21,
+        "maxAcceleration": 2.3,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
       }
     }
   ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 2.75,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

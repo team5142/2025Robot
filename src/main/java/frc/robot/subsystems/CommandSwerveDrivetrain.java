@@ -293,7 +293,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         //  * Otherwise, only check and apply the operator perspective if the DS is disabled.
         //  * This ensures driving behavior doesn't change until an explicit disable event occurs during testing.
         //  */
-        if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
+        if (!m_hasAppliedOperatorPerspective) {
 
             DriverStation.getAlliance().ifPresent(allianceColor -> {
                 new Rotation2d();
@@ -310,12 +310,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 if (allianceColor == Alliance.Blue){
                     new Rotation2d();
                     resetRotation(Rotation2d.fromDegrees(180));}
+                    m_hasAppliedOperatorPerspective = true;
+                    System.out.println("Seeded perspective and rotation of pose");
+
                 
                   });
                   
             
 
-                m_hasAppliedOperatorPerspective = true;
+
         }
 
         //     });
@@ -335,6 +338,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
       LimelightHelpers.SetRobotOrientation("limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
       LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
+
       boolean doRejectUpdate = false;
 
     try{

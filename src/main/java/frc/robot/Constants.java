@@ -82,17 +82,17 @@ public final class Constants {
 							69,
 							4),
 			Algae1("Algae1",
-							18,
+							15,
 							0,
 							4.5),
 			Algae2("Algae2",
-							36,
+							33,
 							24,
 							4.5),
 			Processor("Processor",
 							0,
 							0,
-							13),
+							11.5),
 			BargePrep("BargePrep",
 							62,
 							63,
@@ -168,23 +168,23 @@ public final class Constants {
 
 
 			rightSideRightCoralStation("rightSideRightCoralStation",
-				new Pose2d(1.13, 1.0, Rotation2d.fromDegrees(54)),
+				new Pose2d(1.605, 0.69, Rotation2d.fromDegrees(54)),
 				2,
 				12),
 				
 			leftSideRightCoralStation("leftSideRightCoralStation",
-				new Pose2d(1.13, 1.0, Rotation2d.fromDegrees(54)),
+				new Pose2d(1.522, 0.744, Rotation2d.fromDegrees(54)),
 				2,
 				12),
 				
 
 			leftSideLeftCoralStation("leftSideLeftCoralStation",
-				new Pose2d(1.13, 7, Rotation2d.fromDegrees(120)),
+				new Pose2d(1.605, 7.35, Rotation2d.fromDegrees(120)),
 				1,
 				13),
 				
 			rightSideLeftCoralStation("rightSideLeftCoralStation",
-				new Pose2d(1.13, 7, Rotation2d.fromDegrees(120)),
+				new Pose2d(1.522, 7.3, Rotation2d.fromDegrees(120)),
 				1,
 				13);;
 
