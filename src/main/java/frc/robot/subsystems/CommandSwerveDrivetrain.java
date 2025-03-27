@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.LimelightHelpers;
+import frc.robot.RobotContainer;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -273,6 +274,40 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         getPigeon2().setYaw(180);
     }
 
+    public void updateVision(String LimelightName){
+
+      LimelightHelpers.SetRobotOrientation(LimelightName, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(LimelightName);
+
+      boolean doRejectUpdate = false;
+
+      if(mt2.tagCount == 0) //dont add the measurement if no tags are seen
+
+            {
+
+              doRejectUpdate = true;
+
+            }
+
+      else if(mt2.avgTagArea > 17) //code here to check for bad measurements and reject them
+      
+            {
+
+              doRejectUpdate = true;
+
+            }
+
+      if(!doRejectUpdate)
+
+            {
+                setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+                addVisionMeasurement(
+                    mt2.pose,
+                    mt2.timestampSeconds);
+            }
+
+    }
+
     /**
      * Runs the SysId Dynamic test in the given direction for the routine
      * specified by {@link #m_sysIdRoutineToApply}.
@@ -316,71 +351,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 
                   });
                   
-            
-
-
         }
-
-        //     });
             
-            
-
-            
-
-
-        
-        // });
-
-
-
-            
-
-
-      LimelightHelpers.SetRobotOrientation("limelight-front", getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
-
-      boolean doRejectUpdate = false;
-
     try{
 
-      if(mt2.tagCount == 0) //dont add the measurement if no tags are seen
+    updateVision("limelight-front");
+    // updateVision("limelight-back");
 
-            {
-
-              doRejectUpdate = true;
-
-            }
-
-      else if(mt2.avgTagArea > 17) //code here to check for bad measurements and reject them
-      
-            {
-
-              doRejectUpdate = true;
-
-            }
-
-      if(!doRejectUpdate)
-
-            {
-                setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-                addVisionMeasurement(
-                    mt2.pose,
-                    mt2.timestampSeconds);
-            }
-
-    
-
-    
-
-    //   SmartDashboard.putNumber("PoseX", getState().Pose.getX());
-    //   SmartDashboard.putNumber("PoseY", getState().Pose.getY());
-    //   SmartDashboard.putNumber("PoseRotation", getState().Pose.getRotation().getDegrees());
-    // //   SmartDashboard.putNumber("ID", LimelightHelpers.getFiducialID("limelight-front"));
-    //   SmartDashboard.putNumber("Area", mt2.avgTagArea);
-      
     } catch (Exception ex) {
         ex.printStackTrace();
     }
+
 }
     
 

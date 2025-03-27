@@ -3,52 +3,49 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5217905405405403,
-        "y": 0.7442567567567562
+        "x": 0.8974431818181818,
+        "y": 1.1681392045454537
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.612983722358722,
-        "y": 0.32544993857493737
+        "x": 2.897443181818182,
+        "y": 1.1681392045454537
       },
       "isLocked": false,
-      "linkedName": "South HPS Right"
+      "linkedName": "South HPS Far Right"
     },
     {
       "anchor": {
-        "x": 3.2407670454545454,
+        "x": 3.26,
         "y": 4.029985795454545
       },
       "prevControl": {
-        "x": 0.3390340909090912,
-        "y": 4.41887784090909
+        "x": 1.2600411276665786,
+        "y": 4.017159690245632
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Vision AB Scoring Position"
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [
     {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 0.0
-    }
-  ],
-  "constraintZones": [],
-  "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Raise",
-      "waypointRelativePos": 0.6,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "moveToL4"
-        }
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.7,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 5.21,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
       }
     }
   ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
     "maxAcceleration": 3.0,
@@ -59,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -0.715828578038317
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,

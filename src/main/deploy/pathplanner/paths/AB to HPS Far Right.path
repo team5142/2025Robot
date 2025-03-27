@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.2407670454545454,
+        "x": 3.26,
         "y": 4.029985795454545
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2407670454545454,
+        "x": 2.26,
         "y": 4.029985795454545
       },
       "isLocked": false,
@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.5217905405405403,
-        "y": 0.7442567567567562
+        "x": 0.8974431818181818,
+        "y": 1.1681392045454537
       },
       "prevControl": {
-        "x": 3.3435077603710854,
-        "y": 0.11698921436382159
+        "x": 2.2974431818181817,
+        "y": 1.168139204545454
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "South HPS Right"
+      "linkedName": "South HPS Far Right"
     }
   ],
   "rotationTargets": [],
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -0.715828578038317
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

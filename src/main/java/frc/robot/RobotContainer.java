@@ -47,6 +47,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -61,6 +62,7 @@ import frc.robot.commands.xboxVibrate;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.autoCoralIntake;
 import frc.robot.commands.autoMoveToL4;
+import frc.robot.commands.autoMoveToL4Delay;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
@@ -94,6 +96,7 @@ public class RobotContainer {
     public final static LEDSubsystem led = new LEDSubsystem();
     public final static ClimberSubsystem climber = new ClimberSubsystem();
     private final SendableChooser<Command> autoChooser;
+    public final static Field2d m_field = new Field2d();
 
     public final static CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -101,6 +104,9 @@ public class RobotContainer {
     public RobotContainer() {
 
         registerNamedCommands();
+
+        // Do this in either robot or subsystem init
+        SmartDashboard.putData("Field", m_field);
 
         autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -512,7 +518,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("moveToL4", new moveToPosition(Positions.L4));//.andThen(new WaitCommand(1)));
         NamedCommands.registerCommand("autoCoralIntake", new autoCoralIntake());
         NamedCommands.registerCommand("autoMoveToL4", new autoMoveToL4());
-
+        NamedCommands.registerCommand("autoMoveToL4Delay", new autoMoveToL4Delay());
         NamedCommands.registerCommand("coralRightIntake", //paste of previous coral intake command
 
         Commands.sequence(

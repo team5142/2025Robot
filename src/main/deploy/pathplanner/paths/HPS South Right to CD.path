@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.512,
-        "y": 0.7442567567567562
+        "x": 1.53,
+        "y": 0.74
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9866347381519724,
-        "y": 1.176119520721012
+        "x": 2.0046347381519727,
+        "y": 1.1718627639642558
       },
       "isLocked": false,
       "linkedName": "South HPS Right"
@@ -48,7 +48,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

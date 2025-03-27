@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 7.154,
-        "y": 2.25
+        "y": 1.9
       },
       "prevControl": null,
       "nextControl": {
         "x": 5.913153409090909,
-        "y": 1.4662926136363637
+        "y": 1.1162926136363636
       },
       "isLocked": false,
       "linkedName": "LeftReefEdge"

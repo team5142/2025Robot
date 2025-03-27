@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.512,
-        "y": 0.7442567567567562
+        "x": 1.53,
+        "y": 0.74
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9866347381519724,
-        "y": 1.176119520721012
+        "x": 2.0046347381519727,
+        "y": 1.1718627639642558
       },
       "isLocked": false,
       "linkedName": "South HPS Right"
     },
     {
       "anchor": {
-        "x": 3.85,
-        "y": 3.045
+        "x": 2.4330681818181814,
+        "y": 1.6966335227272737
       },
       "prevControl": {
-        "x": 3.0598382394155714,
-        "y": 2.319069184286622
+        "x": 2.183778409090909,
+        "y": 1.3675710227272737
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Vision CD Scoring Position"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -48,7 +48,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 1.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

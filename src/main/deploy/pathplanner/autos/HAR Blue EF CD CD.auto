@@ -37,6 +37,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "coralShoot"
@@ -71,13 +77,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.7
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "moveToFeed"
+                        "waitTime": 0.5
                       }
                     },
                     {
@@ -109,6 +109,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
@@ -146,13 +152,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "moveToFeed"
+                        "waitTime": 0.4
                       }
                     },
                     {
@@ -184,6 +184,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
@@ -221,13 +227,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "moveToFeed"
+                        "waitTime": 0.4
                       }
                     },
                     {
