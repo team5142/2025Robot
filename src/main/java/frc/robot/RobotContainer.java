@@ -106,8 +106,6 @@ public class RobotContainer {
         registerNamedCommands();
 
         // Do this in either robot or subsystem init
-        SmartDashboard.putData("Field", m_field);
-
         autoChooser = AutoBuilder.buildAutoChooser();
 
         SmartDashboard.clearPersistent("Auto Mode");
@@ -115,7 +113,7 @@ public class RobotContainer {
 
         configureBindings();
 
-        CameraServer.startAutomaticCapture();
+        CameraServer.startAutomaticCapture(0);
 
 
 
@@ -165,6 +163,8 @@ public class RobotContainer {
 
         rightSide.button(9).onTrue(Commands.runOnce(climber::setClimberUp));
         rightSide.button(10).onTrue(Commands.runOnce(() -> {climber.climb(); led.setBothStrobeRed();}));
+
+        leftSide.button(8).onTrue(Commands.runOnce(climber::emergencyClimb));
 
         leftSide.button(3).onTrue(new SequentialCommandGroup( //Algae intake
 
@@ -276,8 +276,8 @@ public class RobotContainer {
         //rightSide.button(10).onTrue(Commands.runOnce(SignalLogger::stop));
 
 
-        // reset the field-centric heading on left bumper press
-        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        // reset the field-centric heading on left bumper press + y
+        joystick.leftBumper().and(joystick.y()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         joystick.rightBumper().onTrue(Commands.runOnce(() -> {intake.ejectCoral(); intake.ejectAlgae();})) //run both intakes from right trigger
         .onFalse(Commands.runOnce(() -> {intake.stopCoral(); intake.stopAlgae();})); //stop both intakes from right trigger release

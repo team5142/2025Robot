@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.85,
-        "y": 3.045
+        "x": 3.9,
+        "y": 3.02
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.120720019260486,
-        "y": 2.3434753708686324
+        "x": 3.170720019260486,
+        "y": 2.3184753708686325
       },
       "isLocked": false,
       "linkedName": "Vision CD Scoring Position"

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.313426018688202,
-        "y": 1.3590051830538177
+        "x": 2.3134161021430546,
+        "y": 1.3590156696618578
       },
       "isLocked": false,
       "linkedName": "South HPS Left"
     },
     {
       "anchor": {
-        "x": 3.85,
-        "y": 3.045
+        "x": 3.9,
+        "y": 3.02
       },
       "prevControl": {
-        "x": 3.3745576307004894,
-        "y": 2.2215096603023228
+        "x": 3.4245576307004892,
+        "y": 2.196509660302323
       },
       "nextControl": null,
       "isLocked": false,

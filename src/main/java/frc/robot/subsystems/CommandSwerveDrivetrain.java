@@ -281,6 +281,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
       boolean doRejectUpdate = false;
 
+      if  (!(mt2 == null)) {
+        
+      
+
       if(mt2.tagCount == 0) //dont add the measurement if no tags are seen
 
             {
@@ -307,6 +311,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             }
 
     }
+
+    else {System.out.println("Limelight not working");}
+}
 
     /**
      * Runs the SysId Dynamic test in the given direction for the routine

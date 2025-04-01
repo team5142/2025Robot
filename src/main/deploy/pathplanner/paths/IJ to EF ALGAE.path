@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.08,
-        "y": 5.08
+        "x": 5.095,
+        "y": 5.07
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.139659090909091,
-        "y": 5.794957386363636
+        "x": 7.154659090909091,
+        "y": 5.7849573863636365
       },
       "isLocked": false,
       "linkedName": "Vision IJ Scoring Position"

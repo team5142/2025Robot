@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.88,
-        "y": 5.07
+        "x": 3.9,
+        "y": 5.03
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3130959450162,
-        "y": 5.67793017015074
+        "x": 3.3330959450162,
+        "y": 5.63793017015074
       },
       "isLocked": false,
       "linkedName": "Vision KL Scoring Position"
     },
     {
       "anchor": {
-        "x": 1.522,
-        "y": 7.3
+        "x": 1.53,
+        "y": 7.32
       },
       "prevControl": {
-        "x": 2.132714007073832,
-        "y": 6.645089408040229
+        "x": 2.0880228743354268,
+        "y": 6.7996352512723135
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,12 +29,26 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.85,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 5.21,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 3.7,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

@@ -74,7 +74,7 @@ public final class Constants {
 							0,
 							1.7),
 			L3("L3",
-							51,
+							49.5,
 							24,
 							1.7),
 			L4("L4",
@@ -82,11 +82,11 @@ public final class Constants {
 							69,
 							4),
 			Algae1("Algae1",
-							15,
+							16,
 							0,
 							4.5),
 			Algae2("Algae2",
-							33,
+							34,
 							24,
 							4.5),
 			Processor("Processor",
@@ -144,7 +144,7 @@ public final class Constants {
 
 
 			EF("EF",
-				new Pose2d(5.095, 2.990, Rotation2d.fromDegrees(120)),
+				new Pose2d(5.09, 2.990, Rotation2d.fromDegrees(120)),
 				9,
 				22),
 
@@ -156,7 +156,7 @@ public final class Constants {
 
 
 			IJ("IJ",
-				new Pose2d(5.095, 5.03, Rotation2d.fromDegrees(-120)),
+				new Pose2d(5.07, 5.03, Rotation2d.fromDegrees(-120)),
 				11,
 				7),
 
@@ -168,23 +168,23 @@ public final class Constants {
 
 
 			rightSideRightCoralStation("rightSideRightCoralStation",
-				new Pose2d(1.685, 0.58, Rotation2d.fromDegrees(54)), //1.605, 0.69
+				new Pose2d(1.605, 0.69, Rotation2d.fromDegrees(54)), //1.605, 0.69
 				2,
 				12),
 				
 			leftSideRightCoralStation("leftSideRightCoralStation",
-				new Pose2d(1.442, 0.634, Rotation2d.fromDegrees(54)), //1.522, 0.744
+				new Pose2d(1.522, 0.744, Rotation2d.fromDegrees(54)), //1.522, 0.744
 				2,
 				12),
 				
 
 			leftSideLeftCoralStation("leftSideLeftCoralStation",
-				new Pose2d(1.605, 7.35, Rotation2d.fromDegrees(120)), //1.605, 7.35
+				new Pose2d(1.605, 7.35, Rotation2d.fromDegrees(127)), //1.605, 7.35
 				1,
 				13),
 				
 			rightSideLeftCoralStation("rightSideLeftCoralStation",
-				new Pose2d(1.522, 7.3, Rotation2d.fromDegrees(120)), //1.522, 7.3
+				new Pose2d(1.522, 7.3, Rotation2d.fromDegrees(127)), //1.522, 7.3
 				1,
 				13);;
 

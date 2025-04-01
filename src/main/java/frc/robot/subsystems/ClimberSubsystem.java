@@ -29,6 +29,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private final double climberUpPosition = 300; //encoder value when climber is up
   private final double climberDownPosition = 0; //encoder value when climber is down
+  private final double climberEmergencyPosition = -30;
 
   private final double kP = 0.1;
   private final double kI = 0;
@@ -74,9 +75,7 @@ public class ClimberSubsystem extends SubsystemBase {
   
   .softLimit
   .forwardSoftLimit(350)
-  .reverseSoftLimit(0)
-  .forwardSoftLimitEnabled(true)
-  .reverseSoftLimitEnabled(true);
+  .forwardSoftLimitEnabled(true);
 
   climberMotor.configure(climberConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -92,6 +91,12 @@ public class ClimberSubsystem extends SubsystemBase {
   public void climb(){
 
     climberPID.setReference(climberDownPosition, ControlType.kPosition);
+
+  }
+
+  public void emergencyClimb(){
+
+    climberPID.setReference(climberEmergencyPosition, ControlType.kPosition);
 
   }
 
