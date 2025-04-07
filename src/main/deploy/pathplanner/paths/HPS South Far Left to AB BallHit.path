@@ -4,15 +4,15 @@
     {
       "anchor": {
         "x": 0.7,
-        "y": 1.27
+        "y": 6.77
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.21284090909091,
-        "y": 0.8711363636363638
+        "x": 0.9473011363636362,
+        "y": 5.416036931818183
       },
       "isLocked": false,
-      "linkedName": "South HPS Far Right"
+      "linkedName": "North HPS Far Right"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 4.029985795454545
       },
       "prevControl": {
-        "x": 1.2600411276665786,
-        "y": 4.017159690245632
+        "x": 1.935708974752544,
+        "y": 4.511988310150491
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,7 +62,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 53.58362148011395
+    "rotation": -53.44954095058938
   },
   "useDefaultConstraints": false
 }

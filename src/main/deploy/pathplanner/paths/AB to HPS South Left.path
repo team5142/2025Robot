@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5221022727272726,
-        "y": 2.823423295454545
+        "x": 2.522102272727273,
+        "y": 2.8234232954545453
       },
       "isLocked": false,
       "linkedName": "Vision AB Scoring Position"
     },
     {
       "anchor": {
-        "x": 1.6054261363636366,
-        "y": 0.6895028409090912
+        "x": 1.55,
+        "y": 0.66
       },
       "prevControl": {
-        "x": 3.0313636363636367,
-        "y": 1.0085937499999988
+        "x": 2.9759375,
+        "y": 0.9790909090909078
       },
       "nextControl": null,
       "isLocked": false,

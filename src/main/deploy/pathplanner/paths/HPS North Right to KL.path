@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.605,
-        "y": 7.37
+        "x": 1.53,
+        "y": 7.41
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.312989965779418,
-        "y": 6.700487171247233
+        "x": 2.2379899657794184,
+        "y": 6.740487171247233
       },
       "isLocked": false,
       "linkedName": "North HPS Right"
     },
     {
       "anchor": {
-        "x": 3.9,
+        "x": 3.91,
         "y": 5.03
       },
       "prevControl": {
-        "x": 3.2090274879066016,
+        "x": 3.219027487906602,
         "y": 5.683420222775006
       },
       "nextControl": null,

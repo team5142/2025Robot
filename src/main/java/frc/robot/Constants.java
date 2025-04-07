@@ -82,13 +82,21 @@ public final class Constants {
 							69,
 							4),
 			Algae1("Algae1",
-							16,
+							19,
 							0,
 							4.5),
 			Algae2("Algae2",
-							34,
+							35,
 							24,
 							4.5),
+			PostAlgae1("PostAlgae1",
+							23,
+							0,
+							1.7),
+			PostAlgae2("PostAlgae2",
+							44,
+							24,
+							1.7),
 			Processor("Processor",
 							0,
 							0,
@@ -138,7 +146,7 @@ public final class Constants {
 				18),											//tag in front of AB reef
 
 			CD("CD",
-				new Pose2d(3.9, 3.02, Rotation2d.fromDegrees(60)), //pose that is lined up with the CD reef
+				new Pose2d(3.91, 3.02, Rotation2d.fromDegrees(60)), //pose that is lined up with the CD reef
 				8,
 				17),													 //tag in front of CD reef
 
@@ -156,13 +164,13 @@ public final class Constants {
 
 
 			IJ("IJ",
-				new Pose2d(5.07, 5.03, Rotation2d.fromDegrees(-120)),
+				new Pose2d(5.09, 5.07, Rotation2d.fromDegrees(-120)),
 				11,
 				7),
 
 
 			KL("KL",
-				new Pose2d(3.9, 5.03, Rotation2d.fromDegrees(-60)),
+				new Pose2d(3.91, 5.03, Rotation2d.fromDegrees(-60)),
 				6,
 				20),
 

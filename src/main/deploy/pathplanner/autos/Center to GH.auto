@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -21,7 +27,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.7
+                        "waitTime": 0.25
                       }
                     },
                     {
@@ -37,9 +43,33 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "coralShoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GH Reverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "moveToHome"
           }
         }
       ]

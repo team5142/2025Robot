@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start Far Left to AB"
+            "pathName": "Start Far Left to AB BallHit"
           }
         },
         {
@@ -29,7 +29,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "AB to HPS Far Right"
+                  "pathName": "AB to HPS Far Right BallHit"
                 }
               },
               {
@@ -73,7 +73,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "HPS South Far Right to AB"
+                  "pathName": "HPS South Far Right to AB BallHit"
                 }
               },
               {

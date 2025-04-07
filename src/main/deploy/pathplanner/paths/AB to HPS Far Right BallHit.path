@@ -3,47 +3,33 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7,
-        "y": 1.27
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 3.21284090909091,
-        "y": 0.8711363636363638
-      },
-      "isLocked": false,
-      "linkedName": "South HPS Far Right"
-    },
-    {
-      "anchor": {
         "x": 3.26,
         "y": 4.029985795454545
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.183778409090909,
+        "y": 3.770724431818182
+      },
+      "isLocked": false,
+      "linkedName": "Vision AB Scoring Position"
+    },
+    {
+      "anchor": {
+        "x": 0.7,
+        "y": 1.27
+      },
       "prevControl": {
-        "x": 1.2600411276665786,
-        "y": 4.017159690245632
+        "x": 1.7967471685835137,
+        "y": 2.654217249087457
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Vision AB Scoring Position"
+      "linkedName": "South HPS Far Right"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.7,
-      "maxWaypointRelativePos": 1.0,
-      "constraints": {
-        "maxVelocity": 5.21,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -56,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 53.58362148011395
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 53.58362148011395
+    "rotation": 0.0
   },
   "useDefaultConstraints": false
 }

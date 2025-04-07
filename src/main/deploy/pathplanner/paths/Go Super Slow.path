@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.53,
-        "y": 0.74
+        "x": 1.49,
+        "y": 0.7
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0046347381519727,
-        "y": 1.1718627639642558
+        "x": 1.9646347381519726,
+        "y": 1.1318627639642558
       },
       "isLocked": false,
       "linkedName": "South HPS Right"

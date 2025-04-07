@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.21284090909091,
-        "y": 0.8711363636363638
+        "x": 1.0290625000000002,
+        "y": 2.5064772727272726
       },
       "isLocked": false,
       "linkedName": "South HPS Far Right"
@@ -20,8 +20,8 @@
         "y": 4.029985795454545
       },
       "prevControl": {
-        "x": 1.2600411276665786,
-        "y": 4.017159690245632
+        "x": 1.9344886363636364,
+        "y": 3.5513494318181813
       },
       "nextControl": null,
       "isLocked": false,

@@ -115,6 +115,8 @@ public class RobotContainer {
 
         CameraServer.startAutomaticCapture(0);
 
+        LimelightHelpers.setStreamMode_Standard("limelight-front");
+
 
 
         
@@ -156,10 +158,19 @@ public class RobotContainer {
         rightSide.button(3).onTrue(new moveToPosition(Positions.L2));
         rightSide.button(2).onTrue(new moveToPosition(Positions.L3));
         rightSide.button(1).onTrue(new moveToPosition(Positions.L4));
+        
         rightSide.button(8).onTrue(new moveToPosition(Positions.Home));
+        
+      
 
-        rightSide.button(5).onTrue(new moveToPosition(Positions.Algae1));
-        rightSide.button(4).onTrue(new moveToPosition(Positions.Algae2));
+        rightSide.button(5).onTrue(new moveToPosition(Positions.Algae1)
+        .andThen(new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(3.5))
+        .andThen(new moveToPosition(Positions.PostAlgae1)));
+
+
+        rightSide.button(4).onTrue(new moveToPosition(Positions.Algae2)
+        .andThen(new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(3.5))
+        .andThen(new moveToPosition(Positions.PostAlgae2)));
 
         rightSide.button(9).onTrue(Commands.runOnce(climber::setClimberUp));
         rightSide.button(10).onTrue(Commands.runOnce(() -> {climber.climb(); led.setBothStrobeRed();}));
@@ -169,7 +180,7 @@ public class RobotContainer {
         leftSide.button(3).onTrue(new SequentialCommandGroup( //Algae intake
 
         //if the elevator is active, just intake from the reef. If it isn't, we want to ground intake, so put the arm down.
-        new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(8)
+        
         //intake an algae, if it doesn't work within 8 seconds stop (handle interrupt detects the timeout).
 
         )); 
@@ -218,7 +229,7 @@ public class RobotContainer {
 
        
 
-        rightSide.button(6).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
+        // rightSide.button(6).onTrue(new algaeThrow()); //throws algae with upward momentum while going to top position
         leftSide.button(2).onTrue(Commands.runOnce(intake::ejectAlgae))
         .onFalse(Commands.runOnce(intake::stopAlgae).andThen(Commands.runOnce(intake::turnOffAlgaeLight)));
 
@@ -255,7 +266,9 @@ public class RobotContainer {
         
    
 
-        joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("reef")), Set.of(drivetrain)).unless(() -> (Arrays.asList(-1, 1, 2, 3, 4, 5, 12, 13, 14, 15, 16).contains((int)LimelightHelpers.getFiducialID("limelight-front"))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
+        joystick.a().whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("reef")), Set.of(drivetrain)).unless(() -> (Arrays.asList(-1, 1, 2, 3, 4, 5, 12, 13, 14, 15, 16).contains((int)LimelightHelpers.getFiducialID("limelight-front"))))
+        .andThen(Commands.runOnce(led::setBothStrobeRed)))
+        .onFalse(Commands.runOnce(led::setBothLava)); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
         
 
         joystick.rightTrigger().and(() -> (int)LimelightHelpers.getFiducialID("limelight-back") != -1).whileTrue(Commands.defer(() -> AutoBuilder.followPath(inferPath("rightPickup")), Set.of(drivetrain)).unless(() -> (!(Arrays.asList(1, 2, 12, 13).contains((int)LimelightHelpers.getFiducialID("limelight-back")))))); // on a press run the pathplanner path inferred by limelight, from pose gotten from limelight unless there is no id visible or its not on the reef
@@ -483,7 +496,7 @@ public class RobotContainer {
                           
           ),
 
-        new xboxVibrate()
+        new xboxVibrate().handleInterrupt(() -> joystick.setRumble(RumbleType.kBothRumble, 0))
 
                              );
     }

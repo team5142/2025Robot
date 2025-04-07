@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private Canandcolor rightCoralSensor;
   private Canandcolor algaeSensor;
 
-  private final double algaeGThreshold = 0.40;
+  private final double algaeGThreshold = 0.04;
   private final double coralProximityThreshold = 0.05;
 
   private SparkMax coralMotor;
