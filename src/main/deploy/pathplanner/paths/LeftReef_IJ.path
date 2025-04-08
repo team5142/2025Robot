@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.73,
-        "y": 4.03
+        "x": 7.154,
+        "y": 6.16
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.521278409090909,
-        "y": 4.229417613636364
+        "x": 6.444,
+        "y": 6.16
       },
       "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 6.521420454545455,
-        "y": 4.757911931818182
-      },
-      "prevControl": {
-        "x": 6.521420454545455,
-        "y": 4.507911931818182
-      },
-      "nextControl": {
-        "x": 6.521420454545455,
-        "y": 5.007911931818182
-      },
-      "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftReefEdge"
     },
     {
       "anchor": {
@@ -36,26 +20,40 @@
         "y": 5.07
       },
       "prevControl": {
-        "x": 5.558636363636364,
-        "y": 5.777982954545455
+        "x": 5.680000000000001,
+        "y": 6.109230484541326
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "IJ"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 0.7,
+      "rotationDegrees": -119.99999999999999
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.75,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 5.21,
+        "maxAcceleration": 2.3,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 2.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -66,7 +64,7 @@
     "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Left Reef IJ KL KL",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
