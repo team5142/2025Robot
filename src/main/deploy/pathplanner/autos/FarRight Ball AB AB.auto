@@ -13,7 +13,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.1
           }
         },
         {
@@ -88,7 +88,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.1
           }
         },
         {
@@ -104,7 +104,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "AB_Reverse"
+                  "pathName": "AB_FarInnerRightHPS"
                 }
               },
               {
@@ -122,11 +122,29 @@
                       "data": {
                         "name": "moveToHome"
                       }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.4
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "autoCoralIntake"
+                      }
                     }
                   ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FarInnerRightHPS_AB"
           }
         }
       ]
