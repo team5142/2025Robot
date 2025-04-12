@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7,
+        "y": 1.28
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.0669602272727272,
+        "y": 1.9259801136363626
+      },
+      "isLocked": false,
+      "linkedName": "FarInnerRightHPS"
+    },
+    {
+      "anchor": {
+        "x": 3.26,
+        "y": 4.029985795454545
+      },
+      "prevControl": {
+        "x": 2.26,
+        "y": 4.029985795454545
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "AB"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.7,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 5.21,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.21,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 200.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Far Right AB AB",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 53.58362148011395
+  },
+  "useDefaultConstraints": false
+}

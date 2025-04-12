@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -161,17 +162,20 @@ public class RobotContainer {
         
         rightSide.button(8).onTrue(new moveToPosition(Positions.Home));
         
-      
+        rightSide.button(4).and(leftSide.button(3).negate()).whileTrue(new moveToPosition(Positions.AlgaeE2).andThen(new InstantCommand(RobotContainer.intake::ejectAlgae)))//Hold until Algea is removed and release
+        .onFalse(new SequentialCommandGroup(new moveToPosition(Positions.AlgaeE2F),new InstantCommand(() -> intake.intakeAlgae()),new WaitCommand(2),new InstantCommand(() -> intake.stopAlgae())));
 
-        rightSide.button(5).onTrue(new moveToPosition(Positions.Algae1)
-        .andThen(new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(3.5))
-        .andThen(new moveToPosition(Positions.PostAlgae1)));
-
-
-        rightSide.button(4).onTrue(new moveToPosition(Positions.Algae2)
-        .andThen(new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(3.5))
+        rightSide.button(4).and(leftSide.button(3)).onTrue(new moveToPosition(Positions.Algae2)
+        .andThen(new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(10))
         .andThen(new moveToPosition(Positions.PostAlgae2)));
 
+        rightSide.button(5).and(leftSide.button(3).negate()).whileTrue(new moveToPosition(Positions.AlgaeE1).andThen(new InstantCommand(RobotContainer.intake::ejectAlgae)))//Hold until Algea is removed and release
+        .onFalse(new SequentialCommandGroup(new moveToPosition(Positions.AlgaeE1F),new InstantCommand(() -> intake.intakeAlgae()),new WaitCommand(2),new InstantCommand(() -> intake.stopAlgae())));
+
+        rightSide.button(5).and(leftSide.button(3)).onTrue(new moveToPosition(Positions.Algae1)
+        .andThen(new algaeIntake().handleInterrupt(() -> {intake.stopAlgae(); intake.turnOffAlgaeLight();}).withTimeout(10))
+        .andThen(new moveToPosition(Positions.PostAlgae1)));
+        
         rightSide.button(9).onTrue(Commands.runOnce(climber::setClimberUp));
         rightSide.button(10).onTrue(Commands.runOnce(() -> {climber.climb(); led.setBothStrobeRed();}));
 

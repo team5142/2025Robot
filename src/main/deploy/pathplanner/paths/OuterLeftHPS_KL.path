@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.53,
+        "y": 7.41
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2379899657794184,
+        "y": 6.740487171247233
+      },
+      "isLocked": false,
+      "linkedName": "OuterLeftHPS"
+    },
+    {
+      "anchor": {
+        "x": 3.91,
+        "y": 5.03
+      },
+      "prevControl": {
+        "x": 3.219027487906602,
+        "y": 5.683420222775006
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "KL"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.75,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 5.21,
+        "maxAcceleration": 2.25,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.21,
+    "maxAcceleration": 2.75,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "reversed": false,
+  "folder": "Left Reef IJ KL KL",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -54.0
+  },
+  "useDefaultConstraints": false
+}

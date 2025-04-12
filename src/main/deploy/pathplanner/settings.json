@@ -2,12 +2,18 @@
   "robotWidth": 0.87,
   "robotLength": 0.87,
   "holonomicMode": true,
-  "pathFolders": [],
+  "pathFolders": [
+    "Far Left AB AB",
+    "Far Right AB AB",
+    "Left Reef IJ KL KL",
+    "Center GH",
+    "Right Reef EF CD CD"
+  ],
   "autoFolders": [],
   "defaultMaxVel": 5.21,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
-  "defaultMaxAngAccel": 720.0,
+  "defaultMaxAngAccel": 200.0,
   "defaultNominalVoltage": 12.0,
   "robotMass": 64.0,
   "robotMOI": 5.1,
@@ -35,7 +41,7 @@
     "{\"name\":\"Arm\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.21,\"y\":0.0},\"size\":{\"width\":0.21,\"length\":0.1},\"borderRadius\":0.0,\"strokeWidth\":0.02,\"filled\":false}}",
     "{\"name\":\"Left Intake\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.03,\"y\":0.24},\"end\":{\"x\":-0.37,\"y\":0.28},\"strokeWidth\":0.02}}",
     "{\"name\":\"Left Intake 2\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.03,\"y\":0.11},\"end\":{\"x\":-0.37,\"y\":0.11},\"strokeWidth\":0.02}}",
-    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.03,\"y\":-0.11},\"end\":{\"x\":-0.37,\"y\":-0.11},\"strokeWidth\":0.02}}",
-    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.03,\"y\":-0.24},\"end\":{\"x\":-0.37,\"y\":-0.28},\"strokeWidth\":0.02}}"
+    "{\"name\":\"Right Intake\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.03,\"y\":-0.24},\"end\":{\"x\":-0.37,\"y\":-0.28},\"strokeWidth\":0.02}}",
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.03,\"y\":-0.11},\"end\":{\"x\":-0.37,\"y\":-0.11},\"strokeWidth\":0.02}}"
   ]
 }

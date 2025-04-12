@@ -82,13 +82,29 @@ public final class Constants {
 							69,
 							4),
 			Algae1("Algae1",
-							19,
-							0,
-							4.5),
-			Algae2("Algae2",
-							35,
 							24,
-							4.5),
+							0,
+							7.5), //4.5
+			AlgaeE1("AlgaeE1",
+							3,
+							0,
+							6), //4.5
+			AlgaeE1F("AlgaeE1F",
+							3,
+							0,
+							1.7), //4.5
+			Algae2("Algae2",
+							39,
+							24,
+							7.5), //4.5
+			AlgaeE2("AlgaeE2",
+							39,
+							0,
+							6), //4.5
+			AlgaeE2F("AlgaeE2F",
+							39,
+							0,
+							1.7), //4.5
 			PostAlgae1("PostAlgae1",
 							23,
 							0,

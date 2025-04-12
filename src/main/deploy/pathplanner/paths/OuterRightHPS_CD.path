@@ -8,45 +8,47 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.275085227272727,
-        "y": 1.3580113636363649
+        "x": 2.257989965779418,
+        "y": 1.3295128287527667
       },
       "isLocked": false,
       "linkedName": "OuterRightHPS"
     },
     {
       "anchor": {
-        "x": 3.26,
-        "y": 4.029985795454545
+        "x": 3.91,
+        "y": 3.02
       },
       "prevControl": {
-        "x": 0.7172443181818164,
-        "y": 4.3690198863636365
+        "x": 3.4345576307004895,
+        "y": 2.196509660302323
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "CD"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
-  "pointTowardsZones": [],
-  "eventMarkers": [
+  "constraintZones": [
     {
-      "name": "Raise",
-      "waypointRelativePos": 0.2542182227221484,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "moveToL4"
-        }
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.75,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 5.21,
+        "maxAcceleration": 2.25,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
       }
     }
   ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 3.2,
+    "maxAcceleration": 2.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -54,10 +56,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right Reef EF CD CD",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 54.0

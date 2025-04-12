@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.26,
-        "y": 4.029985795454545
+        "x": 5.09,
+        "y": 2.99
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.522102272727273,
-        "y": 2.8234232954545453
+        "x": 5.09,
+        "y": 1.912883538556099
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "EF"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.66
       },
       "prevControl": {
-        "x": 2.9759375,
-        "y": 0.9790909090909078
+        "x": 2.2804120110300445,
+        "y": 1.3904120110300449
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,12 +29,26 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.8008998875140504,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 5.21,
+        "maxAcceleration": 2.75,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.21,
-    "maxAcceleration": 3.7,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -45,10 +59,10 @@
     "rotation": 54.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right Reef EF CD CD",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 119.99999999999999
   },
   "useDefaultConstraints": false
 }
