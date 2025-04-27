@@ -80,15 +80,31 @@ public final class Constants {
 			L4("L4",
 							68,
 							69,
-							4),
+							5), //4 
 			Algae1("Algae1",
-							19,
+							44, //24 //44
 							0,
-							4.5),
+							13.5), //7.5 //13.5
+			AlgaeE1("AlgaeE1",
+							3,
+							0,
+							6), //4.5
+			AlgaeE1F("AlgaeE1F",
+							3,
+							0,
+							1.7), //4.5
 			Algae2("Algae2",
-							35,
+							55, //39 //55 
 							24,
-							4.5),
+							13.5), //7.5 //13.5
+			AlgaeE2("AlgaeE2",
+							39, 
+							0,
+							6), //4.5 //4.5
+			AlgaeE2F("AlgaeE2F",
+							39,
+							0,
+							1.7), //4.5
 			PostAlgae1("PostAlgae1",
 							23,
 							0,
@@ -158,13 +174,13 @@ public final class Constants {
 
 
 			GH("GH",
-				new Pose2d(5.66, 4.025, Rotation2d.fromDegrees(180)),
+				new Pose2d(5.71, 4.025, Rotation2d.fromDegrees(180)),
 				10,
 				21),
-
+			
 
 			IJ("IJ",
-				new Pose2d(5.09, 5.07, Rotation2d.fromDegrees(-120)),
+				new Pose2d(5.09, 5.07, Rotation2d.fromDegrees(-120)), //change this, too far left (rel to tag)
 				11,
 				7),
 

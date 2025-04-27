@@ -28,7 +28,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private SparkClosedLoopController climberPID;
 
   private final double climberUpPosition = 300; //encoder value when climber is up
-  private final double climberDownPosition = 0; //encoder value when climber is down
+  private final double climberDownPosition = -15; //encoder value when climber is down
   private final double climberEmergencyPosition = -30;
 
   private final double kP = 0.1;

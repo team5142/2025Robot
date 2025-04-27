@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.07,
-        "y": 5.03
+        "x": 5.09,
+        "y": 5.07
       },
       "prevControl": {
-        "x": 5.335079886461765,
-        "y": 5.389020585891096
+        "x": 5.355079886461764,
+        "y": 5.429020585891096
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Vision IJ Scoring Position"
     }
   ],
   "rotationTargets": [],
